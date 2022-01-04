@@ -396,7 +396,7 @@ var AppService = /** @class */ (function () {
         this.singleShopCartDetails = [];
         //  ImageUpload_Url:string='https://api.dogemo.com/upload/'
         // ImageUpload_Url:string='https://apicb.mobilerechargeapp.net/upload/'
-        this.ImageUpload_Url = 'https://xapi.buypay.co.in/upload/';
+        this.ImageUpload_Url = 'https://api.buypay.co.in/upload/';
         this.dateFormat = 'dd/MM/yyyy hh:mm:ss a';
         //   apiMessages=[
         //     "",
@@ -608,20 +608,20 @@ var AppService = /** @class */ (function () {
             "Invalid C Product",
             "Buyerid and Requestid Not Matched",
         ];
-        this.Url = "https://xapi.buypay.co.in/admin/";
+        this.Url = "https://api.buypay.co.in/admin/";
         //  public readonly Url = `https://api.dogemo.com/admin/`;
-        this.fileUrl = 'https://xapi.buypay.co.in/upload/Upload_File';
+        this.fileUrl = 'https://api.buypay.co.in/upload/Upload_File';
         this.AdminData = {};
         this.limit = 10;
-        this.imageurl = 'https://xapi.buypay.co.in/upload/Upload_Image';
+        this.imageurl = 'https://api.buypay.co.in/upload/Upload_Image';
         this.getAdminData();
     }
     AppService.prototype.FindHost = function () {
         if (window.location.hostname == "admin.mycoffeeshope.online") {
-            return "https://xapi.buypay.co.in/admin/";
+            return "https://api.buypay.co.in/admin/";
         }
         else {
-            return "https://xapi.buypay.co.in/admin/";
+            return "https://api.buypay.co.in/admin/";
         }
     };
     AppService.prototype.getAdminData = function () {
@@ -646,7 +646,7 @@ var AppService = /** @class */ (function () {
     AppService.prototype.getURL = function (Type) {
         if (Type == 1) {
             // return 'https://xapidh.mobilerechargeapp.net/admin/';
-            return 'https://xapi.buypay.co.in/admin/';
+            return 'https://api.buypay.co.in/admin/';
             // return 'https://apicb.mobilerechargeapp.net/admin/'
             // if (this.document.location.hostname == "https://admindh.mobilerechargeapp.net") {
             //   return 'https://apidh.mobilerechargeapp.net/admin/';
@@ -655,7 +655,7 @@ var AppService = /** @class */ (function () {
             // }
         }
         else if (Type == 2) {
-            return 'https://xapi.buypay.co.in/upload/Upload_Image';
+            return 'https://api.buypay.co.in/upload/Upload_Image';
             // return 'https://apicb.mobilerechargeapp.net/upload/Upload_Image'
             // return 'https://rapidh.mobilerechargeapp.net/upload/Upload_Image';
             // if (this.document.location.hostname == "https://admindh.mobilerechargeapp.net") {
@@ -665,7 +665,7 @@ var AppService = /** @class */ (function () {
             // }
         }
         else if (Type == 3) {
-            return 'https://xapi.buypay.co.in/upload/Upload_File';
+            return 'https://api.buypay.co.in/upload/Upload_File';
             // return  'https://apicb.mobilerechargeapp.net/upload/Upload_File'
             // if (this.document.location.hostname == "https://admindh.mobilerechargeapp.net") {
             //   'https://apidh.mobilerechargeapp.net/upload/Upload_File'
