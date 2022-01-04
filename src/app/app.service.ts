@@ -8,7 +8,8 @@ export class AppService {
   singleOfferDetails = [];
   singleShopCartDetails = []
   //  ImageUpload_Url:string='https://api.dogemo.com/upload/'
-  ImageUpload_Url:string='https://apicb.mobilerechargeapp.net/upload/'
+  // ImageUpload_Url:string='https://apicb.mobilerechargeapp.net/upload/'
+  ImageUpload_Url:string='https://xapi.buypay.co.in/upload/'
   dateFormat = 'dd/MM/yyyy hh:mm:ss a'
 
 
@@ -227,14 +228,14 @@ export class AppService {
  ]
 
 
-  public readonly Url = `https://apicb.mobilerechargeapp.net/admin/`
+  public readonly Url = `https://xapi.buypay.co.in/admin/`
   //  public readonly Url = `https://api.dogemo.com/admin/`;
-  public readonly fileUrl ='https://apicb.mobilerechargeapp.net/upload/Upload_File'
+  public readonly fileUrl ='https://xapi.buypay.co.in/upload/Upload_File'
   FindHost() {
     if (window.location.hostname == "admin.mycoffeeshope.online") {
-      return `https://apicb.mobilerechargeapp.net/admin/`;
+      return `https://xapi.buypay.co.in/admin/`;
     } else {
-      return `https://apicb.mobilerechargeapp.net/admin/`;
+      return `https://xapi.buypay.co.in/admin/`;
     }
   }
   AdminData = {};
@@ -259,14 +260,16 @@ export class AppService {
   onImageUpload(req):Observable<any>{
    return this.httpService.request(req)
   }
-  public readonly imageurl = 'https://apicb.mobilerechargeapp.net/upload/Upload_Image'
+  public readonly imageurl = 'https://xapi.buypay.co.in/upload/Upload_Image'
+  // public readonly imageurl = 'https://apicb.mobilerechargeapp.net/upload/Upload_Image'
   // public readonly imageurl = this.getURL(2)
 
   getURL(Type) {
    
     if(Type==1){
       // return 'https://xapidh.mobilerechargeapp.net/admin/';
-      return 'https://apicb.mobilerechargeapp.net/admin/'
+      return 'https://xapi.buypay.co.in/admin/'
+      // return 'https://apicb.mobilerechargeapp.net/admin/'
       // if (this.document.location.hostname == "https://admindh.mobilerechargeapp.net") {
       //   return 'https://apidh.mobilerechargeapp.net/admin/';
       // } else {
@@ -275,7 +278,8 @@ export class AppService {
       // }
     }
     else if(Type==2){
-      return 'https://apicb.mobilerechargeapp.net/upload/Upload_Image'
+      return 'https://xapi.buypay.co.in/upload/Upload_Image'
+      // return 'https://apicb.mobilerechargeapp.net/upload/Upload_Image'
       // return 'https://rapidh.mobilerechargeapp.net/upload/Upload_Image';
       // if (this.document.location.hostname == "https://admindh.mobilerechargeapp.net") {
       //   return 'https://apidh.mobilerechargeapp.net/upload/Upload_Image';
@@ -285,14 +289,15 @@ export class AppService {
       // }
     }
     else if(Type==3){
-    return  'https://apicb.mobilerechargeapp.net/upload/Upload_File'
+    return  'https://xapi.buypay.co.in/upload/Upload_File'
+    // return  'https://apicb.mobilerechargeapp.net/upload/Upload_File'
       // if (this.document.location.hostname == "https://admindh.mobilerechargeapp.net") {
       //   'https://apidh.mobilerechargeapp.net/upload/Upload_File'
       // } else {
       //   'https://xapidh.mobilerechargeapp.net/upload/Upload_File'
   
       // }
-    }
+    } 
   
 
 

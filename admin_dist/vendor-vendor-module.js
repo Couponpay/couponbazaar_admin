@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n\n\n\n  .navigationMenu{\n    background-color: transparent;\n  }\n  .maincontent{\n      margin-top: 10px;\n  }\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvdmVuZG9yL3ZlbmRvci5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7RUFJRTtJQUNFLDZCQUE2QjtFQUMvQjtFQUNBO01BQ0ksZ0JBQWdCO0VBQ3BCIiwiZmlsZSI6InNyYy9hcHAvdmVuZG9yL3ZlbmRvci5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiXG5cblxuXG4gIC5uYXZpZ2F0aW9uTWVudXtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDtcbiAgfVxuICAubWFpbmNvbnRlbnR7XG4gICAgICBtYXJnaW4tdG9wOiAxMHB4O1xuICB9Il19 */"
+module.exports = "\r\n\r\n\r\n\r\n  .navigationMenu{\r\n    background-color: transparent;\r\n  }\r\n  .maincontent{\r\n      margin-top: 10px;\r\n  }\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvdmVuZG9yL3ZlbmRvci5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7RUFJRTtJQUNFLDZCQUE2QjtFQUMvQjtFQUNBO01BQ0ksZ0JBQWdCO0VBQ3BCIiwiZmlsZSI6InNyYy9hcHAvdmVuZG9yL3ZlbmRvci5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiXHJcblxyXG5cclxuXHJcbiAgLm5hdmlnYXRpb25NZW51e1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7XHJcbiAgfVxyXG4gIC5tYWluY29udGVudHtcclxuICAgICAgbWFyZ2luLXRvcDogMTBweDtcclxuICB9Il19 */"
 
 /***/ }),
 
@@ -18,7 +18,7 @@ module.exports = "\n\n\n\n  .navigationMenu{\n    background-color: transparent;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<ul nz-menu class=\"navigationMenu\" [nzMode]=\"'horizontal'\">\n  <li nz-menu-item [routerLink]=\"['add-vendor']\" routerLinkActive=\"ant-menu-item-selected\">\n   Create Shop\n   </li>\n  <li nz-menu-item  [routerLink]=\"['view-vednor']\" routerLinkActive=\"ant-menu-item-selected\">\n    View Shops\n    \n  </li>\n  <li nz-menu-item  [routerLink]=\"['shoptPurchases']\" routerLinkActive=\"ant-menu-item-selected\">\n      Shop Purchases\n      \n    </li>\n</ul>\n<div class=\"maincontent\">\n  <router-outlet></router-outlet>\n</div>\n"
+module.exports = "\r\n<ul nz-menu class=\"navigationMenu\" [nzMode]=\"'horizontal'\">\r\n  <li nz-menu-item [routerLink]=\"['add-vendor']\" routerLinkActive=\"ant-menu-item-selected\">\r\n   Create Shop\r\n   </li>\r\n  <li nz-menu-item  [routerLink]=\"['view-vednor']\" routerLinkActive=\"ant-menu-item-selected\">\r\n    View Shops\r\n    \r\n  </li>\r\n  <li nz-menu-item  [routerLink]=\"['shoptPurchases']\" routerLinkActive=\"ant-menu-item-selected\">\r\n      Shop Purchases\r\n      \r\n    </li>\r\n</ul>\r\n<div class=\"maincontent\">\r\n  <router-outlet></router-outlet>\r\n</div>\r\n"
 
 /***/ }),
 

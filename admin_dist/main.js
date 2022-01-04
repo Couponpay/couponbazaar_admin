@@ -269,7 +269,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<router-outlet></router-outlet>\n"
+module.exports = "<router-outlet></router-outlet>\r\n"
 
 /***/ }),
 
@@ -395,7 +395,8 @@ var AppService = /** @class */ (function () {
         this.singleOfferDetails = [];
         this.singleShopCartDetails = [];
         //  ImageUpload_Url:string='https://api.dogemo.com/upload/'
-        this.ImageUpload_Url = 'https://apicb.mobilerechargeapp.net/upload/';
+        // ImageUpload_Url:string='https://apicb.mobilerechargeapp.net/upload/'
+        this.ImageUpload_Url = 'https://xapi.buypay.co.in/upload/';
         this.dateFormat = 'dd/MM/yyyy hh:mm:ss a';
         //   apiMessages=[
         //     "",
@@ -607,20 +608,20 @@ var AppService = /** @class */ (function () {
             "Invalid C Product",
             "Buyerid and Requestid Not Matched",
         ];
-        this.Url = "https://apicb.mobilerechargeapp.net/admin/";
+        this.Url = "https://xapi.buypay.co.in/admin/";
         //  public readonly Url = `https://api.dogemo.com/admin/`;
-        this.fileUrl = 'https://apicb.mobilerechargeapp.net/upload/Upload_File';
+        this.fileUrl = 'https://xapi.buypay.co.in/upload/Upload_File';
         this.AdminData = {};
         this.limit = 10;
-        this.imageurl = 'https://apicb.mobilerechargeapp.net/upload/Upload_Image';
+        this.imageurl = 'https://xapi.buypay.co.in/upload/Upload_Image';
         this.getAdminData();
     }
     AppService.prototype.FindHost = function () {
         if (window.location.hostname == "admin.mycoffeeshope.online") {
-            return "https://apicb.mobilerechargeapp.net/admin/";
+            return "https://xapi.buypay.co.in/admin/";
         }
         else {
-            return "https://apicb.mobilerechargeapp.net/admin/";
+            return "https://xapi.buypay.co.in/admin/";
         }
     };
     AppService.prototype.getAdminData = function () {
@@ -640,11 +641,13 @@ var AppService = /** @class */ (function () {
     AppService.prototype.onImageUpload = function (req) {
         return this.httpService.request(req);
     };
+    // public readonly imageurl = 'https://apicb.mobilerechargeapp.net/upload/Upload_Image'
     // public readonly imageurl = this.getURL(2)
     AppService.prototype.getURL = function (Type) {
         if (Type == 1) {
             // return 'https://xapidh.mobilerechargeapp.net/admin/';
-            return 'https://apicb.mobilerechargeapp.net/admin/';
+            return 'https://xapi.buypay.co.in/admin/';
+            // return 'https://apicb.mobilerechargeapp.net/admin/'
             // if (this.document.location.hostname == "https://admindh.mobilerechargeapp.net") {
             //   return 'https://apidh.mobilerechargeapp.net/admin/';
             // } else {
@@ -652,7 +655,8 @@ var AppService = /** @class */ (function () {
             // }
         }
         else if (Type == 2) {
-            return 'https://apicb.mobilerechargeapp.net/upload/Upload_Image';
+            return 'https://xapi.buypay.co.in/upload/Upload_Image';
+            // return 'https://apicb.mobilerechargeapp.net/upload/Upload_Image'
             // return 'https://rapidh.mobilerechargeapp.net/upload/Upload_Image';
             // if (this.document.location.hostname == "https://admindh.mobilerechargeapp.net") {
             //   return 'https://apidh.mobilerechargeapp.net/upload/Upload_Image';
@@ -661,7 +665,8 @@ var AppService = /** @class */ (function () {
             // }
         }
         else if (Type == 3) {
-            return 'https://apicb.mobilerechargeapp.net/upload/Upload_File';
+            return 'https://xapi.buypay.co.in/upload/Upload_File';
+            // return  'https://apicb.mobilerechargeapp.net/upload/Upload_File'
             // if (this.document.location.hostname == "https://admindh.mobilerechargeapp.net") {
             //   'https://apidh.mobilerechargeapp.net/upload/Upload_File'
             // } else {
@@ -872,7 +877,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_2__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/admin/Documents/GitHub/couponbazaar_admin/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\HOME\Documents\couponbazaar_admin\src\main.ts */"./src/main.ts");
 
 
 /***/ })

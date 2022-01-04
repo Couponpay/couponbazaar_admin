@@ -18,7 +18,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ul nz-menu nzMode=\"horizontal\">\n  <li nz-menu-item [routerLink]=\"['add']\" routerLinkActive=\"ant-menu-item-selected\">\n    Add Plots\n  </li>\n  <li nz-menu-item [routerLink]=\"['view']\" routerLinkActive=\"ant-menu-item-selected\">\n    View Plots\n  </li>\n  <div class=\"maincontent\">\n    <router-outlet></router-outlet>\n  </div>"
+module.exports = "<ul nz-menu nzMode=\"horizontal\">\r\n  <li nz-menu-item [routerLink]=\"['add']\" routerLinkActive=\"ant-menu-item-selected\">\r\n    Add Plots\r\n  </li>\r\n  <li nz-menu-item [routerLink]=\"['view']\" routerLinkActive=\"ant-menu-item-selected\">\r\n    View Plots\r\n  </li>\r\n  <div class=\"maincontent\">\r\n    <router-outlet></router-outlet>\r\n  </div>"
 
 /***/ }),
 
