@@ -1,0 +1,127 @@
+<nz-table #basicTable nzShowPagination="false" [nzScroll]="{x:'1000px'}" [nzData]="VendorList">
+  <thead>
+    <tr>
+
+      <th>Shop Name</th>
+      <th>Shop Phone Number</th>
+      <th>Shop Password</th>
+      <th>Shop GST Number</th>
+      <th>Introducer Name</th>
+      <th>Address</th>
+      <th>Introducer Phone Number</th>
+      <!-- <th>Introducer Password</th> -->
+      <th>Available Amount</th>
+      <th>Withdrawn Amount</th>
+      <th>Total Amount</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let data of VendorList; let i=index">
+      <tr>
+
+        <td>
+
+          <a (dblclick)="onShopNameChage(data,i)" *ngIf="isEditIndex!=i">{{data.Shop_Name}}</a>
+          <div *ngIf="isEditIndex==i">
+
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+              <input type="text" style="width: 200px;" nz-input nzSize="small" #input placeholder="Shop Name">
+
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <i nz-icon style="    color: #1890ff; 
+                padding: 7px;cursor: pointer;" type="check" theme="outline" (click)="onUpdate(input.value)"></i>
+              <i nz-icon type="close" style="    color: red;cursor: pointer;" theme="outline" (click)="onCancel()"></i>
+
+            </ng-template>
+          </div>
+
+        </td>
+
+        <td>{{data.Shop_CountryCode}}{{data.Shop_PhoneNumber}}</td>
+        <td>{{data.Shop_Password}}</td>
+        <td>
+
+          <a (dblclick)="onShopGstChage(data,i)" *ngIf="isEditGst!=i">{{data.GST_Number}}</a>
+          <div *ngIf="isEditGst==i">
+
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+              <!-- <input type="text" style="width: 200px;" nz-input nzSize="small" #input placeholder="GST Number"> -->
+              <input type="text" style="width: 200px;"  placeholder="GST Number" nz-input  #input
+              oninput="this.value=this.value.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '').toUpperCase()"
+              minlength="15" maxlength="15">
+
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <i nz-icon style="    color: #1890ff; 
+                padding: 7px;cursor: pointer;" type="check" theme="outline" (click)="onUpdateGst(input.value)"></i>
+              <i nz-icon type="close" style="    color: red;cursor: pointer;" theme="outline" (click)="onCancelGst()"></i>
+
+            </ng-template>
+          </div>
+
+        </td>
+        <td>{{data.Introducer_Name}}</td>
+        <td>{{data.Address}}
+            <i nz-icon type="edit" style="    color: blue;cursor: pointer;" theme="outline" (click)="onClickAddresDrawer(data)"></i>
+        </td>
+        <td>{{data.Introducer_CountryCode}}{{data.Introducer_PhoneNumber}}</td>
+        <!-- <td>{{data.Introducer_Password}}</td> -->
+        <td>{{data.Available_Amount}}</td>
+        <td>{{data.Withdrawn_Amount}}</td>
+        <td>{{data.Total_Amount}}</td>
+        <td>
+          <nz-dropdown>
+            <button nz-button nz-dropdown><span>Actions</span> <i nz-icon type="down"></i></button>
+            <ul nz-menu>
+              <li nz-menu-item>
+                <a skipLocationChange [routerLink]="[ '/dashboard','vendor', 'productsbyshop',data.ShopID,data.Shop_Name ]">View
+                  Products</a>
+              </li>
+              <li nz-menu-item>
+                <a skipLocationChange [routerLink]="[ '/dashboard','vendor', 'viewLledger',
+                    data.ShopID,data.Shop_Name,data.Shop_PhoneNumber,
+                    data.Available_Amount,
+                    data.Withdrawn_Amount,
+                    data.Total_Amount ]">View Ledger</a>
+              </li>
+            </ul>
+          </nz-dropdown>
+
+        </td>
+      </tr>
+
+    </ng-container>
+
+  </tbody>
+</nz-table>
+<nz-pagination (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage"  [nzTotal]="totalItem"></nz-pagination>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzMaskClosable]="false" [nzWidth]="720" [nzVisible]="isLevelsDrawer" nzTitle=" "
+  (nzOnClose)="OnCloseAddressDrawer()">
+  <div>
+    <div nz-row nzGutter="8">
+        <form nz-form  [formGroup]="editAddress">
+        <nz-form-item>
+            <nz-form-control [nzSpan]="10">
+              <input id="addressEdit" placeholder="Search Address" type="text" nz-input (ngModelChange)="addresChange()"
+                name="Address" formControlName="Address">
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control [nzSpan]="24">
+              <div id="map"></div>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <button nz-button nzType="primary" 
+                (click)="submitupdateAddress()">Submit</button>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+    </div>
+    </div>
+</nz-drawer>

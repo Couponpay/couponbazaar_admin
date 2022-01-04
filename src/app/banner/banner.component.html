@@ -1,0 +1,170 @@
+<div nz-row [nzGutter]="16" style="margin-top: 25px;">
+
+  <button nz-button nzType="primary" (click)="open()" class="primary_button">Add Banner data</button>
+
+
+</div>
+<div nz-row [nzGutter]="16" style="margin-top: 55px;" *ngIf="visible==true">
+  <div nz-col nzSpan="10">
+
+
+    <nz-card [nzTitle]='cardTitle'>
+      <ng-template #cardTitle>
+        <span>{{onEditOpen?'Update Banner':'Create Banner'}}</span>
+      </ng-template>
+
+      <form nz-form [formGroup]="createBanner">
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24">S.No</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input formControlName="SNo" placeholder="please enter Banner S.No" />
+            <nz-form-explain *ngIf="createBanner.get('SNo').dirty && createBanner.get('SNo').errors">Please
+              input your SNo!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24">Banner Name</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input formControlName="Banner_Name" placeholder="please enter Banner Name" />
+            <nz-form-explain *ngIf="createBanner.get('Banner_Name').dirty && createBanner.get('Banner_Name').errors">
+              Please
+              input your Language!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24">Upload Web Banner Image <br> (1680 X 280)</nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <button nz-button nzType="link" (click)="onUploadProductImage(1)">Click To Upload</button>
+
+          </nz-form-control>  
+
+        </nz-form-item>
+        <nz-form-item *ngIf="webBannerImageData.length>0">
+          <nz-form-label [nzSm]="8" [nzXs]="24">Preview Web Image</nz-form-label>
+          <nz-form-control [nzSpan]="12"><a target="_blank" [attr.href]="webBannerImageData[0].ImageOriginal">Click To view
+              Image</a></nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24">Upload Mobile Banner Image <br> (350 X 150)</nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <button nz-button nzType="link" (click)="onUploadProductImage(2)">Click To Upload</button>
+
+          </nz-form-control>
+
+        </nz-form-item>
+        <nz-form-item *ngIf="BannerImageData.length>0">
+          <nz-form-label [nzSm]="8" [nzXs]="24">Preview Mobile Image</nz-form-label>
+          <nz-form-control [nzSpan]="12"><a target="_blank" [attr.href]="BannerImageData[0].ImageOriginal">Click To view
+              Image</a></nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-row class="register-area">
+          <nz-form-control [nzSpan]="14" [nzOffset]="2">
+            <button nz-button nzType="primary" class="primary_button2 ant-btn ant-btn-primary"
+              (click)="BannerForm()"><span>Submit</span></button>
+            <button nz-button nzType="primary" class="primary_button1 ant-btn ant-btn-primary"
+              (click)="close()"><span>close</span></button>
+
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </nz-card>
+  </div>
+  <div *ngIf="isImageUploading">
+
+    <div nz-col nzSpan="12" [nzOffset]="2">
+      <nz-card>
+
+        <div> 
+          <input type="file" accept="image/gif, image/jpeg, image/png" #myInput (change)="fileChangeEvent($event)" />
+          <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"  
+          [resizeToWidth]="resizeToWidth" [resizeToHeight]="resizeToHeight"
+            [cropperMinWidth]="cropperMinWidth" [cropperMinHeight]="cropperMinHeight" [onlyScaleDown]="true" [roundCropper]="false" format="png" outputType="base64"
+            (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+            (loadImageFailed)="loadImageFailed()" [style.display]="showCropper ? null : 'none'" [alignImage]="'left'">
+          </image-cropper>
+        </div>
+      </nz-card>
+      <nz-card *ngIf="croppedImage.length>0">
+        <div nz-row [nzGutter]="16">
+          <div nz-col nzSpan="12">
+            <img [src]="croppedImage" style="width: 100%;" />
+          </div>
+          <div nz-col nzSpan="12">
+            <div nz-row style="margin-top: 10px;" *ngIf="croppedImage.length>0">
+              <button type="button" (click)="onCloseImageDrawer()" class="ant-btn"
+                style="margin-right: 8px;"><span>Cancel</span></button>
+              <button type="button" nz-button nzType="primary" [nzLoading]="isUploadBtnLoading"
+                class="ant-btn ant-btn-primary" (click)="onSucessCroping()"><span>Upload to Server</span></button>
+            </div>
+          </div>
+
+        </div>
+      </nz-card>
+
+
+
+    </div>
+
+
+  </div>
+</div>
+<div nz-row style="margin-top: 50px;" *ngIf="visible==false">
+  <nz-card>
+    <div nz-col nzSpan="24">
+      <nz-table #basicTable nzShowPagination="false" [nzLoading]="isloading" nzLoadingDelay="1"
+        [nzData]="ListBannerData" style="background: #FFF;margin:30px 0px;">
+        <thead>
+          <tr>
+            <th>Post</th>
+            <th>view</th>
+            <th>Banner S.No</th>
+            <th>Banner Name</th>
+            <th>Created at</th>
+            <th>Status</th>
+            <th></th>
+            <!-- <th>Edit</th> -->
+
+            <th>Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let data of ListBannerData;let i=index">
+            <tr>
+              <td>
+                <img alt="example" [src]="data.Image_Data.Image250" style="width: 50px;" />
+              </td>
+              <td>
+                <a target="_blank" [attr.href]="data.Image_Data.ImageOriginal">Click to view</a></td>
+              <td>{{data.SNo}}</td>
+              <td>{{data.Banner_Name}}</td>
+              <td>{{data.created_at | date:'medium'}}</td>
+              <td *ngIf="data.Status==true">Yes</td>
+              <td *ngIf="data.Status==false">No</td>
+              <td>
+                <span [ngSwitch]="data.Status">
+                  <span *ngSwitchCase=true>
+                    <a nz-popconfirm (nzOnConfirm)="onActionOnBanner(data,i)"
+                      nzTitle="Are you sure you want to Inactive this?">Make Inactive</a>
+                  </span>
+                  <span *ngSwitchCase=false>
+                    <a style="color: red;" nz-popconfirm (nzOnConfirm)="onActionOnBanner(data,i)"
+                      nzTitle="Are you sure you want to Active this?">Make Active</a>
+                  </span>
+                  <span *ngSwitchDefault>
+                    NA
+                  </span>
+                </span>
+              </td>
+              <td style="color: #096dd9;" (click)="onEdit(data,i)"><i class="fa fa-pencil" aria-hidden="true"></i>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </nz-table>
+    </div>
+  </nz-card>
+
+
+  <nz-pagination (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage"
+    [nzTotal]="TotalItems"></nz-pagination>
+</div>

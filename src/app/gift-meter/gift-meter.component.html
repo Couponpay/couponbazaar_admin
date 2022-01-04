@@ -1,0 +1,205 @@
+<div nz-row style="margin-top: 25px;" *ngIf="!isAdding">
+  <div nz-col nzSpan="24">
+    <button nz-button nzType="primary" (click)="open()" class="primary_button">Add</button>
+    <!-- <nz-drawer
+      [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+      [nzMaskClosable]="false"
+      [nzWidth]="400"
+      [nzVisible]="visible"
+      [nzTitle]="title"
+      (nzOnClose)="close()"
+    >
+    <ng-template #title>
+      {{isEditing?'Update Target Referral':'Add Target Referral'}}
+    </ng-template>
+    <form nz-form [formGroup]="addForm">
+        <div nz-row nzGutter="8">
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label>S.No</nz-form-label>
+              <nz-form-control [nzValidateStatus]="ValidatingStatus" nzHasFeedback>
+                <input nz-input formControlName="SNo" placeholder="please enter Banner S.No" />
+                  <nz-form-explain *ngIf="ValidatingStatus == 'error'">S.No Already Exists
+                  </nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label>Target Referal</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="Target_Referal" type="number" placeholder="please enter Target Referal" />
+                <nz-form-explain *ngIf="addForm.get('Target_Referal').dirty && addForm.get('Target_Referal').errors">Please
+                    input your Target Referal!</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label>Wallet Limit</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="Wallet_Limit" type="number" placeholder="please enter Wallet Limit" />
+                <nz-form-explain *ngIf="addForm.get('Wallet_Limit').dirty && addForm.get('Wallet_Limit').errors">Please
+                    input your Wallet Limit!</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          </div>
+          <div class="footer">
+              <button nz-button nzType="primary" class="primary_button1 ant-btn ant-btn-primary" [nzLoading]="isAddButton"
+              (click)="onSubmit()"><span>{{isEditing?'Update':'Add'}}</span></button>
+            </div>
+      </form>
+    </nz-drawer> -->
+  </div>
+  <div nz-row style="margin-top: 50px;">
+    <div nz-col nzSpan="24">
+      <nz-tabset style="margin-bottom: 16px;">
+        <nz-tab (nzClick)="onChangeTab(1)" nzTitle="Active List">
+
+        </nz-tab>
+        <nz-tab (nzClick)="onChangeTab(2)" nzTitle="Inactive List">
+
+        </nz-tab>
+
+      </nz-tabset>
+      <nz-table #basicTable nzShowPagination="false" [nzLoading]="isloading" nzLoadingDelay="1" [nzData]="tableData"
+        style="background: #FFF;margin:30px 0px;">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Title</th>
+            <th>Value</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let data of tableData;let i=index">
+            <tr>
+              <td>{{data.SNo}}</td>
+              <td>{{data.Title_Name}}</td>
+              <td>{{data.Value}}</td>
+              <td>
+                <span [ngSwitch]="data.Status">
+                  <span *ngSwitchCase=true>
+                    <a nz-popconfirm (nzOnConfirm)="onAction(data)"
+                      nzTitle="Are you sure you want to Inactive this?">Make Inactive</a>
+                  </span>
+                  <span *ngSwitchCase=false>
+                    <a style="color: red;" nz-popconfirm (nzOnConfirm)="onAction(data)"
+                      nzTitle="Are you sure you want to Active this?">Make Active</a>
+                  </span>
+                  <span *ngSwitchDefault>
+                    NA
+                  </span>
+                </span>
+              </td>
+              <td>
+                <i nz-icon type="edit" theme="outline" (click)="onEdit(data)"></i>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </nz-table>
+      <nz-pagination (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage"
+        [nzTotal]="totalItem"></nz-pagination>
+    </div>
+  </div>
+</div>
+<div nz-row style="margin-top: 25px;" *ngIf="isAdding">
+  <div nz-col nzSpan="12">
+    <nz-card [nzTitle]='cardTitle'>
+      <ng-template #cardTitle>
+        <span>{{isEditing?'Update':'Create'}} Gift Meter</span>
+      </ng-template>
+      <form nz-form [formGroup]="addForm">
+        <div nz-row nzGutter="8">
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label [nzSm]="8" [nzXs]="24">S.No</nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="ValidatingStatus" nzHasFeedback>
+                <input nz-input formControlName="SNo" placeholder="please enter S.No" />
+                <nz-form-explain *ngIf="ValidatingStatus == 'error'">S.No Already Exists
+                </nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="8" [nzXs]="24">Title Name</nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <input nz-input formControlName="Title_Name" type="text"
+                  placeholder="please enter Title Name" />
+                <nz-form-explain *ngIf="addForm.get('Title_Name').dirty && addForm.get('Title_Name').errors">
+                  Please
+                  input your Title Name!</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="8" [nzXs]="24">Value</nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <input nz-input formControlName="Value" type="number" placeholder="please enter Value" />
+                <nz-form-explain *ngIf="addForm.get('Value').dirty && addForm.get('Value').errors">Please
+                  input your Value!</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="8" [nzXs]="24">Upload Image</nz-form-label>
+              <nz-form-control [nzSpan]="12">
+                <button nz-button nzType="link" (click)="onUploadProductImage()">Click To Upload</button>
+
+              </nz-form-control>
+
+            </nz-form-item>
+            <nz-form-item *ngIf="ImageData.length>0">
+              <nz-form-label [nzSm]="8" [nzXs]="24">Image Preview</nz-form-label>
+              <nz-form-control [nzSpan]="12"><a target="_blank" [attr.href]="ImageData[0].ImageOriginal">Click To view
+                  Image</a></nz-form-control>
+            </nz-form-item>
+            <nz-form-item nz-row class="register-area">
+              <nz-form-control [nzSpan]="14" [nzOffset]="2">
+                <button nz-button nzType="primary" class="primary_button2 ant-btn ant-btn-primary"
+                  (click)="onSubmit()"><span>{{isEditing?'Update':'Add'}}</span></button>
+                <button nz-button nzType="primary" class="primary_button1 ant-btn ant-btn-primary"
+                  (click)="close()"><span>close</span></button>
+
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+    </nz-card>
+  </div>
+</div>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzMaskClosable]="false" [nzWidth]="500" [nzVisible]="isImageUploading" [nzTitle]="'Upload Image'"
+  (nzOnClose)="onCloseImageDrawer()">
+  <div nz-col nzSpan="12" [nzOffset]="2">
+
+      <div>
+        <input type="file" accept="image/gif, image/jpeg, image/png" #myInput (change)="fileChangeEvent($event)" />
+        <image-cropper [imageChangedEvent]="imageChangedEvent" [aspectRatio]="1/1"
+           [cropperMinWidth]="'cropperMinWidth'"
+          [cropperMinHeight]="cropperMinHeight" [onlyScaleDown]="true" [roundCropper]="false" format="png"
+          outputType="base64" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+          (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()"
+          [style.display]="showCropper ? null : 'none'" [alignImage]="'left'">
+        </image-cropper>
+      </div>
+    <!-- <nz-card > -->
+      <div nz-row [nzGutter]="16" *ngIf="croppedImage.length>0">
+        <div nz-col nzSpan="12">
+          <img [src]="croppedImage" style="width: 100%;" />
+        </div>
+        <div nz-col nzSpan="12">
+          <div nz-row style="margin-top: 10px;" *ngIf="croppedImage.length>0">
+            <button type="button" (click)="onCloseImageDrawer()" class="ant-btn"
+              style="margin-right: 10px;"><span>Cancel</span></button>
+            <button type="button" nz-button nzType="primary" [nzLoading]="isUploadBtnLoading"
+              class="ant-btn ant-btn-primary" (click)="onSucessCroping()"><span>Upload to Server</span></button>
+          </div>
+        </div>
+
+      </div>
+    <!-- </nz-card> -->
+
+
+
+  </div>
+</nz-drawer>

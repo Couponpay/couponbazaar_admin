@@ -1,0 +1,84 @@
+<div nz-row>
+  <div nz-col nzSpan="16">
+    <nz-card >
+      <form nz-form [formGroup]="plotCreationForm">
+        <nz-form-item>
+          <nz-form-control [nzSpan]="12" nzErrorTip="Please input Plot Name!">
+            <input formControlName="Plot_Name" placeholder="Plot Name" type="text" nz-input>
+            <nz-form-explain
+              *ngIf="plotCreationForm.get('Plot_Name')?.dirty && plotCreationForm.get('Plot_Name')?.errors">
+              Please input Plot Name!
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzSpan]="12" nzErrorTip="Please input Company Name!">
+            <input formControlName="Company_Name" placeholder="Company Name" type="text" nz-input>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzSpan]="12" nzErrorTip="Please input Description!">
+            <textarea rows="4" formControlName="Description" placeholder="Description" nz-input></textarea>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzSpan]="12">
+            <input id="pac-input" formControlName="googleAddress" [required]="lat_marker!=undefined"
+              placeholder="Search Address" type="text" nz-input>
+
+          </nz-form-control>
+          <nz-form-explain *ngIf="plotCreationForm.get('Address')?.dirty && plotCreationForm.get('Address')?.errors">
+            Please select Address from maps!</nz-form-explain>
+
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzSm]="16">
+            <!-- <agm-map #gm [latitude]="lat_marker" [longitude]="lng_market" fullscreenControl="true">
+              <agm-marker [markerDraggable]=true (dragEnd)="ondragEnd($event)" [latitude]="lat_marker"
+                [longitude]="lng_market">
+              </agm-marker>
+            </agm-map> -->
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control [nzSpan]="8">
+            <div class="clearfix">
+              <nz-upload [nzCustomRequest]="customReq" class="upload-list-inline" [(nzFileList)]="plotImagesListForNZ">
+                <button nz-button (click)="onCustRequ(1)">
+                  <span><i nz-icon nzType="upload"></i> Plot Images</span>
+                </button>
+              </nz-upload>
+            </div>
+          </nz-form-control>
+          <nz-form-control [nzSpan]="8">
+            <div class="clearfix">
+              <!-- [nzRemove]="onRemove" -->
+              <nz-upload [nzCustomRequest]="customReq" class="upload-list-inline" nzLimit="1"
+                [(nzFileList)]="plotDocListForNZ">
+                <button nz-button (click)="onCustRequ(2)">
+                  <span><i nz-icon nzType="upload"></i> Plot File</span>
+                </button>
+              </nz-upload> 
+            </div>
+          </nz-form-control>
+          <nz-form-control [nzSpan]="8">
+            <div class="clearfix">
+              <nz-upload [nzCustomRequest]="customReq" class="upload-list-inline" nzLimit="1"
+                [(nzFileList)]="comapnyListForNz">
+                <button nz-button (click)="onCustRequ(3)">
+                  <span><i nz-icon nzType="upload"></i> Company Image</span>
+                </button>
+              </nz-upload>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <button nz-button nzType="primary" (click)="onSubmitPlot()">Submit</button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </nz-card>
+  </div>
+</div>

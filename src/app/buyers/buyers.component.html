@@ -1,0 +1,57 @@
+
+<div nz-row>
+    <div nz-col nzSpan="24" >
+        <nz-table #basicTable 
+        nzShowPagination="false"
+        [nzData]="buyersList">
+            <thead>
+              <tr>
+                <th>Buyer Name</th>
+                <th>Buyer Phone Number</th>
+                <th>Available Amount</th>
+                <th>Withdrawn Amount</th>
+                <th>Total Amount</th>
+                <th>Created Date</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of buyersList">
+                <td>{{data.Buyer_Name}}</td>
+                <td>{{data.Buyer_CountryCode}}{{data.Buyer_PhoneNumber}}</td>
+                <td>{{data.Available_Amount| number}}</td>
+                <td>{{data.Withdrawn_Amount| number}}</td>
+                <td>{{data.Total_Amount| number}}</td>
+                <td>{{data.created_at | date }}</td>
+                <td>
+                    <nz-dropdown>
+                        <button nz-button nz-dropdown><span>Actions</span> <i nz-icon type="down"></i></button>
+                        <ul nz-menu>
+                          <li nz-menu-item>
+                              <a skipLocationChange 
+                              [routerLink]="['/dashboard','buyersLogs',
+                              data.BuyerID,
+                              data.Buyer_Name,
+                              data.Available_Amount,
+                              data.Withdrawn_Amount,
+                              data.Total_Amount]" 
+                              routerLinkActive="router-link-active" >Logs</a>
+                          </li>
+                          <li nz-menu-item>
+                            <a skipLocationChange 
+                            [routerLink]="[ '/dashboard','buyersbills',
+                            data.BuyerID,data.Buyer_Name]"  
+                            >View Bills</a>
+                          </li>
+                        </ul>
+                      </nz-dropdown>
+                  
+                  
+                 </td>
+              </tr>
+            </tbody>
+          </nz-table>
+    </div>
+  </div>
+  <nz-pagination (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage"  [nzTotal]="totalItem"></nz-pagination>
+  

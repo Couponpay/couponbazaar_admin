@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+
+
+.navigationMenu{
+    background-color: transparent;
+  }
+  .maincontent{
+      margin-top: 10px;
+  }
+  nz-pagination{
+      float: right;
+      margin-top: 10px;
+  }
+  .clickbleicon{
+      cursor: pointer;
+      padding: 7px;
+      font-size: 15px
+  }
+  .ant-modal-footer{
+      border-top: none;
+  }
+  
+
+  

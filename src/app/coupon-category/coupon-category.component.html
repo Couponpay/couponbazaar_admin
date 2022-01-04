@@ -1,0 +1,107 @@
+<div nz-row style="margin-top: 25px;">
+  <div nz-col nzSpan="24">
+      <button nz-button nzType="primary" class="primary_button" (click)="onAdd()">Add Coupon Category</button>
+    </div>
+    <div nz-row style="margin-top: 50px;">
+        <div nz-col nzSpan="24">
+          <nz-tabset style="margin-bottom: 16px;">
+            <nz-tab (nzClick)="onChangeTab(1)" nzTitle="Active List">
+      
+            </nz-tab>
+            <nz-tab (nzClick)="onChangeTab(2)" nzTitle="Inactive List">
+      
+            </nz-tab>
+      
+          </nz-tabset>
+    <nz-table #basicTable nzShowPagination="false" [nzLoading]="isloading"
+     nzLoadingDelay="1" [nzData]="CategoryData"  style="background: #FFF;margin:30px 0px;">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Name</th>
+          <th>Admin Share(%)</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let data of CategoryData;let i=index">
+          <tr>
+            <td>{{data.SNo}}</td>
+            <td>{{data.Coupons_Category_Name}}</td>
+            <td>{{data.CC_Admin_Share_Percent}}</td>
+            <td>
+              <span [ngSwitch]="data.Status">
+                <span *ngSwitchCase=true>
+                  <a nz-popconfirm (nzOnConfirm)="onAction(data)"
+                    nzTitle="Are you sure you want to Inactive this?">Make Inactive</a>
+                </span>
+                <span *ngSwitchCase=false>
+                  <a style="color: red;" nz-popconfirm (nzOnConfirm)="onAction(data)"
+                    nzTitle="Are you sure you want to Active this?">Make Active</a>
+                </span>
+                <span *ngSwitchDefault>
+                  NA
+                </span>
+              </span>
+            </td>
+            <td>
+              <!-- <i class="fa fa-pencil" style="color: #096dd9;" aria-hidden="true" (click)="onEdit(data)"></i> -->
+              <i nz-icon type="edit" theme="outline" (click)="onEdit(data)"></i>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>
+    <nz-pagination (nzPageIndexChange)="onNextPage($event)"  [nzPageSize]="limit" [nzPageIndex]="currentPage" [nzTotal]="totalItem"></nz-pagination>
+  </div>
+</div>
+</div>
+<nz-drawer
+      [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+      [nzMaskClosable]="false"
+      [nzWidth]="400"
+      [nzVisible]="isvisible"
+      [nzTitle]="title"
+      (nzOnClose)="onCancel()"
+    >
+    <ng-template #title>
+      <span>{{isEditing?'Update':'Add'}} Coupon Category</span>
+    </ng-template>
+    <form nz-form [formGroup]="addCategoryForm">
+        <div nz-row nzGutter="8">
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label>SNo</nz-form-label>
+              <nz-form-control [nzValidateStatus]="ValidatingStatus" nzHasFeedback>
+                <input nz-input formControlName="SNo" placeholder="please enter SNo" />
+                <!-- <nz-form-explain *ngIf="addCategoryForm.get('SNo').dirty && addCategoryForm.get('SNo').errors">Please
+                    input your SNo!</nz-form-explain> -->
+                <nz-form-explain *ngIf="ValidatingStatus == 'error'">S.No Already Exists
+                    </nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label>Category Name</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="Coupons_Category_Name" placeholder="please enter Coupon Category Name" />
+                <nz-form-explain *ngIf="addCategoryForm.get('Coupons_Category_Name').dirty && addCategoryForm.get('Coupons_Category_Name').errors">Please
+                    input your Coupon Category Name!</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label>Admin Share (%)</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="CC_Admin_Share_Percent" placeholder="please enter Admin Share Percent" />
+                <nz-form-explain *ngIf="addCategoryForm.get('CC_Admin_Share_Percent').dirty && addCategoryForm.get('CC_Admin_Share_Percent').errors">Please
+                    input your Admin Share Percent!</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          </div>
+          <div class="footer">
+              <button nz-button nzType="primary" class="primary_button1 ant-btn ant-btn-primary" [nzLoading]="isAddButton"
+              (click)="onAddCategory()"><span>{{isEditing?'Update':'Add'}}</span></button>
+            </div>
+      </form>
+    </nz-drawer>

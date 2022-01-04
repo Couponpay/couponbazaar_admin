@@ -1,0 +1,15 @@
+.login-form {
+    max-width: 30%;
+   
+    padding: 15px;
+    margin-left: 25px;
+    width: 100%;
+  }
+
+  .login-form-forgot {
+    float: right;
+  }
+
+  .login-form-button {
+    width: 100%;
+  }

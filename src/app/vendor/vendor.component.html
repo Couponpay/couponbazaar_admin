@@ -1,0 +1,17 @@
+
+<ul nz-menu class="navigationMenu" [nzMode]="'horizontal'">
+  <li nz-menu-item [routerLink]="['add-vendor']" routerLinkActive="ant-menu-item-selected">
+   Create Shop
+   </li>
+  <li nz-menu-item  [routerLink]="['view-vednor']" routerLinkActive="ant-menu-item-selected">
+    View Shops
+    
+  </li>
+  <li nz-menu-item  [routerLink]="['shoptPurchases']" routerLinkActive="ant-menu-item-selected">
+      Shop Purchases
+      
+    </li>
+</ul>
+<div class="maincontent">
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,170 @@
+
+<div nz-row>
+    <div nz-col  nzSpan="12">
+<a (click)="onBack()">Back</a>
+    </div>
+</div>
+<div nz-row style="margin-bottom: 10px;">
+    <div nz-col nzSpan="8" nzOffset="8">
+       
+        <nz-card style="width:400px;"  [nzTitle]="NetworkData.Buyer_Name + '-'+NetworkData.No_of_Child_Network"  >
+            <div nz-row>
+                <p>phone Number:{{NetworkData.Buyer_PhoneNumber}}</p>
+  
+            </div>
+            <div nz-row>
+                <p>Available Amount:{{NetworkData.Available_Amount | number}}</p>
+  
+              </div>
+              <div nz-row>
+                  <p>Withdrawn Amount:{{NetworkData.Withdrawn_Amount | number}}</p>
+  
+                </div>
+                <div nz-row>
+                    <p>Total Amount:{{NetworkData.Total_Amount | number}}</p>
+  
+                  </div>
+                  
+        </nz-card>
+      </div>
+</div>
+<div>
+    <div nz-row [nzGutter]="24">
+      <div nz-col [nzSpan]="3"   *ngFor="let item of childrenData; let i=index">
+        <nz-card style="cursor:pointer" (click)="onclickNetwork(item)"  [nzTitle]="item.Buyer_Name +'-'+item.No_of_Child_Network" nzDescription="This is the description" nzAvatar="user">
+
+                <span>{{item.Buyer_PhoneNumber}}</span>
+  
+            
+           
+                <p>Available Amount:{{item.Available_Amount | number}} </p>
+  
+          
+             
+                  <p>Withdrawn Amount:{{item.Withdrawn_Amount | number}}</p>
+  
+             
+               
+                    <p>Total Amount:{{item.Total_Amount | number}}</p>
+  
+                
+  
+  
+          
+  
+          </nz-card>
+      </div>
+     
+    </div>
+  </div>
+<!-- <div nz-row>
+    <div nz-row  [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 8, xl: 8, xxl: 8 }">
+        <div nz-col class="gutter-row" nzSpan="3"  *ngFor="let item of childrenData; let i=index">
+            <nz-card style="cursor:pointer" (click)="onclickNetwork(item)"  [nzTitle]="item.Buyer_Name" nzDescription="This is the description" nzAvatar="user">
+                <nz-badge [nzCount]="item.No_of_Child_Network" style="margin-right: 24px;">
+                    <nz-avatar [nzText]="item.Buyer_Name" 
+                    [nzSize]="64" 
+                   style="vertical-align: middle;background-color: #7265e6">
+                  </nz-avatar>
+                </nz-badge>
+                
+                    <span>{{item.Buyer_PhoneNumber}}</span>
+      
+                
+               
+                    <p>Available Amount:{{item.Available_Amount | number}}</p>
+      
+              
+                 
+                      <p>Withdrawn Amount:{{item.Withdrawn_Amount | number}}</p>
+      
+                 
+                   
+                        <p>Total Amount:{{item.Total_Amount | number}}</p>
+      
+                    
+      
+      
+              
+      
+              </nz-card>
+        </div>
+        
+      </div>
+</div>
+<div nz-row style="margin-top: 20px;">
+    <div nz-col style="height: 450px;text-align: center;margin-top: 20%;" nzSpan="12">
+<div nz-row>
+    <div  nz-col nzSpan="12">
+        <nz-card style="width:300px;"  [nzTitle]="NetworkData.Buyer_Name" nzDescription="This is the description" nzAvatar="user">
+           
+          <div nz-row>
+              <p>phone Number:{{NetworkData.Buyer_PhoneNumber}}</p>
+
+          </div>
+          <div nz-row>
+              <p>Available Amount:{{NetworkData.Available_Amount | number}}</p>
+
+            </div>
+            <div nz-row>
+                <p>Withdrawn Amount:{{NetworkData.Withdrawn_Amount | number}}</p>
+
+              </div>
+              <div nz-row>
+                  <p>Total Amount:{{NetworkData.Total_Amount | number}}</p>
+
+                </div>
+                <div nz-row>
+                    <p>childs:{{NetworkData.No_of_Child_Network}}</p>
+  
+                  </div>
+
+            <p>childs:{{NetworkData.No_of_Child_Network}}</p>
+
+        </nz-card>
+      </div>
+     
+    
+</div>
+    
+    </div>
+    <div  nz-col style="padding: 10px;overflow-y:auto;height:500px;" nz-col nzSpan="12">
+      <div nz-row style="width:100%;margin-bottom: 10px;" *ngFor="let item of childrenData; let i=index" >
+          <nz-card style="width:300px;cursor:pointer" (click)="onclickNetwork(item)"  [nzTitle]="item.Buyer_Name" nzDescription="This is the description" nzAvatar="user">
+              <nz-badge [nzCount]="item.No_of_Child_Network" style="margin-right: 24px;">
+                  <nz-avatar [nzText]="item.Buyer_Name" 
+                  [nzSize]="64" 
+                 style="vertical-align: middle;background-color: #7265e6">
+                </nz-avatar>
+              </nz-badge>
+              <div nz-row>
+                  <p>phone Number:{{item.Buyer_PhoneNumber}}</p>
+    
+              </div>
+             
+                  <p>Available Amount:{{item.Available_Amount | number}}</p>
+    
+            
+                <div nz-row>
+                    <p>Withdrawn Amount:{{item.Withdrawn_Amount | number}}</p>
+    
+                  </div>
+                  <div nz-row>
+                      <p>Total Amount:{{item.Total_Amount | number}}</p>
+    
+                    </div>
+    
+    
+                <p>childs:{{NetworkData.No_of_Child_Network}}</p>
+    
+            </nz-card>
+        
+        
+        <span  (click)="onclickNetwork(item)">
+             
+            </span>
+      </div>
+       
+    </div>
+  </div> -->
+

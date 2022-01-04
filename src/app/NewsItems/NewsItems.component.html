@@ -1,0 +1,123 @@
+<div nz-row class="row rowgap">
+  <div nz-row nzGutter="8" class="rowgap">
+      <div nz-col nzSpan="20">
+        <nz-tabset>
+          <nz-tab (nzClick)="onTabClick(1)" nzTitle="News Items">
+          </nz-tab>
+          <nz-tab (nzClick)="onTabClick(2)" nzTitle="Inactivated News">
+          </nz-tab>
+        </nz-tabset>
+      </div>
+      <div nz-col nzSpan="4" style="text-align: right">
+        <button nz-button nzType="primary"  (click)="onAddNews()">Add News</button>
+      </div>
+    </div>
+</div>
+<div nz-row>
+<nz-table [nzLoading]="isnewsItemsListLoading" [nzLoadingDelay]="2" nzShowPagination="false" #basicTable
+  nzSize="small" [nzData]="newsItemsList">
+  <thead>
+    <tr>
+    
+      <th>SNO</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let data of newsItemsList;let i=index">
+      <tr *ngIf="Status==1&&data.Status==true">
+        <td>{{data.SNo}}</td>
+        <td>{{data.Title}}</td>
+        <td>{{data.Description}}</td>
+        <td>
+          <a (click)="onEdit(data)">Edit</a>
+        </td>
+      </tr>
+     
+    </ng-container>
+  </tbody>
+</nz-table>
+<span class="totalItems"><b>Total Items: </b>{{TotalItems}}</span>
+<nz-pagination nzHideOnSinglePage="true" (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit"
+  [nzPageIndex]="currentPage" [nzTotal]="TotalItems"></nz-pagination>
+</div>
+<nz-modal [nzOkLoading]="isUpdateLoading" nzMaskClosable="false" nzWrapClassName="vertical-center-modal"
+[(nzVisible)]="isUpdateDetails" nzTitle="Update Details" (nzOnCancel)="handleCancelMiddle()"
+(nzOnOk)="onupdateDetails()">
+<form nz-form [formGroup]="updateDetailsForm" class="login-form">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">S.No
+    </nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <input nz-input formControlName="SNo" placeholder="SNo" />
+      <nz-form-explain *ngIf="newItemAddingForm.get('SNo')?.dirty && newItemAddingForm.get('SNo')?.errors">
+        Please input  SNo!</nz-form-explain>
+    </nz-form-control>
+
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">Title
+    </nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <input nz-input formControlName="Title" placeholder="Title" />
+      <nz-form-explain *ngIf="updateDetailsForm.get('Title')?.dirty && updateDetailsForm.get('Title')?.errors">
+        Please input your Title!</nz-form-explain>
+    </nz-form-control>
+
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">Description
+    </nz-form-label>
+    <nz-form-control [nzSpan]="12">
+
+      <textarea nz-input placeholder="Descrption" formControlName="Description"
+        [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+      <nz-form-explain
+        *ngIf="updateDetailsForm.get('Description')?.dirty && updateDetailsForm.get('Description')?.errors">
+        Please input Description!
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+</nz-modal>
+<nz-modal [nzOkLoading]="isNewsAddingbtn" nzMaskClosable="false" nzWrapClassName="vertical-center-modal"
+[(nzVisible)]="addNewsModal" nzTitle="Add news" (nzOnCancel)="handleCanceladdNewsModal()"
+(nzOnOk)="onAddNewstoServer()">
+<form nz-form [formGroup]="newItemAddingForm" class="login-form">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">S.No
+    </nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <input nz-input formControlName="SNo" placeholder="SNo" />
+      <nz-form-explain *ngIf="newItemAddingForm.get('SNo')?.dirty && newItemAddingForm.get('SNo')?.errors">
+        Please input  SNo!</nz-form-explain>
+    </nz-form-control>
+
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">Title
+    </nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <input nz-input formControlName="Title" placeholder="Title" />
+      <nz-form-explain *ngIf="newItemAddingForm.get('Title')?.dirty && newItemAddingForm.get('Title')?.errors">
+        Please input your Title!</nz-form-explain>
+    </nz-form-control>
+
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">Description
+    </nz-form-label>
+    <nz-form-control [nzSpan]="12">
+
+      <textarea nz-input placeholder="Descrption" formControlName="Description"
+        [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+      <nz-form-explain
+        *ngIf="newItemAddingForm.get('Description')?.dirty && newItemAddingForm.get('Description')?.errors">
+        Please input Description!
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+</nz-modal>

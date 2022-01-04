@@ -1,0 +1,59 @@
+<div nz-row style="margin-top: 25px;">
+  <div nz-col nzSpan="24">
+      <button nz-button nzType="primary" (click)="open()" class="primary_button">Add Category</button>
+      <nz-drawer
+      [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+      [nzMaskClosable]="false"
+      [nzWidth]="400"
+      [nzVisible]="visible"
+      nzTitle="Add Category"
+      (nzOnClose)="close()"
+    >
+    <form nz-form [formGroup]="addCategory">
+        <div nz-row nzGutter="8">
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label>Category Name</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="Category_Name" placeholder="please enter Category Name" />
+                <nz-form-explain *ngIf="addCategory.get('Category_Name').dirty && addCategory.get('Category_Name').errors">Please
+                    input your Category Name!</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          </div>
+          <div class="footer">
+              <button nz-button nzType="primary" class="primary_button1 ant-btn ant-btn-primary"
+              (click)="categoryForm()"><span>Submit</span></button>
+            </div>
+      </form>
+    </nz-drawer>
+    </div>
+    <div nz-row style="margin-top: 50px;">
+        <div nz-col nzSpan="24">
+    <nz-table #basicTable nzShowPagination="false" [nzLoading]="isloading"
+     nzLoadingDelay="1" [nzData]="ListAllcategoryData"  style="background: #FFF;margin:30px 0px;">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Category Name</th>
+          <!-- <th>Created at</th>
+          <th>Status</th> -->
+          <!-- <th>Edit</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let data of ListAllcategoryData;let i=index">
+          <tr>
+            <td>{{i+1}}</td>
+            <td>{{data.Category_Name}}</td>
+            <!-- <td>{{data.created_at | date:'medium'}}</td>
+            <td *ngIf="data.Status==true">Yes</td>
+            <td *ngIf="data.Status==false">No</td> -->
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+</div>

@@ -1,0 +1,38 @@
+<div nz-row>
+  <div nz-col nzSpan="24" >
+      <nz-table #basicTable 
+      nzShowPagination="false"
+      [nzData]="IntoducersList">
+          <thead>
+            <tr>
+              <th>Introducer Name</th>
+              <th>Introducer PhoneNumber</th>
+              <th>Available Amount</th>
+              <th>Withdrawn Amount</th>
+              <th>Total Amount</th>
+              <th>created Date</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of IntoducersList">
+              <td>{{data.Introducer_Name}}</td>
+              <td>{{data.Introducer_CountryCode}}{{data.Introducer_PhoneNumber}}</td>
+              <td>{{data.Available_Amount| number}}</td>
+              <td>{{data.Withdrawn_Amount| number}}</td>
+              <td>{{data.Total_Amount| number}}</td>
+              <td>{{data.created_at | date }}</td>
+              <td><a skipLocationChange 
+                [routerLink]="['/dashboard','introducerlogs',
+                data.IntroducerID,
+                data.Introducer_Name,
+                data.Available_Amount,
+                data.Withdrawn_Amount,
+                data.Total_Amount]" 
+                routerLinkActive="router-link-active" >Logs</a></td>
+            </tr>
+          </tbody>
+        </nz-table>
+  </div>
+</div>
+<nz-pagination (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage" [nzTotal]="totalItem"></nz-pagination>

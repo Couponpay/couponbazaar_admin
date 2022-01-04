@@ -1,0 +1,49 @@
+.footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    padding: 25px 16px;
+    text-align: right;
+    left: 0px;
+    /* background: #fff; */
+    top: 120px;
+  }
+  .primary_button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: linear-gradient(90deg, #1976d2 20%, #00dbfe 100%);
+    border: coral;
+    color: #fff;
+    font-weight: 700;
+    font-size: 17px;
+  }
+  .primary_button1{
+    /* position: absolute;
+    top: 8px;
+    right: 219px; */
+    float: right;
+    background: linear-gradient(90deg, #1976d2 20%, #00dbfe 100%);
+    border: coral;
+    color: #fff;
+    font-weight: 700;
+    font-size: 17px;
+    margin-right: 20px;
+  }
+  .primary_button2{
+    /* position: absolute;
+    top: 8px;
+    right: 100px; */
+    float: right;
+    background: linear-gradient(90deg, #1976d2 20%, #00dbfe 100%);
+    border: coral;
+    color: #fff;
+    font-weight: 700;
+    font-size: 17px;
+  }
+  .formBorder{
+      border: 1px solid #ccc;
+  }
+  nz-form-label{
+      text-align: left;
+  }

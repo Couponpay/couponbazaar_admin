@@ -1,0 +1,78 @@
+<nz-tabset>
+    <nz-tab (nzClick)="oncreateAdmin_Tab()" nzTitle="Create Admin">
+        <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+            <nz-form-item>
+                <nz-form-control>
+                  <nz-input-group [nzPrefix]="prefixUser">
+                    <input type="text" nz-input formControlName="userName" placeholder="User Name">
+                  </nz-input-group>
+                  <nz-form-explain *ngIf="validateForm.get('userName').dirty && validateForm.get('userName').errors">Please input your username!</nz-form-explain>
+                </nz-form-control>
+              </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-control>
+                <nz-input-group >
+                  <input type="text" nz-input formControlName="userEmail" placeholder="User Email">
+                </nz-input-group>
+                <nz-form-explain *ngIf="validateForm.get('userEmail').dirty && validateForm.get('userEmail').errors">Please input Email!</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-control>
+                <nz-input-group [nzPrefix]="prefixLock">
+                  <input type="password" nz-input formControlName="password" placeholder="Password">
+                </nz-input-group>
+                <nz-form-explain *ngIf="validateForm.get('password').dirty && validateForm.get('password').errors">Please input your Password!</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control>
+                  <nz-input-group >
+                      <nz-form-label [nzSpan]="8" nzFor="email">Admin permissions</nz-form-label>
+                      <nz-form-control [nzSpan]="14">
+                          <nz-switch [(ngModel)]="switchValue" formControlName="AdminPermistion"></nz-switch>                    
+                            </nz-form-control>
+                      
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            <nz-form-item>
+              <nz-form-control>
+               
+                <button nz-button class="login-form-button" [nzType]="'primary'">Create </button>
+                
+              </nz-form-control>
+            </nz-form-item>
+          </form>
+          <ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+          <ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
+    </nz-tab>
+    <nz-tab (nzClick)="onViewAdmins_Tab()" nzTitle="View Admin">
+        <div nz-row class="logtable">
+            <div nz-col nzSpan="24">
+              <nz-table class="logTable" nzShowPagination="false" #basicTable [nzData]="adminUsers">
+                <thead>
+                  <tr>
+                    <th> Name</th>
+                    <th>EmailID</th>
+                    <th>Admin Section Permision</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of adminUsers;let i = index">
+                    <td>{{data.Name}}</td>
+                    <td>{{data.EmailID}}</td>
+                    <td>{{data.Admin_Section_Permision}}</td>
+                    
+                  </tr>
+                </tbody>
+              </nz-table>
+          
+            </div>
+          </div>
+          <nz-pagination (nzPageIndexChange)="onNextPage($event)"  [nzPageSize]="limit" [nzPageIndex]="currentPage" [nzTotal]="totalItem"></nz-pagination>
+    </nz-tab>
+   
+    </nz-tabset>

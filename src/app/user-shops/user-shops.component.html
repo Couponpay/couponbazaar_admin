@@ -1,0 +1,69 @@
+<div nz-row style="margin-top: 50px;">
+  <div nz-col nzSpan="24">
+    <nz-tabset style="margin-bottom: -16px;">
+      <nz-tab (nzClick)="onChangeTab(1)" nzTitle="Pending">
+
+      </nz-tab>
+      <nz-tab (nzClick)="onChangeTab(2)" nzTitle="Cancelled">
+
+      </nz-tab>
+      <nz-tab (nzClick)="onChangeTab(3)" nzTitle="Approved">
+
+      </nz-tab>
+
+    </nz-tabset>
+    <div nz-row style="margin-top: 10px;">
+      <nz-table #basicTable nzShowPagination="false" [nzLoading]="isloading"
+      nzLoadingDelay="1" [nzData]="shopsData"  style="background: #FFF;margin:30px 0px;">
+       <thead>
+         <tr>
+           <th>S.No</th>
+           <th>Shop Name</th>
+           <th>Shop Number</th>
+           <th>Address</th>
+           <th>Total Price</th>
+           <th>Tax</th>
+           <th>Discount</th>
+           <th></th>
+         </tr>
+       </thead>
+       <tbody>
+         <ng-container *ngFor="let data of shopsData;let i=index">
+           <tr>
+             <td>{{skip+i+1}}</td>
+             <td>{{data.Users_Shop_Name}}</td>
+             <td>{{data.Users_Shop_PhoneNumber}}</td>
+             <td>{{data.Address}}</td>
+             <td>{{data.Total_Price}}</td>
+             <td>{{data.Tax}}</td>
+             <td>{{data.Discount}}</td>
+             <td>
+               <span *ngIf="data.User_Shop_Status == 1">
+                 <nz-dropdown>
+                   <a nz-dropdown>
+                     Change Status <i nz-icon type="down"></i>
+                   </a>
+                   <ul nz-menu nzSelectable>
+                     <li (click)="onActionOn(data ,1)" nz-menu-item>Approve</li>
+                       <li (click)="onActionOn(data ,2)" nz-menu-item>Cancel</li>
+                   </ul>
+                 </nz-dropdown>
+                 <!-- <nz-dropdown>
+                   <i nz-icon type="down" theme="outline"></i>
+                   <ul nz-menu>
+                     <li (click)="onActionOn(data ,3)" nz-menu-item>Approve</li>
+                       <li (click)="onActionOn(data ,2)" nz-menu-item>Cancel</li>
+                   </ul>
+                 </nz-dropdown> -->
+               </span>
+               <span *ngIf="data.User_Shop_Status == 2">Cancelled</span>
+               <span *ngIf="data.User_Shop_Status == 3">Approved</span>
+             </td>
+           </tr>
+         </ng-container>
+       </tbody>
+     </nz-table>
+     <nz-pagination (nzPageIndexChange)="onNextPage($event)"  [nzPageSize]="limit" [nzPageIndex]="currentPage" [nzTotal]="totalItem"></nz-pagination>
+    </div>
+  </div>
+</div>

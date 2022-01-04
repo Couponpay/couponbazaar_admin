@@ -1,0 +1,127 @@
+<div nz-row *ngIf="viewForm==false">
+  <div nz-col nzSpan="4" [nzOffset]="20">
+    <button nz-button nzType="primary" style="float: right;width: 100%" (click)="OnclickProductAdd()">
+      Add District
+      </button>
+  </div>
+  <div nz-col nzSpan="24" style="padding: 20px 0px;">
+    <nz-tabset>
+      <nz-tab (nzClick)="onTabClick(1)" nzTitle="Active Districts">
+      </nz-tab>
+      <nz-tab (nzClick)="onTabClick(2)" nzTitle="Inactivated Districts">
+      </nz-tab>
+    </nz-tabset>
+    <!-- <div nz-row nzGutter="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired >State </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <nz-select style="width: 100%;" [formControl]="StateID" nzShowSearch 
+            nzPlaceHolder="Select State">
+            <nz-option *ngFor="let item of StatesListArray; let i=index" [nzValue]="item.StateID"
+              [nzLabel]="item.State_Name"></nz-option>
+          </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div> -->
+    <nz-table #basicTable [nzLoading]="isTableListLoadin" nzShowPagination="false" [nzData]="DistrictListArray"
+    style="background: #FFF;">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>State Name</th>
+        <th>District Name</th>
+        <th>created at</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of DistrictListArray">
+        <td>{{data.SNo}}</td> 
+         <td>{{data.StateData.State_Name}}</td>
+        <td>{{data.District_Name}}</td>
+        <td>{{data.created_at | date:"medium"}}</td>
+
+                <td> <a (click)="onEdit(data)">Edit</a></td>
+        <td>
+          <span [ngSwitch]="data.Status">
+            <span *ngSwitchCase=true>
+              <a nz-popconfirm (nzOnConfirm)="onActionOnHelp(data)"
+                nzTitle="Are you sure you want to Inactive this?">Make Inactive</a>
+            </span>
+            <span *ngSwitchCase=false>
+              <a style="color: red;" nz-popconfirm (nzOnConfirm)="onActionOnHelp(data)"
+                nzTitle="Are you sure you want to Active this?">Make Active</a>
+            </span>
+            <span *ngSwitchDefault>
+              NA
+            </span>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  
+  </nz-table>
+  </div>
+  <nz-pagination [nzShowTotal]="totalTemplate" (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit"
+  [nzPageIndex]="currentPage" [nzTotal]="Count"></nz-pagination>
+<ng-template #totalTemplate let-total>Total {{ Count }}</ng-template>
+</div>
+<div nz-row *ngIf="viewForm==true">
+  <div nz-col nzSpan="24" style="padding: 20px 0px;">
+    <nz-card>
+    <form nz-form [formGroup]="addForm" class="login-form">
+
+      <div nz-row nzGutter="8">
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="S_NO">S NO</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+                <input type="number" formControlName="SNo" nz-input placeholder="Please enter S NO" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row nzGutter="8">
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired >State </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <nz-select style="width: 100%;" formControlName="State_Name" nzShowSearch 
+              nzPlaceHolder="Select State">
+              <nz-option *ngFor="let item of StatesListArray; let i=index" [nzValue]="item.StateID"
+                [nzLabel]="item.State_Name"></nz-option>
+            </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row nzGutter="8">
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired >District Name</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+                <input type="text" formControlName="District_Name" nz-input placeholder="Please enter District Name" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+   
+
+      <div nz-row style="margin-top: 30px;">
+       
+        <div nz-col nzSpan="3" [nzOffset]="3">
+              <button nz-button nzType="primary" (click)="onClickSubmitForm()" style="width:100%"><span>{{onEditOpen?"Update District":"Create District"}}</span></button> 
+        </div>
+        <div nz-col nzSpan="2" [nzOffset]="1">
+          <button nz-button nzType="default" (click)="close()" style="width:100%">close</button> 
+    </div>
+      </div>
+    
+    </form>
+  </nz-card>
+  </div>
+</div>
+

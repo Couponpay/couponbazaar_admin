@@ -1,0 +1,34 @@
+[
+    {
+        "AdminID": "0db3350d-1c4d-4f30-9692-0b6024de7733",
+        "SessionID": "dd993f72-2b1c-45b8-b953-d2e13a564ecc",
+        "Name": "uiteam1",
+        "EmailID": "uiteam1@sagiam.com",
+        "Password": "Indian@123",
+        "Admin_Section_Permision": true
+    },
+    {
+        "AdminID": "0db3350d-1c4d-4f30-9692-0b6024de7733",
+        "SessionID": "dd993f72-2b1c-45b8-b953-d2e13a564ecc",
+        "Name": "uiteam2",
+        "EmailID": "uiteam2@sagiam.com",
+        "Password": "Indian@123",
+        "Admin_Section_Permision": false
+    },
+    {
+        "AdminID": "0db3350d-1c4d-4f30-9692-0b6024de7733",
+        "SessionID": "dd993f72-2b1c-45b8-b953-d2e13a564ecc",
+        "Name": "uiteam3",
+        "EmailID": "uiteam3@sagiam.com",
+        "Password": "Indian@123",
+        "Admin_Section_Permision": false
+    },
+    {
+        "AdminID": "0db3350d-1c4d-4f30-9692-0b6024de7733",
+        "SessionID": "dd993f72-2b1c-45b8-b953-d2e13a564ecc",
+        "Name": "uiteam4",
+        "EmailID": "uiteam4@sagiam.com",
+        "Password": "Indian@123",
+        "Admin_Section_Permision": false
+    }
+]

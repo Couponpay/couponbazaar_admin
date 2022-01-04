@@ -1,0 +1,126 @@
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <a [routerLink]="[ '/dashboard','buyers']">Back</a>
+  </div>
+</div>
+
+<div nz-row>
+  <div nz-col nzSpan="12" nzOffset="6">
+    <nz-card style="margin-bottom: 10px;" nzTitle="Buyer Name : {{buyerName}}">
+      <nz-table [nzNoResult]="NodatTxt">
+
+        <tbody>
+          <tr>
+            <th>Available Amount:</th>
+            <td style="border-bottom: none;">{{avilableAmout | number}}</td>
+          </tr>
+          <tr>
+            <th>Withdrawn Amount</th>
+            <td style="border-bottom: none;">{{withdrwanAmount| number}}</td>
+          </tr>
+          <tr>
+            <th>Total Amount</th>
+            <td style="border-bottom: none;">{{totalAmount| number}}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+
+
+
+
+    </nz-card>
+  </div>
+</div>
+
+<nz-card>
+    <nz-list [nzDataSource]="buyersLogs" [nzLoading]="isLoadingLogs" [nzRenderItem]="conar"
+      [nzItemLayout]="'horizontal'">
+      <ng-template #conar let-item>
+        <ng-container *ngIf="item.Type==1">
+          <nz-list-item [nzContent]="desc">
+            <nz-list-item-meta [nzTitle]="title" nzAvatar=" " [nzDescription]="content">
+            </nz-list-item-meta>
+            <ng-template #title>
+              <span style="    color: #00897b;">Amount credited for purchasing in shop</span>
+            </ng-template>
+            <ng-template #desc>
+              <a style="margin-right: 30%">{{item.Amount | number}} Inr (C)</a> {{item.Time | date:'medium'}}
+            </ng-template>
+            <ng-template #content>
+            {{item.Data.Buyer_Name}} got {{item.Amount | number}} to his wallet for purchasing {{item.Data.ProductData.Product_Name}} - {{item.Data.ProductData.Product_Quantity}}
+            at {{item.Data.Shop_Name}}.Total bill is {{item.Data.ProductData.Product_Sub_Total}} and Bill Number <b>{{item.Data.BillNumber}}</b>
+            </ng-template>
+          </nz-list-item>
+        </ng-container>
+        <ng-container *ngIf="item.Type==2">
+            <nz-list-item [nzContent]="desc">
+              <nz-list-item-meta [nzTitle]="title" nzAvatar=" " [nzDescription]="content">
+              </nz-list-item-meta>
+              <ng-template #title>
+                <span style="    color: #00897b;">Amount credited through Trimmer Share by EOD</span>
+              </ng-template>
+              <ng-template #desc>
+                <a style="margin-right: 30%">{{item.Amount | number}} Inr (C)</a> {{item.Time | date:'medium'}}
+              </ng-template>
+              <ng-template #content>
+                  {{item.Amount | number}} Inr Credited through Trimmer Shares
+              </ng-template>
+            </nz-list-item>
+          </ng-container>
+        <ng-container *ngIf="item.Type==3">
+          <nz-list-item [nzContent]="desc">
+            <nz-list-item-meta [nzTitle]="title" nzAvatar=" " [nzDescription]="content">
+            </nz-list-item-meta>
+            <ng-template #title>
+              <span style="color: #ff4500;">Amount Debited for Generating offer code</span>
+            </ng-template>
+            <ng-template #desc>
+              <a style="margin-right: 30%"><span style="color: #ff4500;">{{item.Amount | number}} Inr (D)</span></a>
+              {{item.Time | date:'medium'}}
+            </ng-template>
+            <ng-template #content>
+              {{buyerName}} got  the offer and worth is {{item.Amount | number}} .Offer code is {{item.Data.OfferCode}}
+            </ng-template>
+          </nz-list-item>
+        </ng-container>
+      </ng-template>
+    </nz-list>
+  </nz-card>
+
+<!-- <div nz-row class="logtable">
+  <div nz-col nzSpan="24">
+    <nz-table class="logTable" nzShowPagination="false" #basicTable [nzData]="intoroducerLogs">
+      <thead>
+        <tr>
+          <th>Shop Name</th>
+          <th>Shop Phone Number</th>
+          <th>Buyer Name</th>
+          <th>Buyer PhoneNumber</th>
+          <th>Product Name</th>
+          <th>Product Details
+            <i class="fa fa-info-circle" nzTitle="PriceXQuantity=Total" nzPlacement="topLeft" nz-tooltip
+              nzTrigger="hover" style="font-size:15px"></i>
+          </th>
+          <th>Amount (Inr)</th>
+          <th>Date & Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of intoroducerLogs;let i = index">
+          <td>{{data.Data.Shop_Name}}</td>
+          <td>{{data.Data.Shop_CountryCode}}{{data.Data.Shop_PhoneNumber}}</td>
+          <td>{{data.Data.Buyer_Name}}</td>
+          <td>{{data.Data.Buyer_PhoneNumber}}</td>
+          <td>{{data.Data.ProductData.Product_Name}}</td>
+          <td>
+            {{data.Data.ProductData.Product_Price}}X{{data.Data.ProductData.Product_Quantity}}={{data.Data.ProductData.Product_Sub_Total}}
+          </td>
+          <td>{{data.Amount| number}}({{data.Data.ProductData.Product_Price_Divisions.Buyer_Share}}%)</td>
+          <td>{{data.Time | date:'short'}}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+  </div>
+</div> -->
+<nz-pagination (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage"  [nzTotal]="totalItem"></nz-pagination>

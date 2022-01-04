@@ -1,0 +1,63 @@
+<div nz-row>
+    <div nz-col nzSpan="24">
+      <a [routerLink]="[ '/dashboard','introducer']">Back</a>
+    </div>
+  </div>
+  <div nz-row>
+      <div nz-col nzSpan="12" nzOffset="6">
+        <nz-card style="margin-bottom: 10px;" nzTitle="Introducer Name : {{introducerName}}">
+            <nz-table nzNoResult="   ">
+               
+                <tbody>
+                  <tr>
+                    <th>Available Amount:</th>
+                    <td style="border-bottom: none;">{{avilableAmout | number}}</td>
+                  </tr>
+                  <tr>
+                      <th>Withdrawn Amount</th>
+                      <td style="border-bottom: none;">{{withdrwanAmount| number}}</td>
+                    </tr>
+                    <tr>
+                        <th>Total Amount</th>
+                        <td style="border-bottom: none;">{{totalAmount| number}}</td>
+                      </tr>
+                </tbody>
+              </nz-table>
+          
+         
+          
+        
+        </nz-card>
+      </div>
+    </div>
+
+ 
+    <nz-card>
+      <nz-list [nzDataSource]="intoroducerLogs" [nzLoading]="isLoadingLogs"
+       [nzRenderItem]="conar" [nzItemLayout]="'horizontal'">
+        <ng-template #conar let-item>
+          <ng-container *ngIf="item.Type==1">
+            <nz-list-item [nzContent]="desc">
+              <nz-list-item-meta [nzTitle]="title" nzAvatar=" " [nzDescription]="content">
+              </nz-list-item-meta>
+              <ng-template #title>
+                <span style="    color: #00897b;">Amount Credited For Shop billings</span>
+              </ng-template>
+              <ng-template #desc>
+                <a style="margin-right: 30%">{{item.Amount | number}} Inr (C)</a> {{item.Time | date:'medium'}}
+              </ng-template>
+              <ng-template #content>
+                <b>{{introducerName}}</b>&nbsp; got {{item.Amount | number}} Inr for {{item.Data.Shop_Name}}'s Bill.
+                {{item.Data.Buyer_Name}} Purchased {{item.Data.ProductData.Product_Name}} -{{item.Data.ProductData.Product_Quantity}} and each {{item.Data.ProductData.Product_Name}} price is {{item.Data.ProductData.Product_Price}}.
+              </ng-template>
+            </nz-list-item>
+          </ng-container>
+          </ng-template>
+          </nz-list>
+          </nz-card>
+        
+
+
+
+ 
+    <nz-pagination (nzPageIndexChange)="onNextPage($event)"  [nzPageSize]="limit" [nzPageIndex]="currentPage"  [nzTotal]="totalItem"></nz-pagination>

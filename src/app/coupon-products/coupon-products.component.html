@@ -1,0 +1,322 @@
+<div nz-row style="margin-top: 25px;" *ngIf="!isAdding">
+  <div nz-col nzSpan="24">
+    <button nz-button nzType="primary" class="primary_button" (click)="onAdd()">Add Coupon Product</button>
+  </div>
+  <div nz-row style="margin-top: 50px;">
+    <div nz-col nzSpan="24">
+      <nz-tabset style="margin-bottom: 16px;">
+        <nz-tab (nzClick)="onChangeTab(1)" nzTitle="Active List">
+  
+        </nz-tab>
+        <nz-tab (nzClick)="onChangeTab(2)" nzTitle="Inactive List">
+  
+        </nz-tab>
+  
+      </nz-tabset>
+      <nz-table #basicTable nzShowPagination="false" [nzLoading]="isloading" nzLoadingDelay="1"
+        [nzData]="couponProducts" style="background: #FFF;margin:30px 0px;">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Product Name</th>
+            <th>Description</th>
+            <th>Weight</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Cash Coupon Share</th>
+            <th>Purchase Coupon Share</th>
+            <th>Gift Coupon Share</th>
+            <!-- <th></th> -->
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let data of couponProducts;let i=index">
+            <tr>
+              <td>{{data.SNo}}</td>
+              <td>{{data.C_Product_Name}}</td>
+              <td>{{data.C_Product_Description}}</td>
+              <td>{{data.C_Product_Weight}}</td>
+              <td>{{data.C_Product_Price}}</td>
+              <td>{{data.C_Product_Quantity}}</td>
+              <td>{{data.Cash_Coupons_Share}}</td>
+              <td>{{data.Purchace_Coupons_Share}}</td>
+              <td>{{data.Gift_Coupons_Share}}</td>
+              <!-- <td>
+              <span [ngSwitch]="data.Status">
+                <span *ngSwitchCase=true>
+                  <a nz-popconfirm (nzOnConfirm)="onAction(data)"
+                    nzTitle="Are you sure you want to Inactive this?">Make Inactive</a>
+                </span>
+                <span *ngSwitchCase=false>
+                  <a style="color: red;" nz-popconfirm (nzOnConfirm)="onAction(data)"
+                    nzTitle="Are you sure you want to Active this?">Make Active</a>
+                </span>
+                <span *ngSwitchDefault>
+                  NA
+                </span>
+              </span>
+            </td> -->
+              <td>
+                <!-- <i class="fa fa-pencil" style="color: #096dd9;" aria-hidden="true" (click)="onEdit(data)"></i> -->
+                <i nz-icon type="edit" theme="outline" (click)="onEdit(data)"></i>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </nz-table>
+      <nz-pagination (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage"
+        [nzTotal]="totalItem"></nz-pagination>
+    </div>
+  </div>
+</div>
+<div nz-row style="margin-top: 25px;" *ngIf="isAdding">
+  <div nz-col nzSpan="12">
+    <nz-card [nzTitle]='cardTitle'>
+      <ng-template #cardTitle>
+        <span>{{isEditing?'Update':'Create'}} Coupon Product</span>
+      </ng-template>
+
+      <form nz-form [formGroup]="createCoupon">
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24">S.No</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="ValidatingStatus" nzHasFeedback>
+            <input nz-input formControlName="SNo" placeholder="please enter Banner S.No" />
+            <!-- <nz-form-explain *ngIf="createCoupon.get('SNo').dirty && createCoupon.get('SNo').errors">Please
+              input your SNo!</nz-form-explain> -->
+              <nz-form-explain *ngIf="ValidatingStatus == 'error'">S.No Already Exists
+              </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24">Product Name</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input formControlName="C_Product_Name" placeholder="please enter Product Name" />
+            <nz-form-explain
+              *ngIf="createCoupon.get('C_Product_Name').dirty && createCoupon.get('C_Product_Name').errors">
+              Please
+              input your Product Name!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24">Product Description</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input formControlName="C_Product_Description" placeholder="please enter Product Description" />
+            <nz-form-explain
+              *ngIf="createCoupon.get('C_Product_Description').dirty && createCoupon.get('C_Product_Description').errors">
+              Please
+              input your Product Descrption!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24">Product Price</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input formControlName="C_Product_Price" placeholder="please enter Product Price" />
+            <nz-form-explain
+              *ngIf="createCoupon.get('C_Product_Price').dirty && createCoupon.get('C_Product_Price').errors">
+              Please
+              input your Product Price!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24">Cash Coupons Share</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input formControlName="Cash_Coupons_Share" placeholder="please enter Cash Coupons Share" />
+            <nz-form-explain
+              *ngIf="createCoupon.get('Cash_Coupons_Share').dirty && createCoupon.get('Cash_Coupons_Share').errors">
+              Please
+              input your Cash Coupons Share!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24">Purchase Coupons Share</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input formControlName="Purchace_Coupons_Share"
+              placeholder="please enter Purchase Coupons Share" />
+            <nz-form-explain
+              *ngIf="createCoupon.get('Purchace_Coupons_Share').dirty && createCoupon.get('Purchace_Coupons_Share').errors">
+              Please
+              input your Purchase Coupons Share!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24">Gift Coupons Share</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input formControlName="Gift_Coupons_Share" placeholder="please enter Gift Coupons Share" />
+            <nz-form-explain
+              *ngIf="createCoupon.get('Gift_Coupons_Share').dirty && createCoupon.get('Gift_Coupons_Share').errors">
+              Please
+              input your Gift Coupons Share!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24">Update Coupons Share</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <a (click)="onClickDrawer()">Click to add Coupon Share</a>
+            <!-- <input nz-input formControlName="Update_Coupons_Share" placeholder="please enter Update Coupons Share" /> -->
+            <!-- <nz-form-explain
+              *ngIf="createCoupon.get('Update_Coupons_Share').dirty && createCoupon.get('Update_Coupons_Share').errors">
+              Please
+              input your Update Coupons Share!</nz-form-explain> -->
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item >
+          <nz-form-label [nzSpan]="8" nzRequired>Coupons Shares</nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <code *ngFor="let item of levels; let i=index; let isLast=last">{{item}}
+              <span *ngIf="!isLast"></span>,</code>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24">Upload Product Image</nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <button nz-button nzType="link" (click)="onUploadProductImage()">Click To Upload</button>
+
+          </nz-form-control>
+
+        </nz-form-item>
+        <nz-form-item *ngIf="ImageData.length>0">
+          <nz-form-label [nzSm]="8" [nzXs]="24">Preview Product Image</nz-form-label>
+          <nz-form-control [nzSpan]="12"><a target="_blank" [attr.href]="ImageData[0].ImageOriginal">Click To view
+              Image</a></nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item nz-row class="register-area">
+          <nz-form-control [nzSpan]="14" [nzOffset]="2">
+            <button nz-button nzType="primary" class="primary_button2 ant-btn ant-btn-primary"
+              (click)="onAddCouponProduct()"><span>{{isEditing?'Update':'Add'}}</span></button>
+            <button nz-button nzType="primary" class="primary_button1 ant-btn ant-btn-primary"
+              (click)="onCancel()"><span>close</span></button>
+
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </nz-card>
+  </div>
+</div>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzMaskClosable]="false" [nzWidth]="500" [nzVisible]="isImageUploading" [nzTitle]="'Upload Image'"
+  (nzOnClose)="onCloseImageDrawer()">
+  <div nz-col nzSpan="12" [nzOffset]="2">
+
+      <div>
+        <input type="file" accept="image/gif, image/jpeg, image/png" #myInput (change)="fileChangeEvent($event)" />
+        <image-cropper [imageChangedEvent]="imageChangedEvent" [aspectRatio]="1/1"
+           [cropperMinWidth]="'cropperMinWidth'"
+          [cropperMinHeight]="cropperMinHeight" [onlyScaleDown]="true" [roundCropper]="false" format="png"
+          outputType="base64" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+          (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()"
+          [style.display]="showCropper ? null : 'none'" [alignImage]="'left'">
+        </image-cropper>
+      </div>
+    <!-- <nz-card > -->
+      <div nz-row [nzGutter]="16" *ngIf="croppedImage.length>0">
+        <div nz-col nzSpan="12">
+          <img [src]="croppedImage" style="width: 100%;" />
+        </div>
+        <div nz-col nzSpan="12">
+          <div nz-row style="margin-top: 10px;" *ngIf="croppedImage.length>0">
+            <button type="button" (click)="onCloseImageDrawer()" class="ant-btn"
+              style="margin-right: 10px;"><span>Cancel</span></button>
+            <button type="button" nz-button nzType="primary" [nzLoading]="isUploadBtnLoading"
+              class="ant-btn ant-btn-primary" (click)="onSucessCroping()"><span>Upload to Server</span></button>
+          </div>
+        </div>
+
+      </div>
+    <!-- </nz-card> -->
+
+
+
+  </div>
+</nz-drawer>
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzMaskClosable]="false" [nzWidth]="720" [nzVisible]="isDrawer" nzTitle=" "
+  (nzOnClose)="OnCloseDrawer()">
+  <div>
+
+    <div nz-row nzGutter="8">
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label>Level 1</nz-form-label>
+          <nz-form-control>
+            <input nz-input [(ngModel)]="levels[0]" placeholder="" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label>Level 2</nz-form-label>
+          <nz-form-control>
+            <input nz-input [(ngModel)]="levels[1]" placeholder="" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label>Level 3</nz-form-label>
+          <nz-form-control>
+            <input nz-input [(ngModel)]="levels[2]" placeholder="" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row nzGutter="8">
+      <div nz-col nzSpan="8">
+        <button type="button" nz-button nzType="primary" class="ant-btn ant-btn-primary"
+          (click)="OnCloseDrawer()"><span>Update</span></button>
+      </div>
+    </div>
+
+  </div>
+</nz-drawer>
+
+<!-- <nz-drawer
+      [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+      [nzMaskClosable]="false"
+      [nzWidth]="400"
+      [nzVisible]="isvisible"
+      [nzTitle]="title"
+      (nzOnClose)="onCancel()"
+    >
+    <ng-template #title>
+      <span>{{isEditing?'Update':'Add'}} Coupon Category</span>
+    </ng-template>
+    <form nz-form [formGroup]="addCategoryForm">
+        <div nz-row nzGutter="8">
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label>SNo</nz-form-label>
+              <nz-form-control [nzValidateStatus]="ValidatingStatus" nzHasFeedback>
+                <input nz-input formControlName="SNo" placeholder="please enter SNo" />
+                <nz-form-explain *ngIf="addCategoryForm.get('SNo').dirty && addCategoryForm.get('SNo').errors">Please
+                    input your SNo!</nz-form-explain>
+                <nz-form-explain *ngIf="ValidatingStatus == 'error'">S.No Already Exists
+                    </nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label>Category Name</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="Coupons_Category_Name" placeholder="please enter Coupon Category Name" />
+                <nz-form-explain *ngIf="addCategoryForm.get('Coupons_Category_Name').dirty && addCategoryForm.get('Coupons_Category_Name').errors">Please
+                    input your Coupon Category Name!</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label>Admin Share (%)</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="CC_Admin_Share_Percent" placeholder="please enter Admin Share Percent" />
+                <nz-form-explain *ngIf="addCategoryForm.get('CC_Admin_Share_Percent').dirty && addCategoryForm.get('CC_Admin_Share_Percent').errors">Please
+                    input your Admin Share Percent!</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          </div>
+          <div class="footer">
+              <button nz-button nzType="primary" class="primary_button1 ant-btn ant-btn-primary" [nzLoading]="isAddButton"
+              (click)="onAddCategory()"><span>{{isEditing?'Update':'Add'}}</span></button>
+            </div>
+      </form>
+    </nz-drawer> -->

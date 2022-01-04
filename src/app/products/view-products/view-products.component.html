@@ -1,0 +1,433 @@
+<nz-card *ngIf="!isEditProduct">
+
+  <nz-table #basicTable nzShowPagination="false" [nzData]="prodcutsList">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Product Weight(In kg)</th>
+        <th>Product Price</th>
+        <th>Introducer Comission</th>
+        <th>Buyer Comissions</th>
+        <th>Shop Comission</th>
+        <th>Company Profit</th>
+        <th>Available Quantity</th>
+        <th>Product Tredning</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of prodcutsList;let i =index">
+        <td>{{data.Product_Name}}</td>
+        <td>{{data.Product_Weight}}</td>
+        <td>{{data.Product_Price}}</td>
+        <td>{{data.Product_Price_Data.Introducer_Price}}</td>
+      
+        <td>
+
+          <ng-template #buyerLevelPrice>
+            <div nz-row class="logtable"
+              *ngFor="let levelPrice of data.Product_Price_Data.Buyer_Price_Array; let i=index">
+              <code>Level {{i+1}}: {{levelPrice}}
+                    </code>
+            </div>
+
+          </ng-template>
+
+          <span [nzTitle]="buyerLevelPrice" nzPlacement="right" nz-tooltip nzTrigger="hover">
+            {{data.Product_Price_Data.Buyer_Price}}</span>
+        </td>
+        <td>{{data.Product_Price_Data.Shop_Price}}</td>
+        <td>{{data.Product_Price_Data.Company_Price}}</td>
+        <td>
+          <div nz-row>
+            <div nz-col [nzSpan]="16">
+          {{data.Product_Quantity}}
+        </div>
+        <div nz-col [nzSpan]="6">
+          <i nz-icon type="edit" style="color: blue;cursor: pointer;" theme="outline" (click)="onClickQuantityEdit(data)"></i>
+        </div>
+      </div>
+        </td>
+        <td>
+          <a (click)="onAdd_RemoveTredning(data,1)" *ngIf="data.Trending_Available==undefined else notUndefined">
+            Make a Trending Product
+          </a>
+          <ng-template #notUndefined>
+            <a (click)="onAdd_RemoveTredning(data,1)" *ngIf="!data.Trending_Available">   Make a Trending Product</a>
+            <a (click)="onAdd_RemoveTredning(data,-1)"*ngIf="data.Trending_Available">   Remove form Trending Product</a>
+          </ng-template>
+          
+        </td>
+        <td>
+          <a (click)="onEdit(data)">Action 一 Edit</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a nz-popconfirm nzTitle="Are you sure delete this ?" (nzOnConfirm)="OndeleteProduct(data,i)"
+            nzPlacement="topRight">Delete</a>
+        </td>
+
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzWidth]="520"
+  [nzVisible]="isQuantityUploading" nzTitle=" Add Quantity" (nzOnClose)="onCloseQuantityDrawer()">
+  <form nz-form [formGroup]="QuantityForm">
+    <div nz-row nzGutter="6" >
+      <div nz-col nzSpan="8">
+  <nz-form-item >
+    <nz-form-label >Existing Quantity</nz-form-label>
+    <nz-form-control >
+      <!-- <input type="text" formControlName="Product_Quantity" nz-input [disabled]="true" style="color: green;"> -->
+      <button nz-button nzType="link" style=" color: green;
+        font-size: 18px;
+        font-weight: 600; width: 120px;">
+          {{(QuantityForm.value.Product_Quantity)}}
+        </button>
+    </nz-form-control>
+  </nz-form-item>
+</div>
+<div nz-col nzSpan="2">
+  <nz-form-item>
+    <nz-form-control style="margin-top: 38px;
+          margin-right: 10px;">
+      <span style="font-weight: 500;
+            font-size: 30px; text-align: center;">+</span>
+    </nz-form-control>
+  </nz-form-item>
+</div>
+<div nz-col nzSpan="8">
+    <nz-form-item >
+      <nz-form-label >Add Quantity</nz-form-label>
+      <nz-form-control nzErrorTip="please enter Quantity">
+        <input required type="text" ZeronumbersOnly  placeholder="Quantity" formControlName="Quantity" nz-input >
+      </nz-form-control>
+    </nz-form-item>
+</div>
+</div>
+<div nz-row nzGutter="8">
+<nz-form-item >
+  <nz-form-label [nzSpan]="6">Total Quantity</nz-form-label>
+  <nz-form-control [nzSpan]="10">
+    <button nz-button nzType="link" style="    color: green;
+        font-size: 18px;
+        font-weight: 600;" >
+          {{(+QuantityForm.value.Product_Quantity)+(+QuantityForm.value.Quantity)}}
+        </button>
+  </nz-form-control>
+</nz-form-item>
+</div>
+  <div nz-row nzGutter="8">
+    <div nz-col nzSpan="8">
+      <button type="button" nz-button nzType="primary" class="ant-btn ant-btn-primary"
+        (click)="UpdateQuantity()"><span>Update</span></button>
+    </div>
+    <div nz-col nzSpan="8">
+      <button type="button" nz-button nzType="primary" class="ant-btn ant-btn-primary"
+        (click)="cancel()"><span>Cancel</span></button>
+    </div>
+  </div>
+</form>
+</nz-drawer>
+<nz-card *ngIf="isEditProduct" style="width:600px;">
+  <form nz-form [formGroup]="productUpdateForm">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10" nzRequired>Select Category</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-select   placeholder="Select Category" formControlName="select_category">
+          <nz-option *ngFor="let item of categoryList; let i=index" [nzValue]="item"
+            [nzLabel]="item.Category_Name"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10" nzRequired>Product Name</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input formControlName="Product_Name" placeholder="Product Name">
+        <nz-form-explain>
+          <ng-container *ngIf="productUpdateForm.get('Product_Name').hasError('required')">
+            Please input Product Name!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10" nzRequired>Product Weight</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input formControlName="Product_Weight" placeholder="Product Weight">
+        <nz-form-explain>
+          <ng-container *ngIf="productUpdateForm.get('Product_Weight').hasError('required')">
+            Please input Product Weight!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10" nzRequired>Product Description</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input formControlName="Product_Description" placeholder="Product Description">
+        <nz-form-explain>
+          <ng-container *ngIf="productUpdateForm.get('Product_Description').hasError('required')">
+            Please input Product Description!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10" nzRequired>Introducer Price </nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input ZeronumbersOnly formControlName="Introducer_Share" placeholder="Introducer Price">
+        <nz-form-explain>
+          <ng-container *ngIf="productUpdateForm.get('Introducer_Share').hasError('required')">
+            Please input your Introducer Price!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item style="    margin-bottom: 0px;">
+      <nz-form-label [nzSpan]="10" nzRequired>Buyer Price </nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <a (click)="onClickLevelsDrawer()">Click to add Buyer Level Price</a>
+      </nz-form-control>
+
+    </nz-form-item>
+    <nz-form-item style="  margin-top: 0px;">
+      <nz-form-label [nzSpan]="10" nzRequired>Buyer Level Price </nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <code *ngFor="let item of levels; let i=index">{{item}},</code>
+      </nz-form-control>
+    </nz-form-item>  
+    <nz-form-item>
+
+      <nz-form-label [nzSpan]="10" nzRequired>Shop Price </nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input ZeronumbersOnly formControlName="Shop_Share" placeholder="Introducer Price">
+        <nz-form-explain>
+          <ng-container *ngIf="productUpdateForm.get('Shop_Share').hasError('required')">
+            Please input your Shop Price!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10" nzRequired>Company Price </nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input ZeronumbersOnly formControlName="Company_Share" placeholder="Introducer Price">
+        <nz-form-explain>
+          <ng-container *ngIf="productUpdateForm.get('Company_Share').hasError('required')">
+            Please input your Company Price!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="10" [nzXs]="24" nzRequired nzFor="email">Product Price</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <button nz-button nzType="link" style="    color: green;
+        font-size: 18px;
+        font-weight: 600;">
+          {{totalProductPrice}}
+        </button>
+
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10" nzRequired>HSN</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input  formControlName="Product_HST" placeholder="HSN"
+        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+        <nz-form-explain>
+          <ng-container *ngIf="productUpdateForm.get('Product_HST').hasError('required')">
+            Please input your HST
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10" nzRequired>GST </nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input  formControlName="Product_GST" placeholder="GST"
+        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+        <nz-form-explain>
+          <ng-container *ngIf="productUpdateForm.get('Product_GST').hasError('required')">
+            Please input your GST
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10" nzRequired>Existing Quantity </nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <button nz-button nzType="link" style=" color: green;
+        font-size: 18px;
+        font-weight: 600; width: 120px;">
+          {{quantity}}
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10" >Add Quantity </nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input required type="text" ZeronumbersOnly  placeholder="Quantity" formControlName="Quantity" nz-input >
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10" nzRequired>Product Image</nz-form-label>
+      <nz-form-control [nzSpan]="8">
+        <a *ngIf="ProductImageData.length>0" target="_blank" [attr.href]="ProductImageData[0].ImageOriginal">Click To
+          view</a>
+
+      </nz-form-control>
+      <nz-form-control [nzSpan]="4">
+        <button nz-button nzType="primary" (click)="onUploadProductImage(1)">Update</button>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10" nzRequired>Gallery Images</nz-form-label>
+      <nz-form-control [nzSpan]="8">
+        <span *ngIf="productGallryData.length>0">
+          <code>
+            <nz-tag  *ngFor="let item of productGallryData; let i=index" nzMode="closeable" (nzOnClose)="onRemove(item,i)">  
+              <a target="_blank" [attr.href]="item.ImageOriginal">
+               image {{item.SNo}}</a>
+              </nz-tag>
+        </code>
+        </span>
+      </nz-form-control>
+
+
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="10" [nzSpan]="12">
+        <button nz-button nzType="link" (click)="onUploadProductImage(2)" (click)="isImageUploading=true">Upload
+          Gallery Image</button>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="10" [nzSpan]="10">
+        <button nz-button nzType="primary" style="margin-right: 10px;" (click)="submitupdateProductForm()"
+          [disabled]="!productUpdateForm.valid">Update</button>
+        <button nz-button nzType="primary" (click)="isEditProduct=false">Cancel</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-card>
+<nz-pagination (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage"
+  [nzTotal]="totalItem"></nz-pagination>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzWidth]="720"
+  [nzVisible]="isImageUploading" nzTitle="Upload" (nzOnClose)="onCloseImageDrawer()">
+  <nz-form-item *ngIf="uploadingType==2">
+    <nz-form-control [nzSpan]="12">
+      <input required type="text" numbersOnly placeholder="S.No" nz-input [(ngModel)]="SNo">
+
+    </nz-form-control>
+  </nz-form-item>
+  <div>
+    <input type="file" accept="image/gif, image/jpeg, image/png" #myInput (change)="fileChangeEvent($event)" />
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="3 / 3"
+      [resizeToWidth]="128" [cropperMinWidth]="128" [onlyScaleDown]="true" [roundCropper]="false" format="png"
+      outputType="base64" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+      (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()"
+      [style.display]="showCropper ? null : 'none'" [alignImage]="'left'"></image-cropper>
+  </div>
+  <img [src]="croppedImage" />
+  <div class="footer" style="margin-top: 10px;" *ngIf="croppedImage.length>0">
+    <button type="button" (click)="onCloseImageDrawer()" class="ant-btn"
+      style="margin-right: 8px;"><span>Cancel</span></button>
+    <button type="button" nz-button nzType="primary" [nzLoading]="isUploadBtnLoading" class="ant-btn ant-btn-primary"
+      (click)="onSucessCroping()"><span>Upload to Server</span></button>
+  </div>
+</nz-drawer>
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzMaskClosable]="false" [nzWidth]="720" [nzVisible]="isLevelsDrawer" nzTitle=" "
+  (nzOnClose)="OnClosebyerLeveDrawer()">
+  <div>
+
+    <div nz-row nzGutter="8">
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label>Level 1</nz-form-label>
+          <nz-form-control>
+            <input nz-input [(ngModel)]="levels[0]" placeholder="" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label>Level 2</nz-form-label>
+          <nz-form-control>
+            <input nz-input [(ngModel)]="levels[1]" placeholder="" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label>Level 3</nz-form-label>
+          <nz-form-control>
+            <input nz-input [(ngModel)]="levels[2]" placeholder="" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row nzGutter="8">
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label>Level 4</nz-form-label>
+          <nz-form-control>
+            <input nz-input [(ngModel)]="levels[3]" placeholder="" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label>Level 5</nz-form-label>
+          <nz-form-control>
+            <input nz-input [(ngModel)]="levels[4]" placeholder="" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label>Level 6</nz-form-label>
+          <nz-form-control>
+            <input nz-input [(ngModel)]="levels[5]" placeholder="" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row nzGutter="8">
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label>Level 7</nz-form-label>
+          <nz-form-control>
+            <input nz-input [(ngModel)]="levels[6]" placeholder="" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label>Level 8</nz-form-label>
+          <nz-form-control>
+            <input nz-input [(ngModel)]="levels[7]" placeholder="" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label>Level 9</nz-form-label>
+          <nz-form-control>
+            <input nz-input [(ngModel)]="levels[8]" placeholder="" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+    <div nz-row nzGutter="8">
+      <div nz-col nzSpan="8">
+        <button type="button" nz-button nzType="primary" class="ant-btn ant-btn-primary"
+          (click)="OnClosebyerLeveDrawer()"><span>Update</span></button>
+      </div>
+    </div>
+  </div>
+</nz-drawer>

@@ -1,0 +1,61 @@
+<nz-table #basicTable 
+nzShowPagination="false"
+[nzScroll]="{ x:'1000px' }"
+[nzData]="shopPurchasesList">
+    <thead>
+      <tr>
+          <th>S.No</th>
+          <th>Purchase Number</th>
+          <th> Name</th>
+          <th> PhoneNumber</th>
+          <th> Amount</th>
+          <th>Date</th>
+          <th>Cart</th>
+          <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of shopPurchasesList; let i=index">
+          <td>{{i+1}}</td>
+          <td>{{item.PurchaseNumber}}</td>
+          <td>{{item.Shop_Name}}</td>
+          <td>{{item.Shop_PhoneNumber}}</td>
+          <td>{{item.Total_Amount}}</td>
+          <td>{{item.created_at | date:'medium'}}</td>
+          <td><a (click)="onViewCart(item)">View Cart</a></td>
+          <td>
+            <span [ngSwitch]="item.PurchaseStatus">
+            <p *ngSwitchCase="1">
+                Order Placed
+            </p>
+            <p *ngSwitchCase="2">
+                Order Accepted
+            </p>
+            <p *ngSwitchCase="3">
+                Order Shipped 
+            </p>
+            <p *ngSwitchCase="4">
+                Shippment Notifications
+            </p>
+            <p *ngSwitchCase="5">
+                Order Delivered
+            </p>
+           
+            <p *ngSwitchDefault>
+            No Status
+            </p>
+            </span>
+          </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <nz-pagination (nzPageIndexChange)="onNextPage_purchaseList($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage" [nzTotal]="purchaseListCount"></nz-pagination>
+
+  <nz-modal 
+  nzWidth="45%"
+  [(nzVisible)]="isCartVisible"
+   nzTitle="{{shopName}} shop cart details" 
+   (nzOnCancel)="handleCancel()" 
+   (nzOnOk)="handleOk()">
+   
+    </nz-modal>

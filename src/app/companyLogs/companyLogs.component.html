@@ -1,0 +1,105 @@
+
+<nz-card style="margin-bottom: 10px;" nzTitle="Amount Details">
+    <div nz-row>
+      <div nz-col nzSpan="6">
+          Available Amount:{{companyShareData.Available_Amount| number}}
+      </div>
+      <div nz-col nzSpan="6">
+          Withdrawn Amount:{{companyShareData.Withdrawn_Amount| number}}
+      </div>
+      
+      <div nz-col nzSpan="6">
+        Total Amount:{{companyShareData.Total_Amount| number}}
+      </div>
+    </div>
+  
+  </nz-card>
+
+
+<nz-card>
+    <nz-list [nzDataSource]="companyLogs"
+    [nzLoading]="isLoadingLogs"
+     [nzRenderItem]="conar" [nzItemLayout]="'horizontal'" >
+        <ng-template #conar let-item >
+          <ng-container *ngIf="item.Type==1">
+              <nz-list-item 
+              [nzContent]="desc">
+              
+                  <nz-list-item-meta 
+                    [nzTitle]="title" 
+                    nzAvatar=" "
+                    
+                    [nzDescription]="content"
+                    >
+                  </nz-list-item-meta>
+                  <ng-template #title>
+                      <span style="    color: #00897b;">Amount Credited For Shop's Bill</span>
+                    </ng-template>
+                  <ng-template #desc>
+                      <a style="margin-right: 30%">{{item.Amount | number}} Inr (C)</a> {{item.Time | date:'medium'}}
+                    </ng-template>
+                    
+                  
+                    <ng-template #content style="color:orangered">
+                     <b>{{item.Data.Buyer_Name}}</b>&nbsp;purchased {{item.Data.ProductData.Product_Name}} X {{item.Data.ProductData.Product_Quantity}} at <b>{{item.Data.Shop_Name}}</b> .Bill Amount is {{item.Data.ProductData.Product_Sub_Total | number}} Rs.
+                      </ng-template>
+                </nz-list-item>
+          </ng-container>
+          <ng-container *ngIf="item.Type==3">
+              <nz-list-item 
+              [nzContent]="desc"
+              >
+              <nz-list-item-meta 
+                    [nzTitle]="title"
+                    nzAvatar=" "
+                    
+                    [nzDescription]="content"
+                    >
+                  </nz-list-item-meta>
+                  <ng-template #title>
+                    <span     style="color: #00897b;">Amount Credited For Buyer's Offer Expired</span>
+                  </ng-template>
+                  
+                  <ng-template #desc>
+                    
+                      <a style="margin-right: 30%">{{item.Amount | number}} Inr (C)</a> {{item.Time | date:'medium'}}
+                    </ng-template>
+                    
+                  
+                    <ng-template #content>
+                     <b>{{item.Buyer_Name}}</b>&nbsp;missed the Offer and offer worth is {{item.Buyer_Deduction_Amount}}
+                      </ng-template>
+                </nz-list-item>
+          </ng-container>
+          <ng-container *ngIf="item.Type==2">
+              <nz-list-item 
+              [nzContent]="desc"
+              >
+              
+                  <nz-list-item-meta 
+                    [nzTitle]="title"
+                    nzAvatar=" "
+                    
+                    [nzDescription]="content"
+                    >
+                  </nz-list-item-meta>
+                  <ng-template #title>
+                      <span  style="color: #00897b;"   >Amount Credited For No Buyer's Hierarchy</span>
+                    </ng-template>
+                  <ng-template #desc>
+                      <a style="margin-right: 30%">{{item.Amount| number}} Inr (C)</a> {{item.Time | date:'medium'}}
+                    </ng-template>
+                    
+                  
+                    <ng-template #content>
+                     <b>{{item.Data.Buyer_Name}}</b>&nbsp;Purchased {{item.Data.ProductData.Product_Name}} X {{item.Data.ProductData.Product_Quantity}} and Bill is {{item.Data.ProductData.Product_Sub_Total}}.Due to no Hierarchy {{item.Amount| number}} Rs Credited
+                      </ng-template>
+                </nz-list-item>
+          </ng-container>
+          
+        </ng-template>
+      
+      </nz-list>
+</nz-card>
+
+<nz-pagination (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage" [nzTotal]="totalItem"></nz-pagination>

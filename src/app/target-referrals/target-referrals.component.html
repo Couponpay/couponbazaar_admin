@@ -1,0 +1,107 @@
+<div nz-row style="margin-top: 25px;">
+  <div nz-col nzSpan="24">
+      <button nz-button nzType="primary" (click)="open()" class="primary_button">Add</button>
+      <nz-drawer
+      [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+      [nzMaskClosable]="false"
+      [nzWidth]="400"
+      [nzVisible]="visible"
+      [nzTitle]="title"
+      (nzOnClose)="close()"
+    >
+    <ng-template #title>
+      {{isEditing?'Update Target Referral':'Add Target Referral'}}
+    </ng-template>
+    <form nz-form [formGroup]="addForm">
+        <div nz-row nzGutter="8">
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label>S.No</nz-form-label>
+              <nz-form-control [nzValidateStatus]="ValidatingStatus" nzHasFeedback>
+                <input nz-input formControlName="SNo" placeholder="please enter Banner S.No" />
+                <!-- <nz-form-explain *ngIf="createCoupon.get('SNo').dirty && createCoupon.get('SNo').errors">Please
+                  input your SNo!</nz-form-explain> -->
+                  <nz-form-explain *ngIf="ValidatingStatus == 'error'">S.No Already Exists
+                  </nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label>Target Referal</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="Target_Referal" type="number" placeholder="please enter Target Referal" />
+                <nz-form-explain *ngIf="addForm.get('Target_Referal').dirty && addForm.get('Target_Referal').errors">Please
+                    input your Target Referal!</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label>Wallet Limit</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="Wallet_Limit" type="number" placeholder="please enter Wallet Limit" />
+                <nz-form-explain *ngIf="addForm.get('Wallet_Limit').dirty && addForm.get('Wallet_Limit').errors">Please
+                    input your Wallet Limit!</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          </div>
+          <div class="footer">
+              <button nz-button nzType="primary" class="primary_button1 ant-btn ant-btn-primary" [nzLoading]="isAddButton"
+              (click)="onSubmit()"><span>{{isEditing?'Update':'Add'}}</span></button>
+            </div>
+      </form>
+    </nz-drawer>
+    </div>
+    <div nz-row style="margin-top: 50px;">
+        <div nz-col nzSpan="24">
+          <nz-tabset style="margin-bottom: 16px;">
+            <nz-tab (nzClick)="onChangeTab(1)" nzTitle="Active List">
+      
+            </nz-tab>
+            <nz-tab (nzClick)="onChangeTab(2)" nzTitle="Inactive List">
+      
+            </nz-tab>
+      
+          </nz-tabset>
+    <nz-table #basicTable nzShowPagination="false" [nzLoading]="isloading"
+     nzLoadingDelay="1" [nzData]="targetReferrals"  style="background: #FFF;margin:30px 0px;">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Target Referral</th>
+          <th>Wallet Limit</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let data of targetReferrals;let i=index">
+          <tr>
+            <td>{{data.SNo}}</td>
+            <td>{{data.Target_Referal}}</td>
+            <td>{{data.Wallet_Limit}}</td>
+            <td>
+              <span [ngSwitch]="data.Status">
+                <span *ngSwitchCase=true>
+                  <a nz-popconfirm (nzOnConfirm)="onAction(data)"
+                    nzTitle="Are you sure you want to Inactive this?">Make Inactive</a>
+                </span>
+                <span *ngSwitchCase=false>
+                  <a style="color: red;" nz-popconfirm (nzOnConfirm)="onAction(data)"
+                    nzTitle="Are you sure you want to Active this?">Make Active</a>
+                </span>
+                <span *ngSwitchDefault>
+                  NA
+                </span>
+              </span>
+            </td>
+            <td>
+              <i nz-icon type="edit" theme="outline" (click)="onEdit(data)"></i>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>
+    <nz-pagination (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage"
+        [nzTotal]="totalItem"></nz-pagination>
+  </div>
+</div>
+</div>

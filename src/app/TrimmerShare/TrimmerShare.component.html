@@ -1,0 +1,106 @@
+<nz-form-item>
+  <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">Select Date</nz-form-label>
+  <nz-form-control [nzSm]="14" [nzXs]="24">
+    <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
+
+  </nz-form-control>
+</nz-form-item>
+
+
+<nz-card style="margin-bottom: 10px;" nzTitle="Amount Details">
+  <div nz-row>
+    <div nz-col nzSpan="6">
+      Available Amount:{{trimmerShareData.Available_Amount| number}}
+    </div>
+    <div nz-col nzSpan="6">
+      Withdrawn Amount:{{trimmerShareData.Withdrawn_Amount| number}}
+    </div>
+
+    <div nz-col nzSpan="6">
+      Total Amount:{{trimmerShareData.Total_Amount| number}}
+    </div>
+  </div>
+
+</nz-card>
+<nz-card>
+  <nz-list [nzDataSource]="trimmerData" [nzLoading]="isLoadingLogs" [nzRenderItem]="conar"
+    [nzItemLayout]="'horizontal'">
+    <ng-template #conar let-item>
+      <ng-container *ngIf="item.Type==1">
+        <nz-list-item [nzContent]="desc">
+          <nz-list-item-meta [nzTitle]="title" nzAvatar=" " [nzDescription]="content">
+          </nz-list-item-meta>
+          <ng-template #title>
+            <span style="    color: #00897b;">Amount Credited For Shop's billings</span>
+          </ng-template>
+          <ng-template #desc>
+            <a style="margin-right: 30%">{{item.Amount | number}} Inr (C)</a> {{item.Time | date:'medium'}}
+          </ng-template>
+          <ng-template #content>
+            {{item.Data.Buyer_Name}} purchased {{item.Data.ProductData.Product_Name}} -
+            {{item.Data.ProductData.Product_Quantity}} at {{item.Data.Shop_Name}}.Total bill is
+            {{item.Data.ProductData.Product_Sub_Total}} and bill number <b>{{item.Data.BillNumber}}</b>
+          </ng-template>
+        </nz-list-item>
+      </ng-container>
+      <ng-container *ngIf="item.Type==2">
+        <nz-list-item [nzContent]="desc">
+          <nz-list-item-meta [nzTitle]="title" nzAvatar=" " [nzDescription]="content">
+          </nz-list-item-meta>
+          <ng-template #title>
+            <span style="color: #ff4500;">Amount Debited at End of the Day for distribute to the buyers</span>
+          </ng-template>
+          <ng-template #desc>
+            <a style="margin-right: 30%"><span style="color: #ff4500;">{{item.Amount | number}} Inr (D)</span></a>
+            {{item.Time | date:'medium'}}
+          </ng-template>
+          <ng-template #content>
+            {{item.Amount | number}} Inr distributed to all <a>Buyers</a>
+          </ng-template>
+        </nz-list-item>
+      </ng-container>
+    </ng-template>
+  </nz-list>
+</nz-card>
+
+
+<!-- <div nz-row class="logtable">
+  <div nz-col nzSpan="24">
+    <nz-table class="logTable" nzShowPagination="false"
+     #basicTable [nzData]="trimmerData">
+      <thead>
+        <tr>
+          <th>Shop Name</th>
+          <th>Shop Phone Number</th>
+          <th>Buyer Name</th>
+          <th>Buyer PhoneNumber</th>
+          <th>Product Name</th>
+          <th>Product Details  
+              <i class="fa fa-info-circle" 
+              nzTitle="PriceXQuantity=Total" nzPlacement="topLeft" 
+              nz-tooltip nzTrigger="hover" style="font-size:15px"></i>
+          </th>
+          <th>Amount</th>
+          <th>Time</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of trimmerData;let i = index">
+          <td>{{data.Data.Shop_Name}}</td>
+          <td>{{data.Data.Shop_CountryCode}}{{data.Data.Shop_PhoneNumber}}</td>
+
+          <td>{{data.Data.Buyer_Name}}</td>
+          <td>{{data.Data.Buyer_PhoneNumber}}</td>
+          <td>{{data.Data.ProductData.Product_Name}}</td>
+          <td>{{data.Data.ProductData.Product_Price}}X{{data.Data.ProductData.Product_Quantity}}={{data.Data.ProductData.Product_Sub_Total}}</td>
+
+          <td>{{data.Amount| number}}({{data.Data.ProductData.Product_Price_Divisions.Trimer_Share}}%)</td>
+<td>{{data.Time | date:'shortTime' }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+  </div>
+</div> -->
+<nz-pagination (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage"  [nzTotal]="totalItem"></nz-pagination>

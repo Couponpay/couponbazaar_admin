@@ -1,0 +1,389 @@
+<div nz-row style="margin-top: 25px;" *ngIf="!visible">
+  <div nz-col nzSpan="24" style="text-align: right;">
+    <button nz-button nzType="primary" (click)="open()" class="primary_button">Add Bonanza</button>
+  </div>
+</div>
+<div nz-row style="margin-top: 25px;" *ngIf="visible">
+  <div nz-col nzSpan="18">
+    <form nz-form [formGroup]="addBonanzaForm">
+      <div nz-row nzGutter="8">
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label>Bonanza Name</nz-form-label>
+            <nz-form-control nzSpan="24" nzRequired >
+              <input type="text" nz-input formControlName="Name" placeholder="please enter Bonanza Name" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label>Bonanza Type</nz-form-label>
+            <nz-form-control nzSpan="24" nzRequired>
+              <nz-input-group>
+                <nz-select style="width: 100%;" formControlName="Bonanza_Type" nzShowSearch nzAllowClear
+                  nzPlaceHolder="Select Bonanza Type">
+                  <nz-option *ngFor="let item of BonanzaType; let i=index" [nzValue]="item.ind" [nzLabel]="item.type">
+                  </nz-option>
+                </nz-select>
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row nzGutter="8" *ngIf="addBonanzaForm.get('Bonanza_Type').value == 1 || addBonanzaForm.get('Bonanza_Type').value == 3">
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label>Bonanza Amount</nz-form-label>
+            <nz-form-control nzRequired>
+              <input nz-input formControlName="Amount" placeholder="please enter Bonanza Amount" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label>Bonanza Points</nz-form-label>
+            <nz-form-control nzRequired>
+              <input nz-input formControlName="Points" placeholder="please enter Bonanza Points" />
+
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row nzGutter="8">
+        <div nz-col nzSpan="12">
+          <div nz-row nzGutter="8">
+            <div nz-col nzSpan="12">
+              <nz-form-item>
+                <nz-form-label>From Date</nz-form-label>
+                <nz-form-control nzRequired>
+                  <nz-date-picker nzPlaceHolder="From Date" formControlName="Start_Date"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="12">
+              <nz-form-item>
+                <nz-form-label>End Date</nz-form-label>
+                <nz-form-control nzRequired>
+                  <nz-date-picker formControlName="End_Date"></nz-date-picker>
+
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div>
+        
+
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label>Bonanza Description</nz-form-label>
+            <nz-form-control nzRequired>
+              <textarea nz-input style="height: 120px;" formControlName="Description" placeholder="please enter Bonanza Description" ></textarea>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+      </div>
+
+
+        <div nz-row [nzGutter]="16" *ngIf="addBonanzaForm.get('Bonanza_Type').value == 1 || addBonanzaForm.get('Bonanza_Type').value == 3">
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label nzFor="Cluster" nzRequired>Points Level Data</nz-form-label>
+              <nz-form-control>
+                <div style="margin-bottom: 10px;">
+                  <button nz-button nz-tooltip nzTitle="Add Points Level Data" (click)="addPointsLevelControls()"><i
+                      class="fa fa-plus" aria-hidden="true"></i> Add Points Level Data</button>
+                </div>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row [nzGutter]="16">
+          <div nz-col nzSpan="24">
+            <nz-form-item formArrayName="Bonanza_Points_Data">
+              <ng-container *ngFor="let authCotrols of arrayControls.controls; let j=index">
+                <div [formGroupName]="j">
+                  <div nz-row nzGutter="8">
+                    <div nz-col nzSpan="5">
+                      <nz-form-item>
+                        <nz-form-label nzSpan="24">Points Levels</nz-form-label>
+                        <nz-form-control nzSpan="24" nzRequired>
+                          <input formControlName="Levels" nz-input placeholder="please enter Points Levels" />
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                    <div nz-col nzSpan="5">
+                      <nz-form-item>
+                        <nz-form-label nzSpan="24">Min Points</nz-form-label>
+                        <nz-form-control nzSpan="24">
+                          <input formControlName="Min_Points" nz-input placeholder="please enter Min Points" />
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                    <div nz-col nzSpan="5">
+                      <nz-form-item>
+                        <nz-form-label nzSpan="24">Max Points</nz-form-label>
+                        <nz-form-control nzSpan="24">
+                          <input formControlName="Max_Points" nz-input placeholder="please enter Max Points" />
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                    <div nz-col nzSpan="5">
+                      <nz-form-item>
+                        <nz-form-label nzSpan="24">Winning</nz-form-label>
+                        <nz-form-control nzSpan="24">
+                          <input formControlName="Winning" nz-input placeholder="please enter Winning" />
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                    <div nz-col nzSpan="2">
+                      <nz-form-item>
+                        <nz-form-control>
+                          <button nz-button nzType="link" nz-tooltip nzTitle="Remove Points Level Data"
+                            [disabled]="addBonanzaForm.get('Bonanza_Points_Data').value.length==1"
+                            (click)="onRemovePointsLevelDataControls(j)" class="removeButton"><i class="fa fa-minus"
+                              aria-hidden="true"></i></button>
+                        </nz-form-control>
+                      </nz-form-item>
+
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row [nzGutter]="16" *ngIf="addBonanzaForm.get('Bonanza_Type').value == 2 || addBonanzaForm.get('Bonanza_Type').value == 3">
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label nzFor="Cluster" nzRequired>Matrix Levels Data</nz-form-label>
+              <nz-form-control>
+                <div style="margin-bottom: 10px;">
+                  <button nz-button nz-tooltip nzTitle="Add Matrix Levels Data" (click)="addMatrixLevelsControls()"><i
+                      class="fa fa-plus" aria-hidden="true"></i> Add Matrix Levels Data</button>
+                </div>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row [nzGutter]="16">
+          <div nz-col nzSpan="24">
+            <nz-form-item formArrayName="Bonanza_Matrix_Data">
+              <ng-container *ngFor="let authCotrols of MatrixLevelsControls.controls; let i=index">
+                <div [formGroupName]="i">
+                  <div nz-row nzGutter="8">
+                    <div nz-col nzSpan="5">
+                      <nz-form-item>
+                        <nz-form-label nzSpan="24">Matrix Levels</nz-form-label>
+                        <nz-form-control nzSpan="24">
+                          <input formControlName="Levels" nz-input placeholder="please enter Matrix Levels" />
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                    <div nz-col nzSpan="5">
+                      <nz-form-item>
+                        <nz-form-label nzSpan="24">Matrix</nz-form-label>
+                        <nz-form-control nzSpan="24">
+                          <input formControlName="Matrix" nz-input placeholder="please enter Matrix" />
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                    <div nz-col nzSpan="5">
+                      <nz-form-item>
+                        <nz-form-label nzSpan="24">Winning</nz-form-label>
+                        <nz-form-control nzSpan="24">
+                          <input formControlName="Winning" nz-input placeholder="please enter Winning" />
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="2">
+                      <nz-form-item>
+                        <nz-form-control>
+                          <button nz-button nzType="link" nz-tooltip nzTitle="Remove Matrix Levels Data"
+                            [disabled]="addBonanzaForm.get('Bonanza_Matrix_Data').value.length==1"
+                            (click)="onRemoveMatrixLevelsDataControls(i)" class="removeButton"><i class="fa fa-minus"
+                              aria-hidden="true"></i></button>
+                        </nz-form-control>
+                      </nz-form-item>
+
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </nz-form-item>
+          </div>
+        </div>
+      <div class="footer">
+        <div nz-row [nzGutter]="16">
+          <div nz-col nzSpan="3">
+            <button nz-button nzType="default" class="primary_button1 ant-btn ant-btn-defalt"
+              (click)="BonanzaClose()"><span>Cancel</span></button>
+          </div>
+              <div nz-col nzSpan="3">
+            <button nz-button nzType="primary" [nzLoading]="isAddBtnLoading" class="primary_button1 ant-btn ant-btn-primary"
+              (click)="SubmitBonanzaForm()"><span>{{!isBonanzaEditing ?'Create Bonanza':'Update Bonanza'}}</span></button>
+          </div>
+        </div>
+      </div>
+      <!-- {{addBonanzaForm.value| json}} -->
+    </form>
+    <!-- </nz-drawer> -->
+  </div>
+</div>
+
+
+<div nz-row *ngIf="!visible">
+  <div nz-col nzSpan="24">
+    <form nz-form [nzLayout]="'inline'" [formGroup]="selectBonanzaStatusForm">
+      <div nz-row>
+        <div nz-col nzSpan="10">
+          <nz-form-item>
+            <nz-form-label>Selected Date</nz-form-label>
+            <nz-form-control>
+              <nz-range-picker [nzFormat]="'dd-MM-yyyy'" formControlName="daterange"></nz-range-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="8">
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label nzFor="CountryName" nzRequired>Bonanza Status</nz-form-label>
+              <nz-form-control class="countryListDropdown">
+                <nz-select style="width: 180px;" formControlName="Bonanza_Status" nzShowSearch
+                  nzPlaceHolder="Select Bonanza Status">
+                  <nz-option *ngFor="let item of BonanzaStatusData; let i=index" [nzValue]="item.ind"
+                    [nzLabel]="item.Bonanza_Status"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+     
+    </form>
+  </div>
+
+  <div nz-col nzSpan="24" style="margin-top: 20px;">
+    <nz-table #basicTable nzShowPagination="false" [nzLoading]="isloading" nzLoadingDelay="1"
+      [nzData]="ListAllBonanzaData" style="background: #FFF;margin:30px 0px;">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Bonanza Code</th>
+          <th>Bonanza Name</th>
+          <th>Bonanza Type</th>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Start & End Date</th>
+          <th *ngIf="selectBonanzaStatusForm.get('Bonanza_Status').value == 5">Status</th>
+          <th>Edit</th>
+          <th>Actions</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let data of ListAllBonanzaData;let i=index">
+          <tr>
+            <td>
+              <a (click)="onDetail_View(data,i)">
+                <i class="fa fa-caret-down" style="cursor: pointer;font-size: 18px" *ngIf="isDetailsView!=i"
+                  aria-hidden="true"></i>
+                <i class="fa fa-caret-up" style="cursor: pointer;font-size: 18px" *ngIf="isDetailsView==i"
+                  aria-hidden="true"></i>
+              </a>
+            </td>
+            <td>{{data.Bonanza_Code}}</td>
+            <td>{{data.Name}}</td>
+            <td *ngIf="data.Bonanza_Type==1">Points</td>
+            <td *ngIf="data.Bonanza_Type==2">Matrix</td>
+            <td *ngIf="data.Bonanza_Type==3">both</td>
+            <td>{{data.Description}}</td>
+            <td>{{data.Points_Calculation_Data.Amount}}</td>
+            <td>{{data.Start_Date | date:'medium'}} To<br/> {{data.End_Date | date:'medium'}}</td>
+            <td *ngIf="selectBonanzaStatusForm.get('Bonanza_Status').value == 5">
+              <span *ngIf="data.Bonanza_Status == 1">Live</span>
+              <span *ngIf="data.Bonanza_Status == 2">Completed</span>
+              <span *ngIf="data.Bonanza_Status == 3">Cancelled</span>
+              <span *ngIf="data.Bonanza_Status == 4">Upcoming</span>
+            </td>
+            <td><span (click)="onEditBonanza(data)"><i class="fa fa-edit" aria-hidden="true"></i></span></td>
+           
+              <td>
+                <span [ngSwitch]="data.Bonanza_Status">
+                  <span *ngSwitchCase=1>
+                    <a nz-popconfirm (nzOnConfirm)="onAction(data)"
+                      nzTitle="Are you sure you want to Inactive this?">Make Inactive</a>
+                  </span>
+                  <span *ngSwitchCase=3>
+                    <a style="color: red;" nz-popconfirm (nzOnConfirm)="onAction(data)"
+                      nzTitle="Are you sure you want to Active this?">Make Active</a>
+                  </span> 
+  
+                  <span *ngSwitchDefault>
+                    NA
+                  </span>
+                </span>
+              </td>
+              <td><i class="fa fa-trash" aria-hidden="true" style="color: red;" 
+                nz-popconfirm nzTitle="Are you sure delete this ?" (nzOnConfirm)="onDeletedBonanza(data,i)"></i></td>
+          </tr>
+          <tr [nzExpand]="isDetailsView==i">
+            <td></td>
+            <td colspan="9">
+              <nz-tabset>
+                <nz-tab nzTitle="Bonanza Points Data">
+                  <nz-table #basicTable nzShowPagination="false"
+                    [nzData]="data.Bonanza_Points_Data" style="background: #FFF;margin:30px 0px;">
+                    <thead>
+                      <tr>
+                        <th>Levels</th>
+                        <th>Max Points</th>
+                        <th>Min Points</th>
+                        <th>Winning</th>
+                      </tr>
+                    </thead>
+
+      <tbody>
+        <tr *ngFor="let item of data.Bonanza_Points_Data;let i=index">
+          <td>{{item.Levels}}</td>
+          <td>{{item.Max_Points}}</td>
+          <td>{{item.Min_Points}}</td>
+          <td>{{item.Winning}}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+    </nz-tab>
+    <nz-tab nzTitle="Bonanza Matrix Data">
+      <nz-table #basicTable nzShowPagination="false"
+        [nzData]="data.Bonanza_Matrix_Data" style="background: #FFF;margin:30px 0px;">
+        <thead>
+          <tr>
+            <th>Levels</th>
+            <th>Matrix</th>
+            <th>Winning</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of data.Bonanza_Matrix_Data;let i=index">
+            <td>{{item.Levels}}</td>
+            <td>{{item.Matrix}}</td>
+            <td>{{item.Winning}}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-tab>
+    </nz-tabset>
+    </td>
+    </tr>
+    </ng-container>
+    </tbody>
+    </nz-table>
+  </div>
+</div>

@@ -1,0 +1,105 @@
+<nz-card style="width:800px;" nzTitle="Add Shop">
+  <form nz-form #vendorRegistrationForm="ngForm">
+    <div>
+      <b>Introducer Details</b>
+    </div>
+    <div nz-row nzGutter="8" style="margin-top: 25px;">
+      <div nz-col nzSpan="10">
+        <nz-form-item>
+          <nz-form-control>
+            <input id="Introducer_Name" required type="text" placeholder="Introducer Name" nz-input ngModel
+              name="Introducer_Name">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="10" [nzOffset]="2">
+        <nz-form-item>
+          <nz-form-control>
+            <input id="Introducer_PhoneNumber" ZeronumbersOnly maxlength="10" required type="text"
+              placeholder="Introducer Phone Number" nz-input ngModel name="Introducer_PhoneNumber">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row nzGutter="8">
+      <div nz-col nzSpan="10">
+        <nz-form-item>
+          <nz-form-control>
+            <input id="Introducer_PAN" required type="text"  placeholder="Introducer Pancard Number" nz-input ngModel
+              name="Introducer_PAN" 
+              oninput="this.value=this.value.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '').toUpperCase()">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="10" [nzOffset]="2">
+        <div nz-row nzGutter="8">
+          <div nz-col nzSpan="12">
+            <nz-upload class="avatar-uploader" nzAction="https://api.dogemo.com/upload/" nzName="avatar"
+              nzListType="picture-card" [nzShowUploadList]="false" [nzBeforeUpload]="beforeUpload">
+              <ng-container *ngIf="fileList.length==0">
+                <i class="upload-icon" nz-icon></i>
+                <div class="ant-upload-text">Upload PANCARD Image</div>
+              </ng-container>
+              <img *ngIf="fileList.length>0" [src]="fileList[0].url" class="avatar" />
+            </nz-upload>
+          </div>
+          <div nz-col style="text-align: center;" nzSpan="12" *ngIf="fileList.length>0" >
+            <a target="_blank" [attr.href]="fileList[0].ImageOriginal">Click To view Pancard</a>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div>
+        <b>Shop Details</b>
+      </div>
+    <div nz-row nzGutter="8" style="margin-top: 25px;">
+      <div nz-col nzSpan="10">
+        <nz-form-item>
+          <nz-form-control>
+            <input id="Shop_Name" required type="text" placeholder="Shop Name" nz-input ngModel name="Shop_Name">
+
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="10" [nzOffset]="2">
+        <nz-form-item>
+          <nz-form-control>
+            <input id="Shop_PhoneNumber" ZeronumbersOnly maxlength="10" required type="text"
+              placeholder="Shop Phone Number " nz-input ngModel name="Shop_PhoneNumber">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row nzGutter="8">
+      <div nz-col nzSpan="10">
+        <nz-form-item>
+          <nz-form-control>
+            <input id="GST_Number" required type="text"  placeholder="Shop GST Number" nz-input ngModel
+              name="GST_Number" 
+              oninput="this.value=this.value.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '').toUpperCase()"
+             maxlength="15">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      </div>
+    <nz-form-item>
+      <nz-form-control [nzSpan]="10">
+        <input id="pac-input" [required]="Latitude!=undefined" placeholder="Search Shop Address" type="text" nz-input
+          [(ngModel)]="Address" name="Address">
+
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzSpan]="24">
+        <div id="map"></div>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary" [nzLoading]="isAdding" [disabled]="!vendorRegistrationForm.valid"
+          (click)="onSubmitVendor(vendorRegistrationForm)">Submit</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+
+</nz-card>

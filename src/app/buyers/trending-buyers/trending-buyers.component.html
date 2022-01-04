@@ -1,0 +1,105 @@
+<!-- <div nz-row class="VendorOrderScetion">
+  <form class="vendorQForm" nz-form [nzLayout]="'inline'" [formGroup]="trendingBuyersForm"
+    (ngSubmit)="onSubmitTrendingBuyersForm()">
+    <div nz-col nzSpan="4">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-form-control>
+            <nz-date-picker nzPlaceHolder="From Date" formControlName="Start_Date"></nz-date-picker>
+            <nz-form-explain
+              *ngIf="trendingBuyersForm.get('Start_Date')?.dirty && trendingBuyersForm.get('Start_Date')?.errors">
+              Please Select City!
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="4">
+      <nz-form-item>
+        <nz-form-control>
+         
+          <nz-form-control>
+            <nz-date-picker formControlName="End_Date"></nz-date-picker>
+            <nz-form-explain
+              *ngIf="trendingBuyersForm.get('End_Date')?.dirty && trendingBuyersForm.get('End_Date')?.errors">
+              Please Select End_Date!
+            </nz-form-explain>
+          </nz-form-control>
+
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="6">
+      <nz-form-item>
+       
+          <nz-form-label nzFor="Shop" nzRequired>All Shops </nz-form-label>
+          <nz-form-control>
+            <nz-switch formControlName="Whether_All_Shops" [nzCheckedChildren]="checkedTemplate" [nzUnCheckedChildren]="unCheckedTemplate">
+            </nz-switch>
+            <ng-template #checkedTemplate><i nz-icon type="check"></i></ng-template>
+            <ng-template #unCheckedTemplate><i nz-icon type="close"></i></ng-template>
+          </nz-form-control>
+      
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="4">
+      <nz-form-item>
+       
+          <nz-form-control>
+            <nz-select  style="width: 220px;"  [nzDisabled]="trendingBuyersForm.value.Whether_All_Shops" formControlName="selectedShop" nzShowSearch nzAllowClear nzPlaceHolder="Select Shop">
+              <nz-option *ngFor="let item of ShopList; let i=index" [nzValue]="item"
+                [nzLabel]="item.Shop_Name +'-'+item.Shop_PhoneNumber"></nz-option>
+            </nz-select>
+            <nz-form-explain
+              *ngIf="trendingBuyersForm.get('selectedShop')?.dirty && trendingBuyersForm.get('selectedShop')?.errors">
+              Please Select Shop!
+            </nz-form-explain>
+          </nz-form-control>
+       
+      </nz-form-item>
+    </div>
+    <div nz-col nzOffset="1" nzSpan="3">
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary">Filter</button>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+</form>
+
+
+</div>
+<div nz-row style="margin-top: 25px;">
+    <div nz-col nzSpan="24">
+        <nz-table #basicTable 
+         nzShowPagination="false" 
+         [nzLoading]="isloading"
+         nzLoadingDelay="1"
+          [nzData]="trendingBuyersList">
+            <thead (nzSortChange)="sort($event)" >
+              <tr>
+                <th>S.No</th>
+                <th>Buyer Name</th>
+                <th>Buyer PhoneNumber</th>
+                <th nzShowSort nzSort="Sum_of_Total_Amount" >Sum of Total Amount</th>
+                <th>Buyer Available Amount</th>
+                <th>With Drawn Amount</th>
+                <th>Buyer Withdrawn Amount</th>
+               
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of trendingBuyersList;let i=index">
+                <td>{{(i+1)+((currentPage - 1) * limit)}}</td>
+                <td>{{data.Buyer_Name}}</td>
+                <td>{{data.Buyer_PhoneNumber}}</td>
+                <td>{{data.Sum_of_Total_Amount}}</td>
+                <td>{{data.Buyer_Available_Amount | number}}</td>
+                <td>{{data.Buyer_Withdrawn_Amount | number}}</td>
+                <td>{{data.Buyer_Total_Amount | number}}</td>
+              </tr>
+            </tbody>
+          </nz-table>
+      </div>
+</div>
+<nz-pagination (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage" [nzTotal]="TotalItems"></nz-pagination> -->

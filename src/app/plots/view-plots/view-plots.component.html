@@ -1,0 +1,230 @@
+<div nz-row nzGutter="8">
+  <div nz-col nzSpan="20">
+    <nz-tabset>
+      <nz-tab (nzClick)="onTabClick(1)" nzTitle="View Plots">
+      </nz-tab>
+      <nz-tab (nzClick)="onTabClick(2)" nzTitle="Inactivated Plots">
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</div>
+<div nz-row nzGutter="8">
+  <div nz-col nzSpan="24">
+    <nz-table #basicTable nzSize="small" nzLoadingDelay="2" [nzLoading]="isLoading" nzShowPagination="false"
+      [nzData]="plotsList">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th>S.No</th>
+          <th>Plot Name</th>
+          <th>Company Name</th>
+          <th>Description</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let data of plotsList;let i=index">
+          <tr *ngIf="Status==1&&data.Status==true">
+            <td>
+              <i (click)="onEditBasicInfo(data,1)" style="cursor: pointer" nz-icon nzType="edit" nzTheme="outline"></i>
+            </td>
+            <td>
+              <a (click)="onDetail_View(data,i)">
+                <i style="cursor: pointer;font-size: 18px" nz-icon [type]="'caret-down'" *ngIf="isDetailsView!=i"
+                  theme="outline"></i>
+                <i style="cursor: pointer;font-size: 18px" nz-icon type="caret-up" *ngIf="isDetailsView==i"
+                  theme="outline"></i>
+              </a>
+            </td>
+            <td>{{data.SNo}}</td>
+            <td>{{data.Plot_Name}}</td>
+            <td>{{data.Company_Name}}</td>
+            <td>{{data.Description}}</td>
+
+            <td>
+              <span [ngSwitch]="data.Status">
+                <span *ngSwitchCase=true>
+                  <a nz-popconfirm (nzOnConfirm)="onAction(data)" nzTitle="Are you sure you want to Inactive this?"
+                    >Delete</a>
+                </span>
+                <span *ngSwitchCase=false>
+                  <a style="  color: red;" nz-popconfirm (nzOnConfirm)="onAction(data)"
+                    nzTitle="Are you sure you want to Active this?" >Make Active</a>
+                </span>
+
+                <span *ngSwitchDefault>
+                  NA
+                </span>
+              </span>
+            </td>
+            <ng-template #iconTpl>
+              <i nz-icon nzType="question-circle" nzTheme="outline"></i>
+            </ng-template>
+            <td>{{data.created_at  | date: _appService.dateFormat}}
+          </tr>
+          <tr *ngIf="Status==2&&data.Status==false">
+            <td>
+              <a (click)="onDetail_View(data,i)">
+                <i style="cursor: pointer;font-size: 18px" nz-icon [type]="'caret-down'" *ngIf="isDetailsView!=i"
+                  theme="outline"></i>
+                <i style="cursor: pointer;font-size: 18px" nz-icon type="caret-up" *ngIf="isDetailsView==i"
+                  theme="outline"></i>
+              </a>
+            </td>
+            <td>{{data.SNo}}</td>
+            <td>{{data.Plot_Name}}</td>
+            <td>{{data.Company_Name}}</td>
+            <td>{{data.Description}}</td>
+
+            <td>
+              <span [ngSwitch]="data.Status">
+                <span *ngSwitchCase=true>
+                  <a nz-popconfirm (nzOnConfirm)="onAction(data)" nzTitle="Are you sure you want to Inactive this?"
+                   >Delete</a>
+                </span>
+                <span *ngSwitchCase=false>
+                  <a style="  color: red;" nz-popconfirm (nzOnConfirm)="onAction(data)"
+                    nzTitle="Are you sure you want to Active this?">Make Active</a>
+                </span>
+
+                <span *ngSwitchDefault>
+                  NA
+                </span>
+              </span>
+            </td>
+            <ng-template #iconTpl>
+              <i nz-icon nzType="question-circle" nzTheme="outline"></i>
+            </ng-template>
+            <td>{{data.created_at  | date: _appService.dateFormat}}
+          </tr>
+          <tr [nzExpand]="isDetailsView==i">
+            <td nzWidth="50px" style=" background-color: #FF7F50;"></td>
+            <td style="padding-top: 2em;padding-bottom: 2em" [attr.colspan]="7">
+              <nz-tabset>
+                <nz-tab nzTitle="Baic info">
+                  <div nz-row nzGutter="8">
+                    <div nz-col nzSpan="12">
+                      <div nz-row class="individualRow">
+                        <div nz-col nzSpan="24">
+                          <span>
+                            <b>Company Image : </b> <a [attr.href]="data.Company_Image_Data.ImageOriginal"
+                              target="_blank">Click to View</a>&nbsp;<i (click)="onUpdate(3,data)" nz-icon nzType="edit"
+                              nzTheme="outline"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div nz-col nzSpan="12">
+                      <div nz-row class="individualRow">
+                        <div nz-col nzSpan="24">
+                          <span>
+                            <b>Plot File : </b> <a [attr.href]="data.FileData.File_Path" target="_blank">Click to
+                              View</a>&nbsp;<i nz-icon (click)="onUpdate(2,data)" nzType="edit" nzTheme="outline"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </nz-tab>
+                <nz-tab nzTitle="Plot Images">
+                  <div nz-row nzGutter="8">
+                    <div nz-col nzSpan="24">
+                        <button style="    float: right;" nz-button nzType="primary" (click)="onUpdate(4,data)">Update Plot Images</button>
+                      <nz-upload [nzRemove]="onRemove" [nzShowUploadList]="showUploadList" nzListType="picture-card"
+                        class="upload-list-inline" nzDisabled="true" nzShowButton="false" [(nzFileList)]="plotImages">
+                      </nz-upload>
+                    </div>
+                  </div>
+                </nz-tab>
+              </nz-tabset>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>
+  </div>
+  <nz-pagination [nzShowTotal]="totalTemplate" (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit"
+    [nzPageIndex]="currentPage" [nzTotal]="Count"></nz-pagination>
+  <ng-template #totalTemplate let-total>Total {{ Count }} items</ng-template>
+</div>
+<nz-drawer [nzWidth]="850" [nzVisible]="updateimageDrawer" nzPlacement="right" [nzTitle]="drawerTitle"
+  (nzOnClose)="onCLoseDrawer()">
+  <ng-template #drawerTitle>
+    <span *ngIf="selectedPlotData.length>0">Plot Name is {{ selectedPlotData[0].Plot_Name}}</span>
+  </ng-template>
+  <div *ngIf="updatingImageType==1">
+    <div nz-row>
+      <div nz-col nzSpan="16">
+        <form nz-form [formGroup]="updateForm">
+          <nz-form-item>
+            <nz-form-control [nzSpan]="12" nzErrorTip="Please input Plot Name!">
+              <input formControlName="Plot_Name" placeholder="Plot Name" type="text" nz-input>
+              <nz-form-explain *ngIf="updateForm.get('Plot_Name')?.dirty && updateForm.get('Plot_Name')?.errors">
+                Please input Plot Name!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control [nzSpan]="12" nzErrorTip="Please input Company Name!">
+              <input formControlName="Company_Name" placeholder="Company Name" type="text" nz-input>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control [nzSpan]="12" nzErrorTip="Please input Description!">
+              <textarea rows="4" formControlName="Description" placeholder="Description" nz-input></textarea>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control [nzSpan]="12">
+              <input id="pac-input" formControlName="googleAddress" [required]="lat_marker!=undefined"
+                placeholder="Search Address" type="text" nz-input>
+            </nz-form-control>
+            <nz-form-explain *ngIf="updateForm.get('Address')?.dirty && updateForm.get('Address')?.errors">
+              Please select Address from maps!</nz-form-explain>
+
+          </nz-form-item>
+          <!-- <nz-form-item>
+            <nz-form-control [nzSm]="16">
+              <agm-map  [latitude]="lat_marker" [longitude]="lng_market" fullscreenControl="true">
+                <agm-marker [markerDraggable]=true (dragEnd)="ondragEnd($event)" [latitude]="lat_marker"
+                  [longitude]="lng_market">
+                </agm-marker>
+              </agm-map>
+            </nz-form-control>
+          </nz-form-item> -->
+          <nz-form-item>
+            <nz-form-control>
+              <button nz-button nzType="primary" [nzLoading]="isUpdating" (click)="onUpdateBasicInfo()">Update</button>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="updatingImageType==2 || updatingImageType==3 || updatingImageType==4">
+    <nz-form-control [nzSpan]="8">
+      <div class="clearfix">
+
+        <nz-upload [nzCustomRequest]="customReq" class="upload-list-inline" nzLimit="1"
+          [(nzFileList)]="imageOrFileList">
+          <button nz-button>
+            <span><i nz-icon nzType="upload"></i> {{updatingImageType==2?'Selecte Plot Doc':updatingImageType==3?'Select Company Image':'Select Plot Images'}}</span>
+          </button>
+        </nz-upload>
+      </div>
+    </nz-form-control>
+    <nz-form-control [nzSpan]="8">
+        <button nz-button nzType="primary" [nzLoading]="isUpdating" (click)="onUpdateCompanyImageORDoc()">Update</button>
+
+      </nz-form-control>
+
+   
+  </div>
+
+
+</nz-drawer>

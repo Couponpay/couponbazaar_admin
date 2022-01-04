@@ -1,0 +1,102 @@
+<!-- <nz-table #basicTable 
+nzShowPagination="false"
+[nzData]="offersList">
+    <thead>
+      <tr>
+          <th>S.No</th>
+          <th>Offer Created Date</th>
+          <th>Description</th>
+          <th>No of Buyers</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of offersList; let i=index">
+          <td>{{i+1}}</td>
+          <td>{{item.created_at | date:'medium'}}</td>
+          
+            <td *ngIf="item.Type==1">
+              Offer for <b>All Buyers</b>&nbsp;<i nz-popover nzTitle="Offer Message" [nzContent]="contentTemplate" nzPlacement="top"
+              class="fas fa-info-circle"></i>  ,it will expiry on {{item.Expiry_Date| date:'medium'}} and Offer value is {{item.Buyer_Deduction_Amount}} Rs.
+              Offer Amount b/w is {{item.Buyer_Min_Amount}} Rs to {{item.Buyer_Max_Amount}} Rs
+              
+              
+            </td>
+            <td *ngIf="item.Type==2">
+                Offer for  <b>{{item.ShopData.Shop_Name}} Shop </b>, it will expiry on {{item.Expiry_Date| date:'medium'}}
+                Offer value is {{item.Buyer_Deduction_Amount}} Rs.
+                Offer Amount b/w  {{item.Buyer_Min_Amount}} Rs to {{item.Buyer_Max_Amount}}Rs
+                <i nz-popover nzTitle="Offer Message" [nzContent]="contentTemplate" nzPlacement="right"
+                  class="fas fa-info-circle"></i> 
+               
+              </td>
+              <td *ngIf="item.Type==3">
+                  Offer for <b>{{item.Buyers_Information[0].Buyer_Name}}(Buyer)</b> ,it will expiry on {{item.Expiry_Date| date:'medium'}} 
+                  Offer value is {{item.Buyer_Deduction_Amount}} Rs.
+                  Offer Code is "{{item.Message}}"
+                 
+                </td>
+                <td> <a (click)="OnBuyerLogs(item)" routerLinkActive="router-link-active" >{{item.No_of_Buyers}}</a></td>
+                <ng-template #contentTemplate>
+                  <div>
+                    <p>{{item.Message}}</p>
+                   
+                  </div>
+                </ng-template>
+      </tr>
+    </tbody>
+  </nz-table>
+  <nz-pagination (nzPageIndexChange)="onNextPage_Offers($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage_Offers"  [nzTotal]="totalItem"></nz-pagination>
+
+
+  <nz-modal  style="width:60%"
+  [(nzVisible)]="isbuyerModal"
+  nzWidth="70%"
+  [nzBodyStyle]="{padding:'25px'}"
+  nzFooter=" "
+   nzTitle="Buyers List" 
+   (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+   <nz-table #basicTable
+   [nzScroll]="{ x:'800px' }"
+   nzShowPagination="false"
+   [nzData]="buyersList">
+       <thead>
+         <tr>
+             <th>S.No</th>
+             <th>created Date</th>
+             <th>Phone Number</th>
+             <th>Description</th>
+            
+             <th></th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr *ngFor="let item of buyersList; let i=index">
+             <td>{{i+1}}</td>
+             <td>{{item.created_at | date:'medium'}}</td>
+             <td>{{item.Buyer_PhoneNumber}}</td>
+             <td *ngIf="item.OfferStatus==1">
+                <nz-tag [nzColor]="'#108ee9'">
+                    {{item.Buyer_Name}} has still an offer ,he can redeem with {{item.OfferCode}} code at any outlets And offer worth is {{item.Buyer_Deduction_Amount}}
+                </nz-tag>
+             </td>
+             <td *ngIf="item.OfferStatus==2">
+                <nz-tag [nzColor]="'green'">{{item.Buyer_Name}}Sucessfully Reddemed with {{item.OfferCode}} code at {{item.Applied_Shop_Details.Shop_Name}} Shop and offer vale is {{item.Buyer_Deduction_Amount}}</nz-tag>
+            </td>
+               <td *ngIf="item.OfferStatus==3">
+                  <nz-tag [nzColor]="'red'">
+                      {{item.Buyer_Name}} missed the offer.and it worth is {{item.Buyer_Deduction_Amount}}
+                  </nz-tag>
+               </td>
+                   <ng-template #contentTemplate>
+                     <div>
+                       <p>{{item.Message}}</p>
+                      
+                     </div>
+                   </ng-template>
+         </tr>
+       </tbody>
+     </nz-table>
+     <nz-pagination (nzPageIndexChange)="onNextPage_Buyers($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage_Buyers"  [nzTotal]="buyersList_count"></nz-pagination>
+  </nz-modal>
+
+ -->

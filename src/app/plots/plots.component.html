@@ -1,0 +1,10 @@
+<ul nz-menu nzMode="horizontal">
+  <li nz-menu-item [routerLink]="['add']" routerLinkActive="ant-menu-item-selected">
+    Add Plots
+  </li>
+  <li nz-menu-item [routerLink]="['view']" routerLinkActive="ant-menu-item-selected">
+    View Plots
+  </li>
+  <div class="maincontent">
+    <router-outlet></router-outlet>
+  </div>

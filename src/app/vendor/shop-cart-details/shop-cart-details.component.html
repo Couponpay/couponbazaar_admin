@@ -1,0 +1,120 @@
+<nz-button-group>
+  <button nz-button [routerLink]="['/dashboard','vendor','shoptPurchases']" nzType="dashed"><i nz-icon type="left"></i>
+    Go back</button>
+</nz-button-group>
+
+<p>{{shopName}} shop cart details</p>
+<div nz-row>
+  <div nz-col nzSpan="12">
+    <div style="background: white">
+      <nz-table #basicTable nzShowPagination="false" [nzScroll]="{y: '240px' }" [nzData]="cartDetails">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Product Details
+              <i class="fa fa-info-circle" nzTitle="PriceXQuantity=Total" nzPlacement="topLeft" nz-tooltip
+                nzTrigger="hover" style="font-size:15px"></i>
+            </th>
+            <th nzWidth="100px" nzRight="0px"></th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of cartDetails">
+            <td>{{data.Product_Name}}</td>
+            <td>{{data.Product_Price}}X{{data.Product_Quantity}}={{data.Product_Sub_Total}}</td>
+            <td nzRight="0px"><a nz-popover nzTitle="Shares" [nzContent]="contentTemplate" nzPlacement="left">shares</a>
+            </td>
+            <ng-template #contentTemplate>
+              <div>
+                <p>Introducer Share: {{data.Product_Price_Divisions.Introducer_Share}}%</p>
+                <p>Buyer Share : {{data.Product_Price_Divisions.Buyer_Share}}%</p>
+                <p>Trimer Share : {{data.Product_Price_Divisions.Trimer_Share}}%</p>
+
+                <p> Shop Share : {{data.Product_Price_Divisions.Shop_Share}}%</p>
+                <p>Company Share : {{data.Product_Price_Divisions.Company_Share}}%</p>
+
+              </div>
+            </ng-template>
+          </tr>
+        
+                
+
+        </tbody>
+      </nz-table>
+    </div>
+
+    <nz-card style="margin-top: 20px;" nzTitle="change status" *ngIf="singleShopDetails.PurchaseStatus<5">
+      <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzRequired>Change Status</nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <nz-select style="width: 100%;" formControlName="changestatus" nzAllowClear nzPlaceHolder="Change Status">
+              <nz-option [nzValue]="changestatus" [nzLabel]="changestatus"></nz-option>
+            </nz-select>
+            <nz-form-explain
+              *ngIf="validateForm.get('changestatus').dirty&&validateForm.get('changestatus').hasError('required')">
+              Please Select Status!</nz-form-explain>
+
+          </nz-form-control>
+        </nz-form-item>
+
+
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzRequired>Description</nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <textarea formControlName="comment" nz-input rows="2" placeholder="write Desc thing"></textarea>
+            <nz-form-explain
+              *ngIf="validateForm.get('comment').dirty&&validateForm.get('comment').hasError('required')">Please write
+              something here!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control style="    text-align: center;" [nzSpan]="24">
+
+            <button nz-button [nzType]="'primary'">Update</button>
+
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+
+    </nz-card>
+  </div>
+  <div nz-col nzSpan="4">
+
+  </div>
+  <div nz-col nzSpan="8">
+    <nz-card nzTitle="{{shopName}} Purchase Logs">
+     
+      <nz-timeline>
+        <nz-timeline-item *ngFor="let item of PurchaseLogs.reverse() ; let i=index">
+          <span [ngSwitch]="item.PurchaseStatus">
+            <p *ngSwitchCase="1">
+              Order Placed
+            </p>
+            <p *ngSwitchCase="2">
+              Order Accepted
+            </p>
+            <p *ngSwitchCase="3">
+              Order Shipped
+            </p>
+            <p *ngSwitchCase="4">
+              Shippment Notifications
+            </p>
+            <p *ngSwitchCase="5">
+              Order Delivered
+            </p>
+
+            <p *ngSwitchDefault>
+              No Status
+            </p> {{item.Time | date:'medium'}}
+            <p>{{item.Description}}</p>
+          </span>
+        </nz-timeline-item>
+
+      </nz-timeline>
+    </nz-card>
+
+  </div>
+
+</div>

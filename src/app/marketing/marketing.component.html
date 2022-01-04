@@ -1,0 +1,175 @@
+<nz-tabset>
+  <nz-tab (nzClick)="ontabclicking(3)" nzTitle="Big Banners">
+
+  </nz-tab>
+  <nz-tab (nzClick)="ontabclicking(1)" nzTitle="Small Banners">
+
+  </nz-tab>
+  <nz-tab (nzClick)="ontabclicking(2)" nzTitle="Small Icons">
+
+  </nz-tab>
+</nz-tabset>
+<div nz-row class="row" style="text-align: right">
+  <button nz-button nzType="primary" (click)="onAddImage()">Add Image</button>
+</div>
+<!-- <div *ngIf="!isImageAdding">
+  <div class="clearfix">
+    <nz-upload nzListType="picture-card"  [nzRemove]="onRemove" class="upload-list-inline" nzDisabled="false" nzShowButton="true"
+      [(nzFileList)]="bigBannersimages">
+      <button nz-button>
+        <i nz-icon nzType="edit" style="cursor: pointer;color: blue; font-size: 18px;"
+        (click)="EditImage()" nzTheme="outline"></i>&nbsp;
+      </button>
+    </nz-upload>
+   
+  </div>
+</div>  -->
+
+<div nz-row *ngIf="!isImageAdding && !isImageEditing" style="margin-top: 10px;">
+  <nz-card>
+  <div nz-col >
+    <nz-table #basicTable  nzShowPagination="false" [nzData]="marketingList">
+      <thead>
+        <tr>
+          <th>SNo</th>
+          <th>Banner Image</th>
+          <th></th>
+          <!-- <th>Admin Permision</th> -->
+         
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of marketingList">
+          <td>{{ data.SNo }}</td>
+          <td>
+            <a target="_blank"
+            [attr.href]="data.ImageData.ImageOriginal">Clic To View</a>
+          </td>
+          <!-- <td>
+            <i nz-icon nzType="edit" style="cursor: pointer;color: blue; font-size: 180px;"
+              (click)="EditImage(data)" nzTheme="outline"></i>&nbsp;
+          </td> -->
+          <td>
+            <i nz-icon type="edit" theme="outline" (click)="EditImage(data)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+  </div>
+</nz-card>
+  <!-- <nz-pagination nzHideOnSinglePage="true" (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage"
+    [nzTotal]="TotalItems"></nz-pagination> -->
+
+</div>
+
+
+
+
+
+
+<div *ngIf="isImageAdding">
+  <!-- <div class="file-upload">
+    <span class="text">upload</span>
+    <input id="custom-input" type="file" (change)="fileChangeListener($event)">
+  </div> -->
+  <div nz-row class="row" style="margin-bottom: 10px;">
+    <div nz-col nzSpan="6">
+      <input type="text" nz-input [(ngModel)]="serialNumber"
+       placeholder="SNo">
+    </div>
+  </div>
+  <div nz-row class="row">
+    <div nz-col nzSpan="20" *ngIf="ResourceType==1">
+      <p><b>Image Size (Width X height) </b>:{{cropperSettings.croppedWidth}} X {{cropperSettings.croppedHeight}}</p>
+      <img-cropper #cropper [image]="data" [settings]="cropperSettings"></img-cropper>
+    </div>
+    <div nz-col nzSpan="20" *ngIf="ResourceType==2">
+        <p><b>Image Size (Width X height) </b>:{{SmalliconsImageSettings.croppedWidth}} X {{SmalliconsImageSettings.croppedHeight}}</p>
+        <img-cropper #cropperSmallIcons [image]="SmalliconsImageData" [settings]="SmalliconsImageSettings"></img-cropper>
+      </div>
+      <div nz-col nzSpan="20" *ngIf="ResourceType==3">
+          <p><b>Image Size (Width X height) </b>:{{BigBannersImageSettings.croppedWidth}} X {{BigBannersImageSettings.croppedHeight}}</p>
+          <img-cropper #cropperbigganner [image]="BigBannersData" [settings]="BigBannersImageSettings"></img-cropper>
+        </div>
+  </div>
+  <div nz-row  [nzGutter]="8" class="row">
+    <!-- <div nz-col nzSpan="20" *ngIf="ResourceType==1">
+      <span class="result rounded" *ngIf="data.image">
+        <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
+      </span>
+    </div>
+    <div nz-col nzSpan="20" *ngIf="ResourceType==2">
+        <span class="result rounded" *ngIf="SmalliconsImageData.image">
+          <img [src]="SmalliconsImageData.image" [width]="SmalliconsImageSettings.croppedWidth" [height]="SmalliconsImageSettings.croppedHeight">
+        </span>
+      </div>
+      <div nz-col nzSpan="20" *ngIf="ResourceType==3">
+          <span class="result rounded" *ngIf="BigBannersData.image">
+            <img [src]="BigBannersData.image" [width]="BigBannersImageSettings.croppedWidth" [height]="BigBannersImageSettings.croppedHeight">
+          </span>
+        </div> -->
+    <div nz-col nzSpan="2">
+      <button nz-button nzType="primary"  *ngIf="data.image || SmalliconsImageData.image || BigBannersData.image" (click)="getFIle()">Submit</button>
+    </div>
+    <div nz-col nzSpan="2">
+        <button nz-button nzType="primary"  *ngIf="data.image || SmalliconsImageData.image || BigBannersData.image" (click)="onViewImages()">View Images</button>
+      </div>
+  </div>
+
+</div>
+<div *ngIf="isImageEditing">
+  <!-- <div class="file-upload">
+    <span class="text">upload</span>
+    <input id="custom-input" type="file" (change)="fileChangeListener($event)">
+  </div> -->
+  <div nz-row [nzGutter]="16" class="row" style="margin-bottom: 10px;">
+    <div nz-col nzSpan="6">
+      <input type="text" nz-input [(ngModel)]="serialNumber"
+       placeholder="SNo">
+    </div>
+    <div nz-col nzSpan="6">
+      <p></p>
+      <a target="_blank" [attr.href]="this.selectedRecord.ImageData.ImageOriginal">Click to View Existed Image</a>
+    </div>
+  </div>
+  <div nz-row class="row">
+    <div nz-col nzSpan="20" *ngIf="ResourceType==1">
+      <p><b>Image Size (Width X height) </b>:{{cropperSettings.croppedWidth}} X {{cropperSettings.croppedHeight}}</p>
+      <img-cropper #cropper  [image]="data" [settings]="cropperSettings"></img-cropper>
+    </div>
+    <div nz-col nzSpan="20" *ngIf="ResourceType==2">
+        <p><b>Image Size (Width X height) </b>:{{SmalliconsImageSettings.croppedWidth}} X {{SmalliconsImageSettings.croppedHeight}}</p>
+        <img-cropper #cropperSmallIcons [image]="SmalliconsImageData" [settings]="SmalliconsImageSettings"></img-cropper>
+      </div>
+      <div nz-col nzSpan="20" *ngIf="ResourceType==3">
+          <p><b>Image Size (Width X height) </b>:{{BigBannersImageSettings.croppedWidth}} X {{BigBannersImageSettings.croppedHeight}}</p>
+          <img-cropper #cropperbigganner [image]="BigBannersData" [settings]="BigBannersImageSettings"></img-cropper>
+        </div>
+  </div>
+  <div nz-row  [nzGutter]="8" class="row">
+    <div nz-col nzSpan="20" *ngIf="ResourceType==1">
+      <span class="result rounded" *ngIf="data.image">
+        <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
+      </span>
+    </div>
+    <div nz-col nzSpan="20" *ngIf="ResourceType==2">
+        <span class="result rounded" *ngIf="SmalliconsImageData.image">
+          <img [src]="SmalliconsImageData.image" [width]="SmalliconsImageSettings.croppedWidth" [height]="SmalliconsImageSettings.croppedHeight">
+        </span>
+      </div>
+      <div nz-col nzSpan="20" *ngIf="ResourceType==3">
+          <span class="result rounded" *ngIf="BigBannersData.image">
+            <img [src]="BigBannersData.image" [width]="BigBannersImageSettings.croppedWidth" [height]="BigBannersImageSettings.croppedHeight">
+          </span>
+        </div>
+    <div nz-col nzSpan="2">
+      <button nz-button nzType="primary"  (click)="getFIle()">Submit</button>
+      <!-- <button nz-button nzType="primary"  *ngIf="data.image || SmalliconsImageData.image || BigBannersData.image" (click)="getFIle()">Submit</button> -->
+    </div>
+    <div nz-col nzSpan="2">
+        <!-- <button nz-button nzType="primary"  *ngIf="data.image || SmalliconsImageData.image || BigBannersData.image" (click)="onViewImages()">View Images</button> -->
+      </div>
+  </div>
+
+</div>

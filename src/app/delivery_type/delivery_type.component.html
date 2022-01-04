@@ -1,0 +1,45 @@
+<div nz-row style="margin-top: 50px;">
+    <div nz-col nzSpan="24">
+<nz-table #basicTable nzShowPagination="false" [nzLoading]="isloading"
+ nzLoadingDelay="1" [nzData]="DeliveyTypeList"  style="background: #FFF;margin:30px 0px;">
+  <thead>
+    <tr>
+      <th>S.No</th>
+      <th>Delivery Type</th>
+      <th>Delivery Type Name</th>
+      
+      <th></th>
+      <th>Created at</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let data of DeliveyTypeList;let i=index">
+      <tr>
+        <td>{{i+1}}</td>
+        <td>{{data.Delivery_Type}}</td>
+        <td>{{data.Delivery_Type_Name}}</td>
+        
+       
+        
+        <td>
+            <span [ngSwitch]="data.Status">
+              <span *ngSwitchCase=true>
+                <a nz-popconfirm (nzOnConfirm)="onAction(data,i)"
+                  nzTitle="Are you sure you want to Inactive this?">Make Inactive</a>
+              </span>
+              <span *ngSwitchCase=false>
+                <a style="color: red;" nz-popconfirm (nzOnConfirm)="onAction(data,i)"
+                  nzTitle="Are you sure you want to Active this?">Make Active</a>
+              </span>
+              <span *ngSwitchDefault>
+                NA
+              </span>
+            </span>
+          </td>
+          <td>{{data.created_at | date:'medium'}}</td>
+          <!-- <td style="color: #096dd9;" (click)="onEdit(data,i)"><i class="fa fa-pencil" aria-hidden="true"></i></td> -->
+      </tr>
+    </ng-container>
+  </tbody>
+</nz-table>
+</div>

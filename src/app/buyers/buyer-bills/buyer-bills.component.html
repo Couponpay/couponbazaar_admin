@@ -1,0 +1,102 @@
+<div nz-row>
+    <div nz-col nzSpan="24">
+      <a [routerLink]="[ '/dashboard','buyers']">Back</a>
+    </div>
+  </div>
+  
+<div nz-row class="logtable">
+  <div nz-col nzSpan="24">
+    <nz-table class="logTable" nzShowPagination="false" #basicTable [nzData]="buyerBills">
+      <thead>
+        <tr>
+          <th>Bill Number</th>
+          <th>Shop Name</th>
+          <th>Shop Phone Number</th>
+          <th>Total Amount (INR)</th>
+          <th>Date</th>
+          <th></th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let data of buyerBills;let i = index">
+          <tr>
+            <td>{{data.BillNumber}}</td>
+            <td>{{data.Shop_Name}}</td>
+
+            <td>{{data.Shop_PhoneNumber}}</td>
+            <td>{{data.Total_Amount}}</td>
+            <td>{{data.created_at | date:'short'}}</td>
+            <td><a (click)="onViewCart(data,i)">Cart Details</a></td>
+          </tr>
+          <tr *ngIf="isdetailsview==i">
+            <td colspan="6">
+                <nz-card style="width:100%;" [nzTitle]="buyerName +' Cart Details'" >
+                    <nz-list [nzDataSource]="cartDetails" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">
+                        <ng-template #item let-item>
+                            <nz-list-item>
+                              <nz-list-item-meta
+                                [nzTitle]="title"
+                                [nzDescription]="content">
+                               
+                              </nz-list-item-meta>
+                              <ng-template #content>
+
+                                  He purchased {{item.Product_Name}} - {{item.Product_Quantity}} and each {{item.Product_Name}} Price is {{item.Product_Price}}.
+                                
+                              </ng-template>
+                              <ng-template #title>
+
+                                {{buyerName}} Total Bill is {{item.Product_Sub_Total}} Rs
+                                
+                                
+                              </ng-template>
+                            </nz-list-item>
+                          </ng-template>
+                    </nz-list>
+                  </nz-card>
+             
+
+            </td>
+          </tr>
+        </ng-container>
+
+
+      </tbody>
+    </nz-table>
+
+  </div>
+</div>
+<nz-pagination (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage" [nzTotal]="totalItem"></nz-pagination>
+
+<!-- <nz-modal 
+nzFooter=" "
+[(nzVisible)]="iscartModal"
+ nzTitle="{{buyerName}} Cart Details"
+  (nzOnCancel)="handleCancel()" 
+(nzOnOk)="handleOk()">
+<nz-table class="logTable" nzShowPagination="false" #basicTable [nzData]="buyerBills">
+    <thead>
+      <tr>
+        <th>Bill Number</th>
+        <th>Shop Name</th>
+        <th>Shop Phone Number</th>
+        <th>Total Amount (INR)</th>
+        <th>Date</th>
+        <th></th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of buyerBills.Cart_Information;let i = index">
+        <td>{{data.BillNumber}}</td>
+        <td>{{data.Shop_Name}}</td>
+        <td>{{data.Data.Buyer_Name}}</td>
+        <td>{{data.Shop_PhoneNumber}}</td>
+        <td>{{data.Total_Amount}}</td>
+        <td>{{data.created_at | date:'short'}}</td>
+        <td><a (click)="onViewCart(data,i)">Cart Details</a></td>
+      </tr>
+    </tbody>
+  </nz-table>
+  </nz-modal> -->

@@ -1,0 +1,256 @@
+<!-- <nz-tabset>
+  <nz-tab (nzClick)="onclickOfferType(1)" nzTitle="General Offers">
+    <div nz-row>
+
+      <div nz-col nzSpan="10">
+
+        <form nz-form [formGroup]="GenericOfferForm" class="login-form" (ngSubmit)="onSubmit_GenericOffersForm()">
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group [nzPrefix]="rupeeicon">
+                <input type="text" nz-input formControlName="Buyer_Min_Amount" placeholder="Min Amount">
+              </nz-input-group>
+              <nz-form-explain *ngIf="GenericOfferForm.get('Buyer_Min_Amount').dirty && 
+                  GenericOfferForm.get('Buyer_Min_Amount').errors">Please input Min Amount!</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group [nzPrefix]="rupeeicon">
+                <input type="text" nz-input formControlName="Buyer_Max_Amount" placeholder="Max Amount">
+              </nz-input-group>
+              <nz-form-explain *ngIf="GenericOfferForm.get('Buyer_Max_Amount').dirty && 
+                  GenericOfferForm.get('Buyer_Max_Amount').errors">Please input Maximum Amount</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group [nzPrefix]="rupeeicon">
+                <input type="text" nz-input formControlName="Buyer_Deduction_Amount" placeholder="Deduction Amount">
+              </nz-input-group>
+              <nz-form-explain *ngIf="GenericOfferForm.get('Buyer_Deduction_Amount').dirty && 
+                    GenericOfferForm.get('Buyer_Deduction_Amount').errors">Please input Deduction Amount
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group>
+                <textarea rows="4" nz-input formControlName="Message" placeholder="Message"></textarea>
+              </nz-input-group>
+              <nz-form-explain *ngIf="GenericOfferForm.get('Message').dirty && 
+                  GenericOfferForm.get('Message').errors">Please input Message</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group>
+              
+                <nz-date-picker formControlName="Expiry_Date"></nz-date-picker>
+              </nz-input-group>
+              <nz-form-explain *ngIf="GenericOfferForm.get('Expiry_Date').dirty && 
+                    GenericOfferForm.get('Expiry_Date').errors">Please input Date</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+
+              <button nz-button class="login-form-button" [nzType]="'primary'">Submit</button>
+
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+        <ng-template #rupeeicon>
+          <i class="fas fa-rupee-sign"></i>
+        </ng-template>
+      </div>
+    </div>
+  </nz-tab>
+  <nz-tab (nzClick)="onclickOfferType(2)" nzTitle="Offers For Shop">
+    <div nz-row>
+      <div nz-col nzSpan="10">
+        <form nz-form [formGroup]="ShopOfferForm" class="login-form" (ngSubmit)="onSubmit_ShopOffersForm()">
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group>
+                <nz-select style="width: 100%;" formControlName="ShopDetails" nzShowSearch nzAllowClear
+                  nzPlaceHolder="Select Shop">
+                  <nz-option *ngFor="let item of ShopList; let i=index" [nzValue]="item"
+                    [nzLabel]="item.Shop_Name +'-'+item.Shop_PhoneNumber"></nz-option>
+                </nz-select>
+              </nz-input-group>
+              <nz-form-explain *ngIf="ShopOfferForm.get('ShopDetails').dirty && 
+                        ShopOfferForm.get('ShopDetails').errors">Please Select Shop!</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group [nzPrefix]="rupeeicon">
+                <input type="text" nz-input formControlName="Buyer_Min_Amount" placeholder="Min Amount">
+              </nz-input-group>
+              <nz-form-explain *ngIf="ShopOfferForm.get('Buyer_Min_Amount').dirty && 
+                      ShopOfferForm.get('Buyer_Min_Amount').errors">Please input Min Amount!</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group [nzPrefix]="rupeeicon">
+                <input type="text" nz-input formControlName="Buyer_Max_Amount" placeholder="Max Amount">
+              </nz-input-group>
+              <nz-form-explain *ngIf="ShopOfferForm.get('Buyer_Max_Amount').dirty && 
+                      ShopOfferForm.get('Buyer_Max_Amount').errors">Please input Maximum Amount</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group [nzPrefix]="rupeeicon">
+                <input type="text" nz-input formControlName="Buyer_Deduction_Amount" placeholder="Deduction Amount">
+              </nz-input-group>
+              <nz-form-explain *ngIf="ShopOfferForm.get('Buyer_Deduction_Amount').dirty && 
+                        ShopOfferForm.get('Buyer_Deduction_Amount').errors">Please input Deduction Amount
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group>
+                <textarea rows="4" nz-input formControlName="Message" placeholder="Message"></textarea>
+              </nz-input-group>
+              <nz-form-explain *ngIf="ShopOfferForm.get('Message').dirty && 
+                      ShopOfferForm.get('Message').errors">Please input Message</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group>
+               
+                <nz-date-picker formControlName="Expiry_Date"></nz-date-picker>
+              </nz-input-group>
+              <nz-form-explain *ngIf="ShopOfferForm.get('Expiry_Date').dirty && 
+                        ShopOfferForm.get('Expiry_Date').errors">Please input Date</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+
+              <button nz-button class="login-form-button" [nzType]="'primary'">Submit</button>
+
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+        <ng-template #rupeeicon>
+          <i class="fas fa-rupee-sign"></i>
+        </ng-template>
+      </div>
+    </div>
+  </nz-tab>
+  <nz-tab (nzClick)="onclickOfferType(3)" nzTitle="Offers For Buyers">
+    <div nz-row>
+      <div nz-col nzSpan="10">
+        <form nz-form [formGroup]="BuyersOfferForm" class="login-form" (ngSubmit)="onSubmit_BuyersOffersForm()">
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group>
+                <input type="text" readonly nz-input formControlName="Buyeredetails" (click)="onbuyersModal()"
+                  placeholder="Select Buyers">
+              </nz-input-group>
+              <nz-form-explain *ngIf="BuyersOfferForm.get('Buyeredetails').dirty && 
+                        BuyersOfferForm.get('Buyeredetails').errors">Please Select Buyer!</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group [nzPrefix]="rupeeicon">
+                <input type="text" nz-input formControlName="Buyer_Deduction_Amount" placeholder="Deduction Amount">
+              </nz-input-group>
+              <nz-form-explain *ngIf="BuyersOfferForm.get('Buyer_Deduction_Amount').dirty && 
+                        BuyersOfferForm.get('Buyer_Deduction_Amount').errors">Please input Deduction Amount
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group>
+                <textarea rows="4" nz-input formControlName="Message" placeholder="Message"></textarea>
+              </nz-input-group>
+              <nz-form-explain *ngIf="BuyersOfferForm.get('Message').dirty && 
+                      BuyersOfferForm.get('Message').errors">Please input Message</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group>
+                
+                <nz-date-picker formControlName="Expiry_Date"></nz-date-picker>
+              </nz-input-group>
+              <nz-form-explain *ngIf="BuyersOfferForm.get('Expiry_Date').dirty && 
+                        BuyersOfferForm.get('Expiry_Date').errors">Please input Date</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+
+              <button nz-button class="login-form-button" [nzType]="'primary'">Submit</button>
+
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+        <ng-template #rupeeicon>
+          <i class="fas fa-rupee-sign"></i>
+        </ng-template>
+      </div>
+    </div>
+  </nz-tab>
+</nz-tabset>
+
+<nz-modal [(nzVisible)]="isVisible_buyersModal" nzWidth="50%" nzFooter=" " nzTitle="Buyers List"
+  (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <form nz-form>
+    <nz-form-item>
+      <nz-form-control [nzSpan]="10" [nzValidateStatus]="validating_Status" nzHasFeedback>
+        <nz-input-group>
+          <input type="text" nz-input [(ngModel)]="buyersSearchValue" name="searchvalue"
+            (keyup)="OnSearchBuyers(input.value)" #input (click)="onbuyersModal()"
+            placeholder="Select Buyers atleast 3 chars">
+        </nz-input-group>
+        <nz-form-explain *ngIf="buyersSearchValue.length>=1&&buyersSearchValue.length<=2">Atleast 3 chars
+        </nz-form-explain>
+        <nz-form-explain *ngIf="buyersSearchValue.length>=3&&BuyersList.length==0">Nope, nothing :(</nz-form-explain>
+
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+
+  <nz-table #basicTable nzVirtualItemSize="20" *ngIf="BuyersList.length>0" [nzData]="BuyersList">
+    <thead>
+      <tr>
+
+        <th> Name</th>
+        <th> PhoneNumber</th>
+        <th>Available Amount</th>
+        <th>Withdrawn Amount</th>
+        <th>Total Amount</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of BuyersList">
+        <td>{{data.Buyer_Name}}</td>
+        <td>{{data.Buyer_PhoneNumber}}</td>
+        <td>{{data.Available_Amount | number}}</td>
+        <td>{{data.Withdrawn_Amount| number}}</td>
+        <td>{{data.Total_Amount| number}}</td>
+        <td>
+
+          <nz-radio-group (ngModelChange)="onSelectBuyer(data)" [(ngModel)]="radioValue" [nzName]="data.Buyer_Name">
+            <label nz-radio [nzValue]="data">
+
+            </label>
+
+          </nz-radio-group>
+        </td>
+
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-modal> -->

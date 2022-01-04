@@ -1,0 +1,27 @@
+.footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    border-top: 1px solid rgb(232, 232, 232);
+    padding: 10px 16px;
+    text-align: right;
+    left: 0px;
+    background: #fff;
+  }
+  .primary_button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: linear-gradient(90deg, #1976d2 20%, #00dbfe 100%);
+    border: coral;
+    color: #fff;
+    font-weight: 700;
+    font-size: 17px;
+  }
+  .primary_button1{
+    background: linear-gradient(90deg, #1976d2 20%, #00dbfe 100%);
+    border: coral;
+    color: #fff;
+    font-weight: 700;
+    font-size: 17px;
+  }

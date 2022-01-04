@@ -1,0 +1,66 @@
+<!-- <nz-button-group>
+    <button nz-button [routerLink]="['/dashboard','offers','viewoffers']" nzType="dashed"><i nz-icon type="left"></i> Go back</button>
+  </nz-button-group>
+  <div nz-row style="  margin-top: 10px;    margin-bottom: 10px;">
+      <nz-tag [nzColor]="'#2db7f5'" *ngIf="singleOrderDetails.Type==1">  <p >
+          Offer for all buyers.offer Expiray Date is {{singleOrderDetails.Expiry_Date | date:'medium'}}.
+          Offer Message is "{{singleOrderDetails.Message}}. And it has been created at {{singleOrderDetails.created_at | date:'medium'}}
+          </p>
+        </nz-tag>
+        <nz-tag [nzColor]="'blue'"  *ngIf="singleOrderDetails.Type==2">
+            <p>
+                Offer at {{singleOrderDetails.ShopData.Shop_Name}}.offer Expiray Date is {{singleOrderDetails.Expiry_Date| date:'medium'}}.
+                Offer Message is "{{singleOrderDetails.Message}}, and it has been created at {{singleOrderDetails.created_at | date:'medium'}}
+                </p>
+        </nz-tag>
+        <nz-tag [nzColor]="'purple'"  *ngIf="singleOrderDetails.Type==3">
+            <p>
+                Offer for {{singleOrderDetails.Buyers_Information[0].Buyer_Name}}.offer Expiray Date is {{singleOrderDetails.Expiry_Date| date:'medium'}}.
+                Offer Message is "{{singleOrderDetails.Message}}", and it has been created at {{singleOrderDetails.created_at | date:'medium'}}
+                </p>
+        </nz-tag>
+    
+  </div>
+  <nz-table #basicTable 
+   [nzScroll]="{ x:'800px' }"
+   nzShowPagination="false"
+   [nzData]="buyersList">
+       <thead>
+         <tr>
+             <th>S.No</th>
+             <th>Created Date</th>
+             <th>Phone Number</th>
+             <th>Description</th>
+            
+             <th></th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr *ngFor="let item of buyersList; let i=index">
+             <td>{{i+1}}</td>
+             <td>{{item.created_at | date:'medium'}}</td>
+             <td>{{item.Buyer_PhoneNumber}}</td>
+             <td *ngIf="item.OfferStatus==1">
+                <nz-tag [nzColor]="'#108ee9'">
+                    {{item.Buyer_Name}} has still an offer ,he can redeem with {{item.OfferCode}} code at any outlets And offer worth is {{item.Buyer_Deduction_Amount}}
+                </nz-tag>
+             </td>
+             <td *ngIf="item.OfferStatus==2">
+                <nz-tag [nzColor]="'green'">{{item.Buyer_Name}}Sucessfully Reddemed with {{item.OfferCode}} code at {{item.Applied_Shop_Details.Shop_Name}} Shop and offer vale is {{item.Buyer_Deduction_Amount}}</nz-tag>
+            </td>
+               <td *ngIf="item.OfferStatus==3">
+                  <nz-tag [nzColor]="'red'">
+                      {{item.Buyer_Name}} missed the offer.and it worth is {{item.Buyer_Deduction_Amount}}
+                  </nz-tag>
+               </td>
+                   <ng-template #contentTemplate>
+                     <div>
+                       <p>{{item.Message}}</p>
+                      
+                     </div>
+                   </ng-template>
+         </tr>
+       </tbody>
+     </nz-table>
+     <nz-pagination (nzPageIndexChange)="onNextPage_Buyers($event)" [nzPageIndex]="1" [nzTotal]="buyersList_count"></nz-pagination>
+ -->

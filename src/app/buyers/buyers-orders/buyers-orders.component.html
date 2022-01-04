@@ -1,0 +1,437 @@
+<div nz-row class="VendorOrderScetion">
+  <form class="vendorQForm" nz-form [nzLayout]="'inline'" [formGroup]="BuyersOrderForm">
+    <div nz-col nzSpan="4">
+      <nz-form-item>
+        <nz-form-control>
+            <nz-date-picker nzPlaceHolder="From Date" formControlName="Start_Date"></nz-date-picker>
+            <nz-form-explain
+              *ngIf="BuyersOrderForm.get('Start_Date')?.dirty && BuyersOrderForm.get('Start_Date')?.errors">
+              Please start select date!
+            </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="4">
+      <nz-form-item>
+        <nz-form-control>
+
+          <nz-form-control>
+            <nz-date-picker formControlName="End_Date"></nz-date-picker>
+            <nz-form-explain *ngIf="BuyersOrderForm.get('End_Date')?.dirty && BuyersOrderForm.get('End_Date')?.errors">
+              Please Select End_Date!
+            </nz-form-explain>
+          </nz-form-control>
+
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </form>
+</div>
+
+<div nz-row style="margin-top: 25px;">
+  <div nz-col nzSpan="24">
+    <nz-table #basicTable nzShowPagination="false" [nzLoading]="isloading" nzLoadingDelay="1" [nzData]="BuyersrderList">
+      <thead>
+        <tr>
+          <th>More</th>
+          <th>Order Number</th>
+
+          <th>Payment Type</th>
+          <th>Payment Status</th>
+          <th>Cart Final Price</th>
+          <th>Delivery Type</th>
+          <th>Order Status</th>
+          <th>created at</th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let data of BuyersrderList;let i=index">
+          <tr>
+            <td>
+              <a (click)="onDetail_View(data,i)">
+                <i class="fa fa-caret-down" style="cursor: pointer;font-size: 18px" *ngIf="isDetailsView!=i"
+                  aria-hidden="true"></i>
+                <i class="fa fa-caret-up" style="cursor: pointer;font-size: 18px" *ngIf="isDetailsView==i"
+                  aria-hidden="true"></i>
+              </a>
+            </td>
+            <td>{{data.Order_Number}}</td>
+
+            <td>
+              <span [ngSwitch]="data.Payment_Type">
+                <p *ngSwitchCase="0">NA</p>
+                <p *ngSwitchCase="1">Wallet</p>
+                <p *ngSwitchCase="2">Razor Pay</p>
+                <p *ngSwitchCase="3">Both</p>
+                <p *ngSwitchCase="4">Shop payment</p>
+                <p *ngSwitchDefault>No Payment Type</p>
+              </span>
+            </td>
+
+
+            <td>
+              <span [ngSwitch]="data.Payment_Status">
+                <p *ngSwitchCase="0">NA</p>
+                <p *ngSwitchCase="1">Initial</p>
+                <p *ngSwitchCase="2">Fail</p>
+                <p *ngSwitchCase="3">Success</p>
+                <p *ngSwitchCase="4">Shop payment</p>
+                <p *ngSwitchDefault>No Payment Status</p>
+              </span>
+            </td>
+
+            <!-- <td *ngIf="data.Payment_Status==0">NA</td>
+            <td *ngIf="data.Payment_Status==1">Initial</td>
+            <td *ngIf="data.Payment_Status==2">Fail</td>
+            <td *ngIf="data.Payment_Status==3">Success</td>
+            <td *ngIf="data.Payment_Status==4">Shop payment</td> -->
+
+            <td>{{data.Cart_Final_Price}}</td>
+
+            <td>
+              <span [ngSwitch]="data.Delivery_Type">
+                <p *ngSwitchCase="1">Drop at your Home</p>
+                <p *ngSwitchCase="2">Collect at Store</p>
+                <p *ngSwitchCase="3">Pay & collect at store</p>
+                <p *ngSwitchDefault>No Delivery Type</p>
+              </span>
+            </td>
+
+            <!-- <td *ngIf="data.Delivery_Type==1">Drop at your Home</td>
+            <td *ngIf="data.Delivery_Type==2">Collect at Store</td>
+            <td *ngIf="data.Delivery_Type==3">Pay & collect at store</td> -->
+
+
+            <td>
+              <span [ngSwitch]="data.Order_Status">
+                <p *ngSwitchCase="0">NA</p>
+                <p *ngSwitchCase="1">Started</p>
+                <p *ngSwitchCase="2">Cancelled</p>
+                <p *ngSwitchCase="3">Completed</p>
+                <p *ngSwitchCase="4">Cancelled by admin</p>
+                <p *ngSwitchDefault>No Order Status</p>
+              </span>
+            </td>
+            <td>{{data.created_at | date:'medium'}}</td>
+
+            <!-- <td *ngIf="data.Order_Status==0">NA</td>
+            <td *ngIf="data.Order_Status==1">Started</td>
+            <td *ngIf="data.Order_Status==2">Cancelled</td>
+            <td *ngIf="data.Order_Status==3">Completed</td>
+            <td *ngIf="data.Order_Status==4">Cancelled by admin</td> -->
+
+            <td colspan="3">
+              <span *ngIf="data.Order_Status!=3 && data.Delivery_Type==1;else nothing">
+                <span style="color: #096bc5;" (click)="openChange(data)">Change Status</span>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a nz-popconfirm nzTitle="Are you sure Complete this task?" nzPopconfirmPlacement="bottom"
+                  nzPopconfirmPlacement="left" (nzOnConfirm)="confirm(data,1)"><span
+                    style="color: #08a21b;">Complete</span></a>
+
+                <nz-divider nzType="vertical"></nz-divider>
+                <a nz-popconfirm nzTitle="Are you sure delete this task?" nzPopconfirmPlacement="bottom"
+                  nzPopconfirmPlacement="left" (nzOnConfirm)="confirm(data,2)"><span
+                    style="color: #f32626;">Delete</span></a>
+              </span>
+              <ng-template #nothing>
+                <span>NA</span>
+              </ng-template>
+            </td>
+            <td >
+              <a  (click)="onCreateShipRocketet(data,i)" *ngIf="data.Shiprocket_Order_LogID==''">Create ShipRocket</a>
+             
+              <a nz-popconfirm (nzOnConfirm)="onCancelShipRocketet(data)"
+              nzTitle="Are you sure you want Cancel?"   *ngIf="data.Shiprocket_Order_LogID!=''">Cancel ShipRocket</a>
+            </td>
+          </tr>
+          <tr [nzExpand]="isDetailsView==i">
+            <td colspan="12">
+              <div nz-row style="margin-top: 25px;">
+                <div nz-col nzSpan="24">
+                  <ul nz-menu class="navigationMenu" [nzMode]="'horizontal'">
+                    <li nz-menu-item [class.ant-menu-item-selected]="IsVisible_data==1" (click)="click_button(data,1)">
+                      Basic Information
+                    </li>
+                    <li nz-menu-item  [class.ant-menu-item-selected]="IsVisible_data==2" (click)="click_button(data,2)">
+                      Product List
+
+                    </li>
+                    <li nz-menu-item [class.ant-menu-item-selected]="IsVisible_data==3" (click)="click_button(data,3)">
+                      Logs
+
+                    </li>
+                    <li *ngIf="data.Shiprocket_Order_LogID.length>0"  [class.ant-menu-item-selected]="IsVisible_data==4" nz-menu-item (click)="click_button(data,4)">
+                      ShipRocket Order Info
+
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div nz-row style="margin-top: 25px;">
+
+                <div nz-col nzSpan="24" *ngIf="IsVisible_data==1">
+                  <div nz-row style="margin-top: 25px;">
+                    <div nz-col nzSpan="8">
+                      <div style="background: #fff;padding:30px;">
+                        <nz-card style="width:300px;height: 215px;" [nzBordered]="false" nzTitle="Paid Amount">
+                          <p>Amount Used From Wallet : {{data.Amount_Paid.Amount_Used_From_Wallet}}</p>
+                          <p>Amount Paid Online : {{data.Amount_Paid.Amount_Paid_Online}}</p>
+                          <p>Total Amount Paid : {{data.Amount_Paid.Total_Amount_Paid}}</p>
+                        </nz-card>
+                      </div>
+                    </div>
+
+                    <div nz-col nzSpan="16">
+                      <div style="background: #fff;padding:30px;">
+                        <nz-card style="width:600px;height: 215px;" [nzBordered]="false"
+                          nzTitle="Delivery Address Information">
+                          <nz-table #basicTable nzShowPagination="false" [nzLoading]="isloading" nzLoadingDelay="1"
+                            [nzData]="BuyersrderList">
+      <tbody>
+        <tr>
+          <td>
+            <p>Name : {{data.Delivery_Address_Information.Name}}</p>
+            <p>Phone Number : {{data.Delivery_Address_Information.PhoneNumber}}</p>
+            <p>Flat No : {{data.Delivery_Address_Information.Flat_No}}</p>
+          </td>
+          <td>
+            <p>City : {{data.Delivery_Address_Information.City}}</p>
+            <p>Postal Code : {{data.Delivery_Address_Information.Postal_Code}}</p>
+            <p>State : {{data.Delivery_Address_Information.State}}</p>
+            <p>Address : {{data.Delivery_Address_Information.Address}}</p>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+    </nz-card>
+  </div>
+</div>
+</div>
+</div>
+<div nz-col nzSpan="24" *ngIf="IsVisible_data==2">
+  <nz-table #basicTable nzShowPagination="false" [nzLoading]="isloading" nzLoadingDelay="1" [nzData]="BuyersrderList">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Product Details
+          <i class="fa fa-info-circle" nzTitle="Price X Quantity = Total" nzPlacement="topLeft" nz-tooltip
+            nzTrigger="hover" style="font-size:15px"></i>
+        </th>
+        <th nzWidth="100px" nzRight="0px"></th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let sub of data.Cart_Information;let i=index">
+        <td>{{sub.Product_Name}}</td>
+        <td>{{sub.Product_Price}} X {{sub.Product_Quantity}} = {{sub.Product_Sub_Total}}</td>
+        <td nzRight="0px"><a nz-popover nzTitle="Shares" [nzContent]="contentTemplate" nzPlacement="left">shares</a>
+        </td>
+        <ng-template #contentTemplate>
+          <div>
+            <p>Introducer Share : {{sub.Product_Price_Divisions.Introducer_Share}}%</p>
+            <p>Buyer Share : {{sub.Product_Price_Divisions.Buyer_Share}}%</p>
+            <p> Shop Share : {{sub.Product_Price_Divisions.Shop_Share}}%</p>
+            <p>Company Share : {{sub.Product_Price_Divisions.Company_Share}}%</p>
+
+          </div>
+        </ng-template>
+      </tr>
+
+    <tbody>
+  </nz-table>
+</div>
+<div nz-col nzSpan="24" *ngIf="IsVisible_data==3">
+
+  <nz-table #basicTable nzShowPagination="false" [nzLoading]="isloading" nzLoadingDelay="1" [nzData]="BuyersrderList">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Status</th>
+        <th>Description</th>
+        <th>Time</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let or of data.Order_Report;let i=index">
+        <tr>
+          <td>{{skip+i+1}}</td>
+          <td>{{or.Title}}</td>
+          <td>{{or.Description}}</td>
+          <td>{{or.Time | date:'medium'}}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </nz-table>
+</div>
+<div nz-col nzSpan="24" *ngIf="IsVisible_data==4">
+  <div *ngIf="singliShipRocketDetails.Shiprocket_Order_Number!=undefined">
+    <h4>
+      <b> {{singliShipRocketDetails.Shiprocket_Order_Number}} </b>
+  
+    </h4>
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="8">
+        <span>Courier Name </span>: <b> {{singliShipRocketDetails.Courier_Name}} </b>
+      </div>
+      <div nz-col nzSpan="8">
+        <span>AWB </span>: <b> {{singliShipRocketDetails.AWB}} </b>
+      </div>
+      <div nz-col nzSpan="8">
+        <span>Shipment Status </span>: <b> {{singliShipRocketDetails.Shipment_Status}} </b>
+      </div>
+    </div>
+    <nz-table #basicTable nzShowPagination="false" *ngIf="singliShipRocketDetails.Scans.Length>0" nzLoadingDelay="1" [nzData]="singliShipRocketDetails.Scans">
+      <thead>
+        <tr>
+          <th></th>
+          <th>date</th>
+          <th>activity</th>
+          <th>location</th>
+         
+  
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let or of singliShipRocketDetails.Scans;let i=index">
+          <tr>
+            <td>{{skip+i+1}}</td>
+            <td>{{or.date | date:'medium'}}</td>
+            <td>{{or.activity}}</td>
+            <td>{{or.location}}</td>
+           
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>
+  </div>
+  
+</div>
+</div>
+</td>
+</tr>
+</ng-container>
+</tbody>
+</nz-table>
+</div>
+<nz-pagination (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage"
+  [nzTotal]="TotalItems"></nz-pagination>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Change Status" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <form class="vendorQForm" nz-form [nzLayout]="'inline'" [formGroup]="ChangeBuyerForm">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzRequired>Title</nz-form-label>
+      <nz-form-control [nzSpan]="16" style="width:300px">
+        <input required type="text" formControlName="Title" placeholder="Title" nz-input ngModel name="Title">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="6" nzRequired>Description</nz-form-label>
+      <nz-form-control [nzSpan]="16" style="width:300px">
+        <textarea formControlName="Description" nz-input rows="2" placeholder="write any thing"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>
+</div>
+<nz-drawer
+[nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+[nzMaskClosable]="false"
+[nzWidth]="850"
+[nzVisible]="isShipRocketModal"
+[nzTitle]="cardTitle"
+(nzOnClose)="onCancelShipRocketOrder()"
+>
+
+ <ng-template #cardTitle>
+    <h4 *ngIf="selectedOrder.Order_Number!=undefined">
+      Create Ship Rocket Order For <b>{{selectedOrder.Order_Number}}</b>
+    </h4>
+  </ng-template>
+  <div nz-row>
+    <div nz-col nzSpan="10">  <form nz-form [formGroup]="shipRocketOrderForm">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="9" nzRequired>Length (in Cm)</nz-form-label>
+        <nz-form-control [nzSpan]="9">
+          <input required type="text" formControlName="Length" placeholder="Length" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="9" nzRequired>Breadth (in Cm)</nz-form-label>
+        <nz-form-control [nzSpan]="9">
+          <input required type="text" formControlName="Breadth" placeholder="Breadth" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="9" nzRequired>Height (in Cm)</nz-form-label>
+        <nz-form-control [nzSpan]="9">
+          <input required type="text" formControlName="Height" placeholder="Height" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="9" nzRequired>Weight (in Cm)</nz-form-label>
+        <nz-form-control [nzSpan]="9">
+          <input required type="text" formControlName="Weight" placeholder="Weight" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+    <button type="button" style="margin-left: 20px; margin-bottom: 20px;"nz-button (click)="onCreateShipRocketOrder()" [nzLoading]="isPriceChecking" class="ant-btn ant-btn-primary"><span>Check For Price</span></button>
+
+  </div>
+
+
+    <div nz-col nzSpan="14" *ngIf="ShipOrderPricingData.length>0">
+      <!-- creation of table -->
+      <nz-table #basicTable  nzShowPagination="false"
+       [nzData]="ShipOrderPricingData"
+       [nzLoading]="isPriceChecking">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Courier Name</th>
+            <th>Rate</th>
+            <th>Rating</th>
+            <th>Mode</th>
+            <th>Etd</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr *ngFor="let data of ShipOrderPricingData;let i=index">
+        <!-- radio buttons -->
+        <td>
+          <nz-radio-group [(ngModel)]="selectedOrders">
+            <label nz-popconfirm (nzOnConfirm)="createShipRocketOrderToServer(data)"
+              nzTitle="Are you sure ?"  nz-radio [nzValue]="data"></label>
+
+          </nz-radio-group>
+        </td>
+
+         <td>{{data.courier_name}}</td>
+         <td>{{data.rate}}</td>
+         <td>{{data.rating}}</td>
+         <td>{{data.etd}}</td>
+          <td>{{data.mode==0?'surface':'air' }}</td>
+        </tr>
+    </tbody>
+      </nz-table>
+
+
+
+   <!-- creation of table -->
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <button type="button" (click)="onCancelShipRocketOrder()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+  </div>
+</nz-drawer>

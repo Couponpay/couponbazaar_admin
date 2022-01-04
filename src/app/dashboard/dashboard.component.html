@@ -1,0 +1,98 @@
+<nz-layout>
+
+  <div>
+    <nz-header style="  background: #1976d2; padding:0px;   box-shadow: 0 2px 5px 0 rgba(0,0,0,.3); padding:0;">
+      <i class="trigger" nz-icon [type]="isCollapsed?'menu-unfold':'menu-fold'" (click)="isCollapsed=!isCollapsed"></i>
+      <span style="font-size: 18px;
+        color: white;">Coupon Shop!</span>
+      <nz-dropdown [nzPlacement]="'bottomLeft'" class="usericon">
+        <a nz-dropdown>
+          <span>
+            <nz-avatar [nzText]="userName" nzSize="large" style="vertical-align: middle;"></nz-avatar>
+          </span>
+        </a>
+        <ul nz-menu nzSelectable>
+          <li nz-menu-item>
+            <a (click)="onSignout()">Logout</a>
+          </li>
+
+        </ul>
+      </nz-dropdown>
+
+    </nz-header>
+  </div>
+
+  <div nz-row>
+    <nz-layout>
+      <nz-sider [class.showSide]="isCollapsed" nz-col nzSpan="4" nzCollapsible [(nzCollapsed)]="isCollapsed"
+        [nzTrigger]="triggerTemplate">
+        <ul nz-menu [nzTheme]="'light'" [nzMode]="'inline'" style="height:100%" [nzInlineCollapsed]="isCollapsed">
+          <li nz-submenu [nzOpen]="true">
+            <span title><i nz-icon type="setting"></i> App settings</span>
+            <ul>
+              <li nz-menu-item [routerLink]="['vendor']" routerLinkActive="ant-menu-item-selected">Shop Settings</li>
+              <li nz-menu-item [routerLink]="['product']" routerLinkActive="ant-menu-item-selected">Products Settings
+              </li>
+              <li nz-menu-item [routerLink]="['introducer']" routerLinkActive="ant-menu-item-selected">Introducer</li>
+              <li nz-menu-item [routerLink]="['category']" routerLinkActive="ant-menu-item-selected">Category</li>
+              <li nz-menu-item [routerLink]="['NewsItems']" routerLinkActive="ant-menu-item-selected"> NewsItems</li>
+              <li nz-menu-item [routerLink]="['marketing']" routerLinkActive="ant-menu-item-selected">Marketing</li>
+
+              <li nz-menu-item [routerLink]="['companyLogs']" routerLinkActive="ant-menu-item-selected">Company Logs
+              </li>
+
+              <li nz-submenu>
+                <span title>Buyer</span>
+                <ul>
+                  <li nz-menu-item [routerLink]="['buyers']" routerLinkActive="ant-menu-item-selected">Buyers Logs</li>
+                  <li nz-menu-item [routerLink]="['buyersNetwork']" routerLinkActive="ant-menu-item-selected">Buyers
+                    Network</li>
+                  <!-- <li nz-menu-item [routerLink]="['trendingBuyers']" routerLinkActive="ant-menu-item-selected">Trending
+                    Buyers</li> -->
+                    <li nz-menu-item [routerLink]="['BuyersOrders']" routerLinkActive="ant-menu-item-selected">Buyers Orders</li>
+                </ul>
+              </li>
+              <li nz-menu-item [routerLink]="['Banner']" routerLinkActive="ant-menu-item-selected">Banner</li>
+              <li nz-menu-item [routerLink]="['Deliverytype']" routerLinkActive="ant-menu-item-selected">Delivery type</li>
+
+              
+              <li nz-menu-item [routerLink]="['Help']" routerLinkActive="ant-menu-item-selected">Help</li>
+             
+              <!-- <li nz-menu-item [routerLink]="['offers']" routerLinkActive="ant-menu-item-selected">Offers</li> -->
+              <li nz-menu-item [routerLink]="['bonanza']" routerLinkActive="ant-menu-item-selected">Bonanza</li>
+              <li nz-menu-item [routerLink]="['plots']" routerLinkActive="ant-menu-item-selected">Plots</li>
+              <li nz-menu-item [routerLink]="['couponCat']" routerLinkActive="ant-menu-item-selected">Coupon Category</li>
+              <li nz-menu-item [routerLink]="['appSetting']" routerLinkActive="ant-menu-item-selected">App Setting</li>
+              <li nz-menu-item [routerLink]="['userShops']" routerLinkActive="ant-menu-item-selected">User Shops</li>
+              <li nz-menu-item [routerLink]="['couponProducts']" routerLinkActive="ant-menu-item-selected">Coupon Products</li>
+              <li nz-menu-item [routerLink]="['targetReferral']" routerLinkActive="ant-menu-item-selected">Target Referrals</li>
+              <li nz-menu-item [routerLink]="['giftMeter']" routerLinkActive="ant-menu-item-selected">Gift Meter</li>
+              <li nz-menu-item [routerLink]="['WithdrawRequests']" routerLinkActive="ant-menu-item-selected">Withdraw Gift Requests</li>
+              <li nz-menu-item [routerLink]="['productLogs']" routerLinkActive="ant-menu-item-selected">Product Buyer Logs</li>
+              <li nz-menu-item [routerLink]="['boxAmountShares']" routerLinkActive="ant-menu-item-selected">Box Amount Shares</li>
+              <li nz-menu-item [routerLink]="['states']" routerLinkActive="ant-menu-item-selected">States</li>
+              <li nz-menu-item [routerLink]="['District']" routerLinkActive="ant-menu-item-selected">District</li>
+              
+              <li nz-menu-item [routerLink]="['PinCode']" routerLinkActive="ant-menu-item-selected">PinCode</li>
+
+              <li nz-menu-item [routerLink]="['admin']" *ngIf="Admin_Section_Permision"
+                routerLinkActive="ant-menu-item-selected">Admin Settings</li>
+            </ul>
+          </li>
+        </ul>
+
+      </nz-sider>
+      <nz-content nz-col nzSpan="20">
+        <div class="content">
+          <router-outlet></router-outlet>
+        </div>
+
+      </nz-content>
+    </nz-layout>
+
+  </div>
+
+</nz-layout>
+<ng-template #trigger>
+  <i nz-icon type="up"></i>
+</ng-template>

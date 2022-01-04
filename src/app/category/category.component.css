@@ -1,0 +1,10 @@
+.primary_button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: linear-gradient(90deg, #1976d2 20%, #00dbfe 100%);
+    border: coral;
+    color: #fff;
+    font-weight: 700;
+    font-size: 17px;
+  }

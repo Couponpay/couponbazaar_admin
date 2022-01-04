@@ -1,0 +1,29 @@
+<div nz-row style="margin-top: 25px;">
+  <div nz-row style="margin-top: 50px;">
+    <div nz-col nzSpan="24">
+      <nz-table #basicTable nzShowPagination="false" [nzLoading]="isloading" nzLoadingDelay="1"
+        [nzData]="totalLogs" style="background: #FFF;margin:30px 0px;">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Date & Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let data of totalLogs;let i=index">
+            <tr>
+              <td>{{skip+i+1}}</td>
+              <td>{{data.Data.GiftMeterData.Title_Name}}</td>
+              <td>{{data.Amount}}</td>
+              <td>{{data.Time | date:'medium'}}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </nz-table>
+      <nz-pagination (nzPageIndexChange)="onNextPage($event)" [nzPageSize]="limit" [nzPageIndex]="currentPage"
+        [nzTotal]="totalItem"></nz-pagination>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,122 @@
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <a [routerLink]="[ '/dashboard','vendor', 'view-vednor']">Back</a>
+  </div>
+</div>
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <span>Shope Name:<i><b> {{shopName}}</b></i> </span>
+  </div>
+</div>
+
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <button nz-button nzType="dashed" (click)="onaddProduct()">click to Add Stock</button>
+  </div>
+</div>
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <nz-table #shopProducts class="productsTable" nzShowPagination="false" [nzData]="productsOfshop">
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Product Price</th>
+          <th>Available Stock</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of productsOfshop">
+
+          <td>{{data.Product_Name}}
+            <i class="fa fa-info-circle" nz-popover nzPlacement="right" nzTitle="Product Share"
+              [nzContent]="contentTemplate" nzTrigger="hover" style="font-size:15px"></i>
+          </td>
+          <td>{{data.Product_Price}}</td>
+          <td>{{data.Shop_Available_Stock}} </td>
+          <ng-template #contentTemplate>
+            <p>Introducer Share:{{data.Product_Price_Divisions.Introducer_Share}}%</p>
+            <p>Buyer Share:{{data.Product_Price_Divisions.Buyer_Share}}%</p>
+            <p>Trimer Share:{{data.Product_Price_Divisions.Trimer_Share}}%</p>
+            <p>Shop Share:{{data.Product_Price_Divisions.Shop_Share}}%</p>
+            <p>Company Share:{{data.Product_Price_Divisions.Company_Share}}%</p>
+          </ng-template>
+        </tr>
+      </tbody>
+    </nz-table>
+    <nz-pagination (nzPageIndexChange)="onNextPage_ProductsByShop($event)" [nzPageSize]="limit"
+      [nzPageIndex]="currentPage" [nzTotal]="totalItem">
+    </nz-pagination>
+  </div>
+</div>
+
+<nz-modal [(nzVisible)]="isProductModal" nzTitle="Add Stock To {{shopName}}" nzOkText="Add Product" nzFooter=" "
+  (nzOnOk)="onlinkingProduct()" (nzOnCancel)="handleCancel()">
+  <nz-table #basicTable [nzData]="prodcutsList">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Product Price</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let data of prodcutsList; let i=index">
+
+        <tr>
+          <td>{{data.Product_Name}}</td>
+          <td>{{data.Product_Price}}</td>
+          <td><a (click)="onAddStack(data,i)">Add Stock</a></td>
+        </tr>
+        <tr *ngIf="isaddStack==i">
+          <td colspan="3">
+            <table>
+              <tbody>
+                <td>
+                  <nz-form-item>
+                    <nz-form-control [nzSpan]="12">
+                      <input id="stock"  [(ngModel)]="stackPrice"  type="number"  
+                        placeholder="Stock Quantity" nz-input>
+
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-control [nzSpan]="12">
+                      <div class="editable-row-operations" *ngIf="isaddStack==i">
+                        <a (click)="onSaveStock(data,stackPrice)">Save</a>
+
+                        <a nz-popconfirm nzTitle="Are you sure you want to cancel?" (nzOnConfirm)="confirm()" (nzOnCancel)="cancel()"
+                          nzPlacement="rightTop">cancel</a>
+                      </div>
+                    </nz-form-control>
+                  </nz-form-item>
+
+                </td>
+
+              </tbody>
+            </table>
+
+          </td>
+        </tr>
+      </ng-container>
+
+
+    </tbody>
+  </nz-table>
+  <!-- <form nz-form #ProductLinking="ngForm">
+        <nz-form-item>
+          <nz-form-control [nzSpan]="12">
+              <nz-select id="CountryName" 
+              [(ngModel)]="selectedproduct" name="product" nzShowSearch nzAllowClear nzPlaceHolder="Select Product">
+              <nz-option *ngFor="let item of prodcutsList; let i=index" [nzValue]="item"
+                [nzLabel]="item.Product_Name+ '&'+ item.Product_Price"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control  [nzSpan]="12">
+              <input id="OperationInput" required  type="text" placeholder="Quantity"
+                 nz-input ngModel name="OperationInput">
+            </nz-form-control>
+          </nz-form-item>
+        </form> -->
+</nz-modal>

@@ -1,0 +1,44 @@
+<div nz-row>
+  <!-- <div nz-col nzSpan="14">
+  </div> -->
+  <div nz-col nzSpan="16" [nzOffset]="8">
+    <div nz-row>
+      <div nz-col nzSpan="18"  [nzOffset]="1" style="margin-top: 200px;">
+        <!-- <img src="/assets/login_page.png" /> -->
+        <h3 style="color: chocolate;font-size: 55px;font-weight: 50px;">Coupon Shop</h3>
+      </div>
+    </div>
+    <div nz-row>
+        <div nz-col nzSpan="16">
+      <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group [nzPrefix]="prefixUser">
+              <input type="text" nz-input formControlName="userName" placeholder="User Email">
+            </nz-input-group>
+            <nz-form-explain *ngIf="validateForm.get('userName').dirty && validateForm.get('userName').errors">Please
+              input your username!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group [nzPrefix]="prefixLock">
+              <input type="password" nz-input formControlName="password" placeholder="Password">
+            </nz-input-group>
+            <nz-form-explain *ngIf="validateForm.get('password').dirty && validateForm.get('password').errors">Please
+              input your Password!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <button nz-button [nzLoading]="isLoadingOne" class="login-form-button" [nzType]="'primary'">Log in</button>
+
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+    </div>
+    <ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+    <ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
+  </div>
+</div>
